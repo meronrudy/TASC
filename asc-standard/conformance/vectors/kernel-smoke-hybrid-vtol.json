@@ -1,0 +1,20 @@
+{
+  "id": "VEC-KERNEL-SMOKE-HV-001",
+  "profile": "hybrid-vtol",
+  "input": {
+    "tick": {"seq": 1, "ts_ms": 0},
+    "state": {
+      "frame": "NED",
+      "position_m": [0.0, 0.0, 25.0],
+      "velocity_mps": 12.0,
+      "bank_deg": 2.0,
+      "soc_percent": 90.0,
+      "input_age_ms": 1
+    },
+    "intent": {
+      "desired_rates_dps": [0.4, 0.4, 0.4],
+      "desired_climb_mps": 1.0
+    }
+  },
+  "expected_verdict": "Allow"
+}

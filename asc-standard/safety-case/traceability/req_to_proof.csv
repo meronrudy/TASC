@@ -1,0 +1,4 @@
+requirement_id,proof_id,notes
+REQ-001,PRF-TUPLE-001,Tuple completeness argument
+REQ-002,PRF-RCBF-001,Barrier invariant proof sketch
+REQ-003,PRF-DEADLINE-001,Temporal monitor reasoning

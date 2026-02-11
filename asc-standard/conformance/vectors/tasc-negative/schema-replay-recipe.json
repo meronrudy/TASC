@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_SCHEMA_REPLAY_RECIPE",
+  "targetCheckId": "CHK_SCHEMA_REPLAY_RECIPE",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_SCHEMA_REPLAY_RECIPE.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

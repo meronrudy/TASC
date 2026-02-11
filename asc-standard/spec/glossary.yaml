@@ -1,0 +1,23 @@
+terms:
+  ASC: Avionics Safety Contract
+  TASC: Trusted Avionics Safety Contract assurance layer for procurement evidence
+  AssurancePack: Canonical evidence bundle used for acceptance and underwriting
+  EvidenceMap: Machine-readable topology and artifact index with hash references
+  ConformanceReport: Deterministic verifier output with check-level pass/fail
+  SignedOperationalLog: Tamper-evident event log with chain and signer proof
+  ReplayRecipe: Deterministic reconstruction metadata for audit-grade replay
+  TA2: HSM or certified secure-element backed attestation level
+  TransparencyProof: Offline-verifiable inclusion and consistency evidence
+  InterlockGate: Default-closed authority mediation boundary before actuators
+  SafetyKernel: Deterministic arbitration and invariant enforcement component
+  EU_North_Star: Policy baseline for retention minimum and incident timelines
+  Rekor: Public transparency log used for supply-chain evidence anchoring
+  MirrorLog: Secondary transparency log required for dual-proof policy
+  BadgeRegistry: Ledger-backed status registry for issuance and revocation checks
+  IncidentInitial: Initial timeline-compliant incident report payload
+  IncidentPack: Full post-incident evidence package for claims/regulatory review
+  DeterministicReplay: Re-running decision path with pinned inputs and environment
+  ContractFingerprint: Hash over normative ASC specs and active profile
+  ReasonCode: Stable machine code explaining safety decisions and failures
+  ReleaseEvidence: Signed, verifier-derived artifact set packaged for release
+  RCBF: Reciprocal Control Barrier Function

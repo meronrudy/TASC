@@ -1,0 +1,6 @@
+version: 0.1.0
+suite: replay
+description: Deterministic replay evidence integrity checks.
+checks:
+  - CHK_REPLAY_COMPLETENESS
+  - CHK_ARTIFACT_HASH_INTEGRITY

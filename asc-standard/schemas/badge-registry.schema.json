@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asc-standard.dev/schemas/badge-registry.schema.json",
+  "title": "TASC Badge Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entries"],
+  "properties": {
+    "entries": {
+      "type": "array",
+      "items": {"$ref": "badge-entry.schema.json"}
+    }
+  }
+}

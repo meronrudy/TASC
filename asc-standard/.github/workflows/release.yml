@@ -1,0 +1,137 @@
+name: release
+on:
+  workflow_dispatch:
+jobs:
+  package-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Setup SoftHSM PKCS#11
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y softhsm2 opensc
+          mkdir -p /tmp/softhsm/tokens
+          cat > /tmp/softhsm2.conf <<'EOF'
+          directories.tokendir = /tmp/softhsm/tokens
+          objectstore.backend = file
+          log.level = INFO
+          slots.removable = false
+          EOF
+          echo "SOFTHSM2_CONF=/tmp/softhsm2.conf" >> "$GITHUB_ENV"
+          export SOFTHSM2_CONF=/tmp/softhsm2.conf
+          softhsm2-util --init-token --free --label tasc-soft-token --so-pin 12345678 --pin 123456
+          PKCS11_MODULE="$(ldconfig -p | awk '/libsofthsm2.so/{print $NF; exit}')"
+          if [ -z "$PKCS11_MODULE" ]; then
+            echo "failed to discover libsofthsm2.so path" >&2
+            exit 1
+          fi
+          echo "PKCS11_MODULE=$PKCS11_MODULE" >> "$GITHUB_ENV"
+          echo "TASC_PKCS11_PIN=123456" >> "$GITHUB_ENV"
+          openssl pkcs8 -topk8 -nocrypt -inform PEM -outform DER \
+            -in policies/attestation/pki/ta2-signer.key.pem \
+            -out /tmp/ta2-signer.key.der
+          openssl x509 -in policies/attestation/pki/ta2-signer.cert.pem \
+            -outform DER -out /tmp/ta2-signer.cert.der
+          pkcs11-tool --module "$PKCS11_MODULE" --token-label tasc-soft-token --login --pin 123456 \
+            --write-object /tmp/ta2-signer.key.der --type privkey --id 01 --label tasc-ta2-key
+          pkcs11-tool --module "$PKCS11_MODULE" --token-label tasc-soft-token --login --pin 123456 \
+            --write-object /tmp/ta2-signer.cert.der --type cert --id 01 --label tasc-ta2-cert
+      - name: Data version-impact gate
+        run: |
+          python3 tools/data_policy/version_impact_gate.py \
+            --repo-root . \
+            --output evidence/manifests/data-version-impact.json
+      - name: Governance policy gate
+        run: |
+          python3 tools/governance/policy_gate.py \
+            --repo-root . \
+            --output evidence/manifests/governance-policy-gate.json
+      - name: Governance Class A gate
+        run: |
+          python3 tools/governance/class_a_gate.py \
+            --repo-root . \
+            --scope governance/class-a-scope.yaml \
+            --output evidence/manifests/class-a-gate.json
+      - name: Reference surface integration tests
+        run: python3 -m unittest reference.tests.test_reference_surface
+      - name: Build traceability report
+        run: python3 tools/tracecheck/tracecheck.py --repo-root .
+      - name: Replay drift validator
+        run: |
+          cargo run --manifest-path reference/kernel/Cargo.toml -p asc-conformance-kernel --bin replay-drift-validator -- \
+            --repo-root . \
+            --profiles uas-small,fixed-wing,hybrid-vtol \
+            --vectors-dir conformance/vectors \
+            --fixtures-dir conformance/fixtures \
+            --output evidence/manifests/replay-drift.json
+      - name: Build hashlock manifest
+        run: python3 tools/hashlock/hashlock.py --repo-root .
+      - name: Release placeholder guard
+        run: python3 tools/releasepack/release_guard.py --repo-root .
+      - name: Refresh revocation snapshot
+        run: |
+          python3 tools/attestation/revocation_snapshot.py \
+            --repo-root . \
+            --sources policies/attestation/revocation-sources.yaml \
+            --output policies/attestation/revocation-snapshot.json
+      - name: Start mirror transparency service
+        run: |
+          mkdir -p conformance/mirror-log
+          python3 tools/transparency/mirror_service.py --storage-dir conformance/mirror-log --host 127.0.0.1 --port 17777 > /tmp/tasc-mirror.log 2>&1 &
+          echo "MIRROR_PID=$!" >> "$GITHUB_ENV"
+          sleep 2
+      - name: Build profile assurance packs
+        run: |
+          python3 tools/assurancepack/assurancepack.py --repo-root . --profile uas-small --output evidence/manifests/tasc-assurance-pack-uas-small.json --archive evidence/manifests/tasc-assurance-pack-uas-small.tgz --badge-id badge-uas-small-active --signer-mode pkcs11 --pkcs11-profile policies/attestation/pkcs11-profile.yaml --pkcs11-module "$PKCS11_MODULE" --pkcs11-token-label tasc-soft-token --pkcs11-key-label tasc-ta2-key --pkcs11-cert-label tasc-ta2-cert --pkcs11-pin-env TASC_PKCS11_PIN --pkcs11-mechanism SHA256-RSA-PKCS --publish-live --rekor-url https://rekor.sigstore.dev --mirror-url http://127.0.0.1:17777 --transparency-retries 4 --transparency-backoff-seconds 2
+          python3 tools/assurancepack/assurancepack.py --repo-root . --profile fixed-wing --output evidence/manifests/tasc-assurance-pack-fixed-wing.json --archive evidence/manifests/tasc-assurance-pack-fixed-wing.tgz --badge-id badge-fixed-wing-active --signer-mode pkcs11 --pkcs11-profile policies/attestation/pkcs11-profile.yaml --pkcs11-module "$PKCS11_MODULE" --pkcs11-token-label tasc-soft-token --pkcs11-key-label tasc-ta2-key --pkcs11-cert-label tasc-ta2-cert --pkcs11-pin-env TASC_PKCS11_PIN --pkcs11-mechanism SHA256-RSA-PKCS --publish-live --rekor-url https://rekor.sigstore.dev --mirror-url http://127.0.0.1:17777 --transparency-retries 4 --transparency-backoff-seconds 2
+          python3 tools/assurancepack/assurancepack.py --repo-root . --profile hybrid-vtol --output evidence/manifests/tasc-assurance-pack-hybrid-vtol.json --archive evidence/manifests/tasc-assurance-pack-hybrid-vtol.tgz --badge-id badge-hybrid-vtol-active --signer-mode pkcs11 --pkcs11-profile policies/attestation/pkcs11-profile.yaml --pkcs11-module "$PKCS11_MODULE" --pkcs11-token-label tasc-soft-token --pkcs11-key-label tasc-ta2-key --pkcs11-cert-label tasc-ta2-cert --pkcs11-pin-env TASC_PKCS11_PIN --pkcs11-mechanism SHA256-RSA-PKCS --publish-live --rekor-url https://rekor.sigstore.dev --mirror-url http://127.0.0.1:17777 --transparency-retries 4 --transparency-backoff-seconds 2
+      - name: Stop mirror transparency service
+        if: always()
+        run: |
+          if [ -n "${MIRROR_PID:-}" ]; then
+            kill "$MIRROR_PID" || true
+          fi
+      - name: Verify profile assurance packs
+        run: |
+          cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify --bundle evidence/manifests/tasc-assurance-pack-uas-small.json --profile uas-small --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror
+          cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify --bundle evidence/manifests/tasc-assurance-pack-fixed-wing.json --profile fixed-wing --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror
+          cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify --bundle evidence/manifests/tasc-assurance-pack-hybrid-vtol.json --profile hybrid-vtol --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror
+      - name: Canonicalize and package release evidence deterministically
+        run: |
+          python3 tools/releasepack/canonicalize.py \
+            --repo-root . \
+            --manifest-dir evidence/manifests \
+            --allowlist evidence/canonical-artifacts.yaml \
+            --output evidence/manifests/canonicalize-report.json
+          python3 tools/hashlock/hashlock.py --repo-root .
+          python3 tools/releasepack/releasepack.py --repo-root .
+          cp evidence/manifests/releasepack.json /tmp/releasepack-first.json
+          cp evidence/manifests/hashlock.json /tmp/hashlock-first.json
+          cp evidence/manifests/releasepack.tgz /tmp/releasepack-first.tgz
+          python3 tools/releasepack/canonicalize.py \
+            --repo-root . \
+            --manifest-dir evidence/manifests \
+            --allowlist evidence/canonical-artifacts.yaml \
+            --output evidence/manifests/canonicalize-report.json
+          python3 tools/hashlock/hashlock.py --repo-root .
+          python3 tools/releasepack/releasepack.py --repo-root .
+          diff -u /tmp/releasepack-first.json evidence/manifests/releasepack.json
+          diff -u /tmp/hashlock-first.json evidence/manifests/hashlock.json
+          cmp -s /tmp/releasepack-first.tgz evidence/manifests/releasepack.tgz
+      - name: Upload release package
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-evidence
+          path: |
+            evidence/manifests/releasepack.tgz
+            evidence/manifests/releasepack.json
+            evidence/manifests/replay-drift.json
+            evidence/manifests/data-version-impact.json
+            evidence/manifests/governance-policy-gate.json
+            evidence/manifests/class-a-gate.json
+            evidence/manifests/canonicalize-report.json
+            evidence/manifests/tasc-assurance-pack-*.json
+            evidence/manifests/tasc-assurance-pack-*.tgz
+            evidence/manifests/tasc-assurance-pack-*.tgz.sig
+            evidence/manifests/tasc-conformance-*.json

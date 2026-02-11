@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_SCHEMA_BADGE_ENTRY",
+  "targetCheckId": "CHK_SCHEMA_BADGE_ENTRY",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_SCHEMA_BADGE_ENTRY.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

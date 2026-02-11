@@ -1,0 +1,4 @@
+budget_ms:
+  sensing: 3
+  contract_eval: 4
+  actuation: 3

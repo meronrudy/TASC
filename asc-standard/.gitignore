@@ -1,0 +1,24 @@
+/target/
+**/target/
+Cargo.lock
+.DS_Store
+
+# Generated conformance report outputs (CI/runtime artifacts)
+conformance/reports/*.json
+
+# Generated verifier side outputs for local fixture checks
+conformance/fixtures/tasc/*.verify.json
+
+# Generated evidence intermediates (non-canonical; rebuilt by tooling)
+evidence/manifests/attestation-ta2-*.json
+evidence/manifests/kernel-test-*.json
+evidence/manifests/replay-determinism-*.json
+evidence/manifests/replay-recipe-*.json
+evidence/manifests/signed-operational-log-*.json
+evidence/manifests/spec-hash-*.txt
+evidence/manifests/temporal-guarantee-*.json
+evidence/manifests/transparency-rekor-proof-*.json
+evidence/manifests/transparency-mirror-proof-*.json
+evidence/manifests/tasc-assurance-pack*.tgz
+evidence/manifests/tasc-assurance-pack*.tgz.sig
+evidence/manifests/tasc-assurance-pack.json

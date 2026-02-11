@@ -1,0 +1,9 @@
+version: 0.1.0
+suite: tasc
+description: Full TASC gate suite for procurement-grade assurance.
+policy: eu-north-star
+requireTa: TA2
+requireTransparency:
+  - rekor
+  - mirror
+checksFile: spec/tasc/checks.yaml

@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_POLICY_MATCH",
+  "targetCheckId": "CHK_POLICY_MATCH",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_POLICY_MATCH.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

@@ -1,0 +1,9 @@
+[package]
+name = "asc-reference-supervisor"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = "1"
+asc-reference-interlock = { path = "../asc-reference-interlock" }

@@ -1,0 +1,10 @@
+{
+  "tool": "asc-conformance-kernel/replay-from-log",
+  "profile": "fixed-wing",
+  "result": "PASS",
+  "drift_count": 0,
+  "checkedAtUtc": "2026-02-11T21:50:11Z",
+  "notes": [
+    "fixture parity report"
+  ]
+}

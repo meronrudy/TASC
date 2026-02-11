@@ -1,0 +1,9 @@
+version: 1.0.0
+intent: >
+  Interlock gate policy: authority is default-closed and faults are latched until
+  an explicit, auditable recovery action occurs.
+normative_refs:
+  - ASC-KERNEL-INTERLOCK-001
+  - ASC-KERNEL-INTERLOCK-002
+armed_required: true
+fault_latched_shutdown: true

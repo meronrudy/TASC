@@ -1,0 +1,6 @@
+* @asc-maintainers
+/spec/ @asc-spec
+/reference/kernel/ @asc-kernel
+/safety-case/ @asc-safety
+/governance/ @asc-governance
+/.github/workflows/ @asc-ci

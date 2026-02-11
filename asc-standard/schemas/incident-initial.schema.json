@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asc-standard.dev/schemas/incident-initial.schema.json",
+  "title": "TASC Incident Initial Template",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "templateId",
+    "severityLevels",
+    "requiredFields",
+    "reportingWindowsDays"
+  ],
+  "properties": {
+    "templateId": {"type": "string", "const": "tasc-incident-initial-v0.1"},
+    "severityLevels": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["S0", "S1", "S2", "S3", "S4"]},
+      "minItems": 5,
+      "uniqueItems": true
+    },
+    "requiredFields": {
+      "type": "array",
+      "minItems": 8,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "reportingWindowsDays": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["standard", "widespread", "fatal"],
+      "properties": {
+        "standard": {"type": "integer", "const": 15},
+        "widespread": {"type": "integer", "const": 2},
+        "fatal": {"type": "integer", "const": 10}
+      }
+    }
+  }
+}

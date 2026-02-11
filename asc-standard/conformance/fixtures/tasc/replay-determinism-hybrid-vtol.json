@@ -1,0 +1,6 @@
+{
+  "test_id": "TST-DET-001",
+  "profile": "hybrid-vtol",
+  "status": "pass",
+  "deterministicTipHash": true
+}

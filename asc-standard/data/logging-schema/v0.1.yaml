@@ -1,0 +1,19 @@
+version: 0.1.0
+schemaId: signed-operational-log
+supportedSchemaVersions:
+  - "0.1"
+  - "0.2"
+fields:
+  - seq
+  - tickMs
+  - eventType
+  - payloadDigest
+  - prevHash
+  - hash
+  - signerKeyId
+requirements:
+  hashAlgorithm: sha256-chain-v1
+  signatureFormats:
+    - legacy-sig-kid-digest
+    - rsa-sha256-base64
+  retentionMinimumMonths: 6

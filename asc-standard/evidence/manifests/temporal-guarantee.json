@@ -1,0 +1,5 @@
+{
+  "test_id": "TST-GUA-001",
+  "status": "pass",
+  "reason_codes": ["TemporalGuaranteeViolation", "DeadlineMiss"]
+}

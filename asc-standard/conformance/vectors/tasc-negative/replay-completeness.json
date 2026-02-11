@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_REPLAY_COMPLETENESS",
+  "targetCheckId": "CHK_REPLAY_COMPLETENESS",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_REPLAY_COMPLETENESS.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

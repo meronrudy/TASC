@@ -1,0 +1,11 @@
+{
+  "recipeVersion": "0.1",
+  "profile": "uas-small",
+  "seedsDigest": "sha256:bf4e4577cf9d510fd40e18bcf70e84b6da19fec40c5cbdf506f423aef94500f4",
+  "buildDigest": "sha256:c51ed1151f2f5cd4beb5cffc5ef08ccd6ca422e78ddc28443ceb69f0d1578934",
+  "configDigest": "sha256:1fdea0037ae979b0d5d20cac836dd2a87074fd01b732b64cfd4f719934c42c5e",
+  "environmentDigest": "sha256:a37180b19d198d2cca88c73524e0586c59d5e57c02a98ecf1b493863a391908c",
+  "containerDigest": "sha256:0852fb5bfd371fd884eaf32c279f2cb8e1f159b9842c42f1dfa71ef567ea9c3f",
+  "reproducibilityGuarantee": "Deterministic replay with fixed seeds/build/config/environment digests.",
+  "replaySlaHours": 8
+}

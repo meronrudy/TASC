@@ -1,0 +1,111 @@
+version: 0.1.0
+policy: eu-north-star
+checks:
+  - id: CHK_SCHEMA_ASSURANCEPACK
+    required: true
+    category: schema
+    description: Assurance Pack envelope contains all mandatory sections.
+  - id: CHK_SCHEMA_EVIDENCEMAP
+    required: true
+    category: schema
+    description: EvidenceMap structure is complete and machine-readable.
+  - id: CHK_SCHEMA_CONFORMANCE_REPORT
+    required: true
+    category: schema
+    description: Embedded conformance report structure is valid.
+  - id: CHK_SCHEMA_SIGNED_LOG
+    required: true
+    category: schema
+    description: Signed operational log structure is valid.
+  - id: CHK_SCHEMA_REPLAY_RECIPE
+    required: true
+    category: schema
+    description: Replay recipe structure is valid.
+  - id: CHK_SCHEMA_ATTESTATION
+    required: true
+    category: schema
+    description: Attestation evidence structure is valid.
+  - id: CHK_SCHEMA_INCIDENT_INITIAL
+    required: true
+    category: schema
+    description: Initial incident template is valid.
+  - id: CHK_SCHEMA_INCIDENT_PACK
+    required: true
+    category: schema
+    description: Full incident pack template is valid.
+  - id: CHK_SCHEMA_TRANSPARENCY_REKOR
+    required: true
+    category: schema
+    description: Rekor transparency proof payload is valid.
+  - id: CHK_SCHEMA_TRANSPARENCY_MIRROR
+    required: true
+    category: schema
+    description: Mirror transparency proof payload is valid.
+  - id: CHK_SCHEMA_BADGE_ENTRY
+    required: true
+    category: schema
+    description: Badge entry structure is valid.
+  - id: CHK_PROFILE_MATCH
+    required: true
+    category: policy
+    description: Bundle profile matches verifier invocation profile.
+  - id: CHK_POLICY_MATCH
+    required: true
+    category: policy
+    description: Bundle policy matches verifier invocation policy.
+  - id: CHK_TOPOLOGY_INTERLOCK_MEDIATION
+    required: true
+    category: topology
+    description: Every actuator output path is mediated by interlock gate.
+  - id: CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY
+    required: true
+    category: topology
+    description: Only safety kernel commands interlock authority path.
+  - id: CHK_TOPOLOGY_ASSERTION_REFS
+    required: true
+    category: topology
+    description: Required conformance assertions are proven and hash-addressed.
+  - id: CHK_ARTIFACT_HASH_INTEGRITY
+    required: true
+    category: integrity
+    description: Referenced artifact files exist and sha256 digests match.
+  - id: CHK_LOG_HASH_CHAIN
+    required: true
+    category: integrity
+    description: Signed operational log hash chain is consistent.
+  - id: CHK_LOG_SIGNATURE
+    required: true
+    category: integrity
+    description: Signed operational log signature validates against declared signer.
+  - id: CHK_RETENTION_EU_MINIMUM
+    required: true
+    category: compliance
+    description: Retention policy meets EU north-star minimum of six months.
+  - id: CHK_REPLAY_COMPLETENESS
+    required: true
+    category: replay
+    description: Replay recipe includes all deterministic reconstruction digests.
+  - id: CHK_REPLAY_OPERATIONAL_PARITY
+    required: true
+    category: replay
+    description: Replay from operational trace reproduces verdict/reasons/tip-hash without drift.
+  - id: CHK_ATTESTATION_TA2
+    required: true
+    category: attestation
+    description: Trust anchor meets TA2 minimum and lifecycle constraints.
+  - id: CHK_INCIDENT_WINDOWS_EU
+    required: true
+    category: compliance
+    description: Incident response windows are 15/2/10 day compliant.
+  - id: CHK_TRANSPARENCY_REKOR_PROOF
+    required: true
+    category: transparency
+    description: Rekor proof verifies against trusted checkpoint policy.
+  - id: CHK_TRANSPARENCY_MIRROR_PROOF
+    required: true
+    category: transparency
+    description: Mirror proof verifies against trusted checkpoint policy.
+  - id: CHK_BADGE_ACTIVE_NOT_REVOKED
+    required: true
+    category: governance
+    description: Badge status is active in registry and not revoked.

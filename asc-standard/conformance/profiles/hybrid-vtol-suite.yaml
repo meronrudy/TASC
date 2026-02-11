@@ -1,0 +1,10 @@
+profile: hybrid-vtol
+suites:
+  - syntax
+  - semantics
+  - timing
+  - replay
+  - tasc
+vectors:
+  - conformance/vectors/kernel-smoke-hybrid-vtol.json
+assurance_pack_fixture: conformance/fixtures/tasc/tasc-assurance-pack-hybrid-vtol.json

@@ -1,0 +1,23 @@
+[package]
+name = "asc-conformance-kernel"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "replay-drift-validator"
+path = "src/main.rs"
+
+[[bin]]
+name = "replay-from-log"
+path = "src/replay_from_log.rs"
+
+[dependencies]
+asc-kernel-runtime = { path = "../asc-kernel-runtime" }
+asc-types = { path = "../asc-types" }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = "1"
+
+[dev-dependencies]
+asc-kernel-runtime = { path = "../asc-kernel-runtime" }
+asc-types = { path = "../asc-types" }

@@ -1,0 +1,10 @@
+version: 1.0.0
+intent: >
+  Temporal guarantees for control-loop and input freshness obligations. Breach of
+  these constraints is safety-relevant and must produce deterministic reason codes.
+normative_refs:
+  - ASC-KERNEL-TEMPORAL-001
+  - ASC-KERNEL-TEMPORAL-002
+max_input_age_ms: 100
+max_tick_interval_ms: 20
+deadline_ms: 10

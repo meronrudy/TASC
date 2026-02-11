@@ -1,0 +1,25 @@
+[workspace]
+members = [
+  "crates/asc-types",
+  "crates/asc-contract",
+  "crates/asc-kernel-model",
+  "crates/asc-kernel-runtime",
+  "crates/asc-logging",
+  "crates/asc-conformance-kernel",
+  "crates/asc-reference-adapter",
+  "crates/asc-reference-interlock",
+  "crates/asc-reference-supervisor",
+  "crates/asc-runtime-e2e",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+
+[workspace.dependencies]
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_yaml = "0.9"
+sha2 = "0.10"
+hex = "0.4"
+thiserror = "1"

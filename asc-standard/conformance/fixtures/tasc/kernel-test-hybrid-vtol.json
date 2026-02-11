@@ -1,0 +1,5 @@
+{
+  "suite": "asc-conformance-kernel",
+  "profile": "hybrid-vtol",
+  "status": "pass"
+}

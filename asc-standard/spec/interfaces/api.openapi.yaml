@@ -1,0 +1,184 @@
+openapi: 3.0.3
+info:
+  title: ASC Kernel API
+  version: 0.2.0
+  description: |
+    Reference API for deterministic ASC kernel evaluation and replay evidence.
+servers:
+  - url: http://localhost:8080
+paths:
+  /v1/health:
+    get:
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service health
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+  /v1/contract:
+    get:
+      summary: Active contract metadata
+      operationId: getContract
+      responses:
+        '200':
+          description: Contract fingerprint and profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractInfo'
+  /v1/evaluate:
+    post:
+      summary: Evaluate a control tick against ASC checks
+      operationId: evaluateTick
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KernelInput'
+      responses:
+        '200':
+          description: Deterministic kernel decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KernelOutput'
+  /v1/replay/compare:
+    post:
+      summary: Compare replay tip hashes
+      operationId: compareReplay
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplayCompareRequest'
+      responses:
+        '200':
+          description: Replay parity result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReplayCompareResult'
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [ok]
+    ContractInfo:
+      type: object
+      required: [profile, fingerprint]
+      properties:
+        profile:
+          type: string
+        fingerprint:
+          type: string
+          pattern: '^[a-f0-9]{64}$'
+    Tick:
+      type: object
+      required: [seq, ts_ms]
+      properties:
+        seq:
+          type: integer
+          format: int64
+        ts_ms:
+          type: integer
+          format: int64
+    ObservedState:
+      type: object
+      required: [frame, position_m, velocity_mps, bank_deg, soc_percent, input_age_ms]
+      properties:
+        frame:
+          type: string
+        position_m:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items:
+            type: number
+        velocity_mps:
+          type: number
+        bank_deg:
+          type: number
+        soc_percent:
+          type: number
+        input_age_ms:
+          type: integer
+          format: int64
+    Intent:
+      type: object
+      required: [desired_rates_dps, desired_climb_mps]
+      properties:
+        desired_rates_dps:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items:
+            type: number
+        desired_climb_mps:
+          type: number
+    KernelInput:
+      type: object
+      required: [tick, state, intent]
+      properties:
+        tick:
+          $ref: '#/components/schemas/Tick'
+        state:
+          $ref: '#/components/schemas/ObservedState'
+        intent:
+          $ref: '#/components/schemas/Intent'
+    ConstrainedCommand:
+      type: object
+      required: [applied_rates_dps, applied_climb_mps, shutdown]
+      properties:
+        applied_rates_dps:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items:
+            type: number
+        applied_climb_mps:
+          type: number
+        shutdown:
+          type: boolean
+    KernelOutput:
+      type: object
+      required: [verdict, reasons, command, contract_fingerprint]
+      properties:
+        verdict:
+          type: string
+          enum: [Allow, Clamp, Hold, Override, Shutdown]
+        reasons:
+          type: array
+          items:
+            type: string
+        command:
+          $ref: '#/components/schemas/ConstrainedCommand'
+        contract_fingerprint:
+          type: string
+          pattern: '^[a-f0-9]{64}$'
+    ReplayCompareRequest:
+      type: object
+      required: [first_tip_hash, second_tip_hash]
+      properties:
+        first_tip_hash:
+          type: string
+        second_tip_hash:
+          type: string
+    ReplayCompareResult:
+      type: object
+      required: [match, first_tip_hash, second_tip_hash]
+      properties:
+        match:
+          type: boolean
+        first_tip_hash:
+          type: string
+        second_tip_hash:
+          type: string

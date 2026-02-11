@@ -1,0 +1,9 @@
+spec_clause,test_id,notes
+spec/asc/invariants-rcbf.yaml#min_altitude_m,TST-INV-001,Invariant violation forces shutdown
+spec/asc/tuple.yaml#reason_codes,TST-SYN-001,Reason codes generated from tuple
+spec/asc/guarantees-stl.yaml#max_input_age_ms,TST-GUA-001,Input staleness and timing violations handled deterministically
+spec/interfaces/api.openapi.yaml#/paths/~1v1~1evaluate,TST-API-001,API schema validates kernel IO shape
+spec/interfaces/bus-mapping.md#determinism-notes,TST-RPY-001,Replay hash parity under ordered tick stream
+spec/tasc/checks.yaml#CHK_TOPOLOGY_INTERLOCK_MEDIATION,TST-TASC-001,Interlock mediation check enforced by tasc-verify
+spec/tasc/checks.yaml#CHK_ATTESTATION_TA2,TST-TASC-002,TA2 minimum trust anchor check enforced by tasc-verify
+spec/tasc/checks.yaml#CHK_TRANSPARENCY_MIRROR_PROOF,TST-TASC-003,Dual transparency proof enforcement includes mirror log

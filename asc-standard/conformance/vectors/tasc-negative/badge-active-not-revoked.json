@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_BADGE_ACTIVE_NOT_REVOKED",
+  "targetCheckId": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_BADGE_ACTIVE_NOT_REVOKED.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

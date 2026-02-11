@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_TOPOLOGY_ASSERTION_REFS",
+  "targetCheckId": "CHK_TOPOLOGY_ASSERTION_REFS",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_TOPOLOGY_ASSERTION_REFS.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

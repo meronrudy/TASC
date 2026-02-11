@@ -1,0 +1,45 @@
+version: 1.0.0
+surface: asc-reference-runtime
+components:
+  adapter:
+    output_type: KernelIntent
+    required_fields:
+      - profile
+      - mission_id
+      - mode_request
+      - authority_source
+      - command_vector
+      - timestamp_utc
+    constraints:
+      authority_source:
+        enum:
+          - safety_kernel
+  interlock:
+    input_type: InterlockRequest
+    required_fields:
+      - authority_source
+      - mode_request
+      - heartbeat_hz
+      - within_safety_envelope
+      - interlock_enabled
+    rules:
+      default_closed: true
+      allow_authority_source:
+        - safety_kernel
+      min_heartbeat_hz: 10
+  supervisor:
+    incident_flow:
+      initial_template_id: tasc-incident-initial-v0.1
+      full_template_id: tasc-incident-pack-v0.1
+      required_initial_refs:
+        - evidenceMapHash
+        - signedLogSegmentHash
+        - replayRecipeHash
+        - attestationHash
+      required_full_artifacts:
+        - EvidenceMap
+        - SignedOperationalLog
+        - TransparencyProofs
+        - ReplayBundle
+        - ConfigurationBaseline
+        - CorrectiveActionPlan

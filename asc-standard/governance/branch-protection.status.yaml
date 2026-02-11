@@ -1,0 +1,12 @@
+version: 0.1.0
+branch: main
+requiredChecks:
+- ci
+- conformance
+- kernel-ci
+- release
+applied: true
+appliedAtUtc: '2026-02-11T18:47:26Z'
+lastAttemptAtUtc: '2026-02-11T18:47:26Z'
+status: applied
+notes: Applied via tools/governance/apply_branch_protection.sh for meronrudy/TASC:main.

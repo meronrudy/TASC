@@ -1,0 +1,8 @@
+requirement_id,spec_clause,notes
+REQ-001,ASC.md#core-tuple,Kernel evaluates S/F/E/G/I each tick
+REQ-002,spec/asc/invariants-rcbf.yaml#min_altitude_m,Shutdown on invariant break
+REQ-003,spec/asc/guarantees-stl.yaml#deadline_ms,Deadline miss is critical reason
+REQ-004,spec/interfaces/api.openapi.yaml#/paths/~1v1~1evaluate,Deterministic evaluation API exposure
+REQ-005,spec/interfaces/bus-mapping.md#outbound-mapping-kerneloutput,Constrained outputs mapped to actuation bus
+REQ-006,spec/tasc/checks.yaml#checks,TASC assurance checks define procurement and underwriting verification contract
+REQ-007,spec/tasc/policy-eu-north-star.yaml#retention,EU north-star retention and incident windows are enforced by verifier

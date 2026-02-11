@@ -1,0 +1,68 @@
+{
+  "offlineSmokeVersion": "0.1.0",
+  "policy": "eu-north-star",
+  "requireTa": "TA2",
+  "requireTransparency": [
+    "rekor",
+    "mirror"
+  ],
+  "checks": [
+    "CHK_SCHEMA_ASSURANCEPACK",
+    "CHK_SCHEMA_EVIDENCEMAP",
+    "CHK_SCHEMA_CONFORMANCE_REPORT",
+    "CHK_SCHEMA_SIGNED_LOG",
+    "CHK_SCHEMA_REPLAY_RECIPE",
+    "CHK_SCHEMA_ATTESTATION",
+    "CHK_SCHEMA_INCIDENT_INITIAL",
+    "CHK_SCHEMA_INCIDENT_PACK",
+    "CHK_SCHEMA_TRANSPARENCY_REKOR",
+    "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+    "CHK_SCHEMA_BADGE_ENTRY",
+    "CHK_PROFILE_MATCH",
+    "CHK_POLICY_MATCH",
+    "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+    "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+    "CHK_TOPOLOGY_ASSERTION_REFS",
+    "CHK_ARTIFACT_HASH_INTEGRITY",
+    "CHK_LOG_HASH_CHAIN",
+    "CHK_LOG_SIGNATURE",
+    "CHK_RETENTION_EU_MINIMUM",
+    "CHK_REPLAY_COMPLETENESS",
+    "CHK_REPLAY_OPERATIONAL_PARITY",
+    "CHK_ATTESTATION_TA2",
+    "CHK_INCIDENT_WINDOWS_EU",
+    "CHK_TRANSPARENCY_REKOR_PROOF",
+    "CHK_TRANSPARENCY_MIRROR_PROOF",
+    "CHK_BADGE_ACTIVE_NOT_REVOKED"
+  ],
+  "profiles": [
+    {
+      "profile": "uas-small",
+      "bundle": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/asc-standard/conformance/fixtures/tasc/tasc-assurance-pack-uas-small.json",
+      "result": "FAIL",
+      "checks": [],
+      "failedChecks": [
+        "CHK_BUNDLE_FILE_EXISTS"
+      ]
+    },
+    {
+      "profile": "fixed-wing",
+      "bundle": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/asc-standard/conformance/fixtures/tasc/tasc-assurance-pack-fixed-wing.json",
+      "result": "FAIL",
+      "checks": [],
+      "failedChecks": [
+        "CHK_BUNDLE_FILE_EXISTS"
+      ]
+    },
+    {
+      "profile": "hybrid-vtol",
+      "bundle": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/asc-standard/conformance/fixtures/tasc/tasc-assurance-pack-hybrid-vtol.json",
+      "result": "FAIL",
+      "checks": [],
+      "failedChecks": [
+        "CHK_BUNDLE_FILE_EXISTS"
+      ]
+    }
+  ],
+  "result": "FAIL"
+}

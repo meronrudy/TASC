@@ -1,0 +1,21 @@
+version: 0.1.0
+levels:
+  - id: S0
+    name: anomaly
+    description: Unexpected behavior with no safety-kernel intervention.
+  - id: S1
+    name: safety-intervention
+    description: Kernel clamp/deny occurred with safe continuation.
+  - id: S2
+    name: near-miss
+    description: Safety margin breach with recovery and no injury.
+  - id: S3
+    name: serious-incident
+    description: Injury-risk or major disruption requiring external reporting.
+  - id: S4
+    name: accident
+    description: Event meeting accident definitions with major damage/injury/death.
+reportingWindowsDays:
+  standard: 15
+  widespread: 2
+  fatal: 10

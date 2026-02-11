@@ -1,0 +1,80 @@
+{
+  "gate": "governance-policy",
+  "checkedDocs": [
+    {
+      "path": "governance/CHARTER.md",
+      "markers": [
+        "Authority Model",
+        "Decision Cadence",
+        "Escalation Matrix",
+        "Required Artifacts"
+      ],
+      "missing": []
+    },
+    {
+      "path": "governance/CHANGE_CONTROL.md",
+      "markers": [
+        "Class A",
+        "Class B",
+        "Class C",
+        "Review and Approval SLA"
+      ],
+      "missing": []
+    },
+    {
+      "path": "governance/VERSIONING_POLICY.md",
+      "markers": [
+        "Semantic Versioning Rules",
+        "Compatibility Requirements",
+        "Class A Freeze Window"
+      ],
+      "missing": []
+    },
+    {
+      "path": "governance/DEPRECATION_POLICY.md",
+      "markers": [
+        "Support Window",
+        "Removal Criteria"
+      ],
+      "missing": []
+    },
+    {
+      "path": "governance/RISK_ACCEPTANCE_POLICY.md",
+      "markers": [
+        "Exception SLA",
+        "Approval Authority",
+        "Expiry and Renewal"
+      ],
+      "missing": []
+    },
+    {
+      "path": "governance/WORKING_GROUPS.md",
+      "markers": [
+        "Spec WG",
+        "Kernel WG",
+        "Assurance WG",
+        "Security WG",
+        "Release WG"
+      ],
+      "missing": []
+    },
+    {
+      "path": "governance/COMPLIANCE_POLICY.md",
+      "markers": [
+        "Mandatory Gates",
+        "Class A Requirements"
+      ],
+      "missing": []
+    },
+    {
+      "path": "governance/BRANCH_PROTECTION.md",
+      "markers": [
+        "Required Status Checks",
+        "Application Method"
+      ],
+      "missing": []
+    }
+  ],
+  "errors": [],
+  "result": "PASS"
+}

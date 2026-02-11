@@ -1,0 +1,11 @@
+version: 1.0.0
+intent: >
+  Normative flow-rate constraints for commanded body rates and climb-rate requests.
+  Values represent enforceable runtime bounds used by kernel arbitration and clamps.
+normative_refs:
+  - ASC-KERNEL-FLOW-001
+  - ASC-KERNEL-FLOW-002
+max_roll_rate_dps: 120.0
+max_pitch_rate_dps: 100.0
+max_yaw_rate_dps: 80.0
+max_climb_rate_mps: 8.0

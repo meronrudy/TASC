@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_REPLAY_OPERATIONAL_PARITY",
+  "targetCheckId": "CHK_REPLAY_OPERATIONAL_PARITY",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_REPLAY_OPERATIONAL_PARITY.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

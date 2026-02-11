@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_INCIDENT_WINDOWS_EU",
+  "targetCheckId": "CHK_INCIDENT_WINDOWS_EU",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_INCIDENT_WINDOWS_EU.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

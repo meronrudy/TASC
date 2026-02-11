@@ -1,0 +1,16 @@
+version: 0.1.0
+class_a_globs:
+  - spec/asc/**
+  - spec/tasc/**
+  - schemas/**
+  - reference/kernel/**
+  - tools/tasc-verify/**
+  - tools/assurancepack/**
+  - tools/transparency/**
+  - policies/attestation/**
+  - policies/transparency/**
+  - policies/provenance/**
+required_records:
+  decision_record_glob: governance/DECISION_RECORDS/DR-*.md
+  risk_acceptance_glob: governance/risk_acceptance/RA-*.md
+  change_impact_glob: governance/change_impact/CI-*.yaml

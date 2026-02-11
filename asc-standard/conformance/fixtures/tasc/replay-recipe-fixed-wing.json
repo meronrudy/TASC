@@ -1,0 +1,11 @@
+{
+  "recipeVersion": "0.1",
+  "profile": "fixed-wing",
+  "seedsDigest": "sha256:1554a75eeeb60f5e07c60b9b25aea58c05356ca0519a9c20230a3e2fdcd21562",
+  "buildDigest": "sha256:ae38728e565ed07c77409d1b286c6f7bb13d1f84d0c5ee695fc690089b8350c2",
+  "configDigest": "sha256:3b2b329e23deeb8757b9051d50d2f5e746ba2e27622c238d50a2409704221054",
+  "environmentDigest": "sha256:681f8fa7a9aeea0c701062b30dc85f6d04969f2cf30233a011db3885f58198ae",
+  "containerDigest": "sha256:886b5a137831bf3ad9da93e771b2b0ef8953585182a78f3d2b35be9eb9ef65bc",
+  "reproducibilityGuarantee": "Deterministic replay with fixed seeds/build/config/environment digests.",
+  "replaySlaHours": 8
+}

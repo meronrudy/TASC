@@ -1,0 +1,15 @@
+{
+  "fixture_id": "FX-RPY-UAS-001",
+  "description": "Deterministic replay fixture for uas-small profile",
+  "profile": "uas-small",
+  "seed": 13371337,
+  "ticks": 25,
+  "time_step_ms": 20,
+  "expected_final_verdict": "Override",
+  "expected_tip_hash": "ffd1555507ca7d46edfb692caa9ee3fa339f0eda3441e3fe8f39c71d10ede9d9",
+  "drift": {
+    "seed_offset": 1,
+    "require_tip_hash_change": true,
+    "require_verdict_stable": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_SCHEMA_TRANSPARENCY_REKOR",
+  "targetCheckId": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_SCHEMA_TRANSPARENCY_REKOR.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_RETENTION_EU_MINIMUM",
+  "targetCheckId": "CHK_RETENTION_EU_MINIMUM",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_RETENTION_EU_MINIMUM.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

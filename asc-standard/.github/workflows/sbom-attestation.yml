@@ -1,0 +1,36 @@
+name: sbom-attestation
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+jobs:
+  sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Generate dependency SBOM snapshot
+        run: |
+          mkdir -p evidence/sbom evidence/attestation
+          cargo metadata --manifest-path reference/kernel/Cargo.toml --format-version 1 > evidence/sbom/cargo-metadata.json
+          sha256sum evidence/sbom/cargo-metadata.json | awk '{print $1}' > evidence/sbom/cargo-metadata.sha256
+      - name: Generate provenance attestation snapshot
+        run: |
+          cat > evidence/attestation/provenance.json <<JSON
+          {
+            "builder": "github-actions",
+            "workflow": "sbom-attestation",
+            "repo": "${{ github.repository }}",
+            "commit": "${{ github.sha }}",
+            "ref": "${{ github.ref }}",
+            "sbom": "evidence/sbom/cargo-metadata.json"
+          }
+          JSON
+      - name: Upload SBOM and attestation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-attestation
+          path: |
+            evidence/sbom/cargo-metadata.json
+            evidence/sbom/cargo-metadata.sha256
+            evidence/attestation/provenance.json

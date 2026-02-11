@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_SCHEMA_TRANSPARENCY_MIRROR",
+  "targetCheckId": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_SCHEMA_TRANSPARENCY_MIRROR.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

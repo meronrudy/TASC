@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "logs": [
+    {
+      "id": "rekor",
+      "endpoint": "https://rekor.sigstore.dev",
+      "checkpointHash": "",
+      "rootKeyId": "rekor-root-v2",
+      "logPublicKeyPath": "policies/attestation/pki/ta2-signer.cert.pem",
+      "signatureAlgorithm": "rsa-sha256",
+      "signatureEncoding": "base64",
+      "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+      "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+      "trustRootsPath": "policies/attestation/pki/trust-roots.pem"
+    },
+    {
+      "id": "mirror",
+      "endpoint": "http://127.0.0.1:17777",
+      "checkpointHash": "",
+      "rootKeyId": "mirror-root-v2",
+      "logPublicKeyPath": "policies/attestation/pki/ta2-signer.cert.pem",
+      "signatureAlgorithm": "rsa-sha256",
+      "signatureEncoding": "base64",
+      "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+      "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+      "trustRootsPath": "policies/attestation/pki/trust-roots.pem"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+[package]
+name = "asc-kernel-runtime"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+asc-contract = { path = "../asc-contract" }
+asc-kernel-model = { path = "../asc-kernel-model" }
+asc-logging = { path = "../asc-logging" }
+asc-types = { path = "../asc-types" }
+anyhow = { workspace = true }

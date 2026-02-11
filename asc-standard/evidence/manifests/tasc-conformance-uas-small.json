@@ -1,0 +1,146 @@
+{
+  "tascVerifyVersion": "0.1.0",
+  "specVersion": "0.2.0",
+  "profile": "uas-small",
+  "policy": "eu-north-star",
+  "bundleDigest": "sha256:e5dbf073eaf04ab23b82e5b2215e3c156dd9696a930ffc63e42adce8c524f6ab",
+  "requireTa": "TA2",
+  "requireTransparency": [
+    "rekor",
+    "mirror"
+  ],
+  "result": "PASS",
+  "checks": [
+    {
+      "id": "CHK_SCHEMA_ASSURANCEPACK",
+      "result": "PASS",
+      "message": "assurance pack envelope present | remediation: Ensure assurance pack contains all required top-level sections and valid JSON object structure."
+    },
+    {
+      "id": "CHK_SCHEMA_EVIDENCEMAP",
+      "result": "PASS",
+      "message": "evidence map present | remediation: Regenerate EvidenceMap from current topology and include required sub-sections."
+    },
+    {
+      "id": "CHK_SCHEMA_CONFORMANCE_REPORT",
+      "result": "PASS",
+      "message": "conformance report present | remediation: Re-run tasc-verify and embed the verifier-produced report without manual edits."
+    },
+    {
+      "id": "CHK_SCHEMA_SIGNED_LOG",
+      "result": "PASS",
+      "message": "signed operational log present | remediation: Emit signedOperationalLog with schemaVersion, signerKeyId, signature, root, and events."
+    },
+    {
+      "id": "CHK_SCHEMA_REPLAY_RECIPE",
+      "result": "PASS",
+      "message": "replay recipe present | remediation: Include all replay digests and recipeVersion in replayRecipe."
+    },
+    {
+      "id": "CHK_SCHEMA_ATTESTATION",
+      "result": "PASS",
+      "message": "attestation evidence present | remediation: Provide complete attestationEvidence payload matching schema requirements."
+    },
+    {
+      "id": "CHK_SCHEMA_INCIDENT_INITIAL",
+      "result": "PASS",
+      "message": "incident initial template present | remediation: Include incidentInitialTemplate with required reporting windows fields."
+    },
+    {
+      "id": "CHK_SCHEMA_INCIDENT_PACK",
+      "result": "PASS",
+      "message": "incident full pack template present | remediation: Include incidentPackTemplate with requiredArtifacts and fullPackSlaDays."
+    },
+    {
+      "id": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+      "result": "PASS",
+      "message": "rekor transparency proof present | remediation: Include transparencyProofs.rekor with required proof fields."
+    },
+    {
+      "id": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+      "result": "PASS",
+      "message": "mirror transparency proof present | remediation: Include transparencyProofs.mirror with required proof fields."
+    },
+    {
+      "id": "CHK_SCHEMA_BADGE_ENTRY",
+      "result": "PASS",
+      "message": "badge entry present | remediation: Include badgeEntry with badgeId, badgeType, and active status fields."
+    },
+    {
+      "id": "CHK_PROFILE_MATCH",
+      "result": "PASS",
+      "message": "profile matches uas-small | remediation: Regenerate bundle with matching --profile and evidence profile metadata."
+    },
+    {
+      "id": "CHK_POLICY_MATCH",
+      "result": "PASS",
+      "message": "policy matches eu-north-star | remediation: Set bundle policy to match verifier invocation policy."
+    },
+    {
+      "id": "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+      "result": "PASS",
+      "message": "all actuator paths mediated by interlock gate | remediation: Ensure every actuator path flows through interlock_gate."
+    },
+    {
+      "id": "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+      "result": "PASS",
+      "message": "interlock authority exclusive to safety kernel | remediation: Ensure only safety_kernel sources authority edges into interlock_gate."
+    },
+    {
+      "id": "CHK_TOPOLOGY_ASSERTION_REFS",
+      "result": "PASS",
+      "message": "required assertion refs are proven and hash-addressed | remediation: Populate A001/A002 assertions as proven with sha256 proofRef values."
+    },
+    {
+      "id": "CHK_ARTIFACT_HASH_INTEGRITY",
+      "result": "PASS",
+      "message": "artifact hashes validated | remediation: Recompute artifact digests and ensure files exist beside bundle."
+    },
+    {
+      "id": "CHK_LOG_HASH_CHAIN",
+      "result": "PASS",
+      "message": "log hash chain verified | remediation: Rebuild event chain so prevHash/hash/root are internally consistent."
+    },
+    {
+      "id": "CHK_LOG_SIGNATURE",
+      "result": "PASS",
+      "message": "log signature validated with FILE key source | remediation: Re-sign operational log root with declared signerKeyId."
+    },
+    {
+      "id": "CHK_RETENTION_EU_MINIMUM",
+      "result": "PASS",
+      "message": "retention minimum satisfied (6 months) | remediation: Set evidenceMap.logs.retentionPolicy.minimumMonths to at least 6."
+    },
+    {
+      "id": "CHK_REPLAY_COMPLETENESS",
+      "result": "PASS",
+      "message": "replay completeness checks passed | remediation: Populate seeds/build/config/environment/container digests and profile."
+    },
+    {
+      "id": "CHK_ATTESTATION_TA2",
+      "result": "PASS",
+      "message": "attestation TA2 satisfies minimum TA2 | remediation: Provide TA2 attestation meeting trust policy and lifecycle constraints."
+    },
+    {
+      "id": "CHK_INCIDENT_WINDOWS_EU",
+      "result": "PASS",
+      "message": "incident window policy checks passed | remediation: Set incident windows to 15/2/10 and fullPackSlaDays <= 10."
+    },
+    {
+      "id": "CHK_TRANSPARENCY_REKOR_PROOF",
+      "result": "PASS",
+      "message": "rekor transparency proof verified | remediation: Regenerate Rekor proof against trusted checkpoint and signature rules."
+    },
+    {
+      "id": "CHK_TRANSPARENCY_MIRROR_PROOF",
+      "result": "PASS",
+      "message": "mirror transparency proof verified | remediation: Regenerate mirror proof against trusted checkpoint and signature rules."
+    },
+    {
+      "id": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+      "result": "PASS",
+      "message": "badge badge-uas-small-active is active | remediation: Use active badge entry present as active in badge registry."
+    }
+  ],
+  "failedChecks": []
+}

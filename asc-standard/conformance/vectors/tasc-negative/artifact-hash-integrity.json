@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_ARTIFACT_HASH_INTEGRITY",
+  "targetCheckId": "CHK_ARTIFACT_HASH_INTEGRITY",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_ARTIFACT_HASH_INTEGRITY.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

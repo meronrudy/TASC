@@ -1,0 +1,17 @@
+version: 0.2.0
+required_logs:
+  - rekor
+  - mirror
+offline_verification_required: true
+proof_fields_required:
+  - checkpointHash
+  - entryDigest
+  - inclusionProofHash
+  - consistencyProofHash
+  - signature
+  - integratedTimeUtc
+max_checkpoint_age_hours: 168
+require_entry_digest_matches_bundle: true
+require_mirror_parity: true
+require_live_publication: true
+require_checkpoint_text: true

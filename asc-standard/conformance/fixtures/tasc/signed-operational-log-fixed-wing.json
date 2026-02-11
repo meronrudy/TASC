@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.2",
+  "algorithm": "sha256-chain-v1",
+  "signerKeyId": "kid:tasc-ta2-fixed-wing",
+  "signature": "OBdX98B3S8iCf3X3WO53R1cN7v7PuTZpn02hy56ZkMrK9XVLwc2uokHqiy8daDKpk7YMGSGRGCsYmAmfZlcmr0Rudklto0e2XMzedFb0tq3ukOirIrWc2OgeWfA+3m4G7ET6zf2vMTPnitADelGk2zAJiKzpsK5lA0K2d2bpr4tQReskeP6+K5EvnFt7W+18FSFdQrKnDvUBetQbB4t+SNDzazt3wBBNx8C3uExrzdi1U6kIeT8ptalIKuMS+0UCGZQxhTm2slboBx7c8fXZSBjiF9WfD6yfeio/29xHDZna25rMps3LrNTgppfw4OE9hEaYlh9lrS9OhiyEvJppFA==",
+  "signatureAlgorithm": "rsa-sha256",
+  "signatureEncoding": "base64",
+  "signingTimeUtc": "2026-02-11T19:27:25Z",
+  "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+  "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+  "trustRootsDigest": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500",
+  "keySource": "PKCS11",
+  "root": "sha256:d40503f489518c207e4c0e81e96dd1a4307e9f51abc687dfc9029c8abdc73172",
+  "events": [
+    {
+      "seq": 1,
+      "tickMs": 0,
+      "eventType": "mode_switch",
+      "payloadDigest": "sha256:d3ab27be71805d626bcee96a6a424165cb12a3bccddacc105a05d74b05174884",
+      "prevHash": "",
+      "hash": "sha256:2545296dc8eb9c663b64571bdf84433ab757d4b59bc19a5863b2e1e6ce8f287a"
+    },
+    {
+      "seq": 2,
+      "tickMs": 20,
+      "eventType": "heartbeat",
+      "payloadDigest": "sha256:a0e7fec90fde801193e1437b89dd82565256e6e5c6536efb51d77df60cece5ce",
+      "prevHash": "sha256:2545296dc8eb9c663b64571bdf84433ab757d4b59bc19a5863b2e1e6ce8f287a",
+      "hash": "sha256:6173537830017c8464f16f1d58f9fbf4ca279c1e9cb48a16dcec12a581d9e091"
+    },
+    {
+      "seq": 3,
+      "tickMs": 40,
+      "eventType": "guard_eval",
+      "payloadDigest": "sha256:84ce6f81540e1d57dc5e2142ff5857f1eb94dc8423e20496c9fa061be17d9d43",
+      "prevHash": "sha256:6173537830017c8464f16f1d58f9fbf4ca279c1e9cb48a16dcec12a581d9e091",
+      "hash": "sha256:d40503f489518c207e4c0e81e96dd1a4307e9f51abc687dfc9029c8abdc73172"
+    }
+  ]
+}

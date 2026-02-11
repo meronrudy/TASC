@@ -1,0 +1,31 @@
+{
+  "version": "0.3.0",
+  "generatedAtUtc": "2026-02-11T21:25:04Z",
+  "nextUpdateUtc": "2026-02-12T21:25:04Z",
+  "revokedSerials": [],
+  "observedCertificates": [
+    {
+      "id": "ta2-signer",
+      "subject": "CN=TASC TA2 Signer, O=ASC Standard, C=US",
+      "serial": "6A816A690F4AE29B3AA1C7C18A80029B2EED9BB9"
+    }
+  ],
+  "sourceDigests": {
+    "root-local-crl": "sha256:41b55d661d6cff2b2bab97547b95a5c66575e0530cc1f0a7a09b693a944be531",
+    "local-static-ocsp": "sha256:3a5c57de6e18c8265babce4131b57d45e1d9d8742c3a6229a1cd6fb16f1ade75"
+  },
+  "ocspStatuses": [
+    {
+      "sourceId": "local-static-ocsp",
+      "certId": "ta2-signer",
+      "certSerial": "6A816A690F4AE29B3AA1C7C18A80029B2EED9BB9",
+      "status": "good",
+      "checkedAtUtc": "2026-02-11T21:25:04Z",
+      "detail": "static-policy"
+    }
+  ],
+  "snapshotId": "sha256:8c25706d6dbd870efc8dc0a7a1c1dc56ef638951802493481f96ce59cc079864",
+  "signature": "KS+wNK1Pk4iD2sjviRLeMuXFqn1bQR5Dq8MiaK01Isl8/xceiWlz3/EmFJvxwDSKzAusPBSDxtYCDXMjZ71LoFux3SSZX1S4RD+gE7gMXt9nTA/gnoqnN7yWLP09wyJIOOB9EiC6TReBAPzrA72O+DI2A4pFWwiEFH7nj0LCLyTOZbv+jGFAAHepz9RMQuHzvX+2e8hOxRssGyFxBJqhQ535OyVajdAXq31c7fh6mqOTwhL6z8GqrU3sTL6LqqgXPaETZAb3zVtC6986jcBh1ZIiChJ7Bp5Vgh6BmY2bm5BnkJNo2JNM7psB9+AgKLgvjg0RaJgP9NmZIX8eeBthoQ==",
+  "signatureAlgorithm": "rsa-sha256",
+  "signerCertPath": "policies/attestation/pki/ta2-signer.cert.pem"
+}

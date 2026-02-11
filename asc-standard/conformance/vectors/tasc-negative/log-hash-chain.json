@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_LOG_HASH_CHAIN",
+  "targetCheckId": "CHK_LOG_HASH_CHAIN",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_LOG_HASH_CHAIN.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

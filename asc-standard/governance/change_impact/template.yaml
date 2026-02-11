@@ -1,0 +1,15 @@
+change_impact_id: CI-YYYYMMDD-XXX
+title: ""
+owner: ""
+date: ""
+change_scope:
+  - ""
+safety_effects:
+  behavior_change: false
+  affected_profiles: []
+  check_ids_impacted: []
+verification_plan:
+  required_tests: []
+  required_evidence: []
+rollback_plan: ""
+approvals: []

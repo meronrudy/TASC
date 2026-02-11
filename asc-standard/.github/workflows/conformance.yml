@@ -1,0 +1,238 @@
+name: conformance
+on: [push, pull_request]
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Setup SoftHSM PKCS#11
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y softhsm2 opensc
+          mkdir -p /tmp/softhsm/tokens
+          cat > /tmp/softhsm2.conf <<'EOF'
+          directories.tokendir = /tmp/softhsm/tokens
+          objectstore.backend = file
+          log.level = INFO
+          slots.removable = false
+          EOF
+          echo "SOFTHSM2_CONF=/tmp/softhsm2.conf" >> "$GITHUB_ENV"
+          export SOFTHSM2_CONF=/tmp/softhsm2.conf
+          softhsm2-util --init-token --free --label tasc-soft-token --so-pin 12345678 --pin 123456
+          PKCS11_MODULE="$(ldconfig -p | awk '/libsofthsm2.so/{print $NF; exit}')"
+          if [ -z "$PKCS11_MODULE" ]; then
+            echo "failed to discover libsofthsm2.so path" >&2
+            exit 1
+          fi
+          echo "PKCS11_MODULE=$PKCS11_MODULE" >> "$GITHUB_ENV"
+          echo "TASC_PKCS11_PIN=123456" >> "$GITHUB_ENV"
+          openssl pkcs8 -topk8 -nocrypt -inform PEM -outform DER \
+            -in policies/attestation/pki/ta2-signer.key.pem \
+            -out /tmp/ta2-signer.key.der
+          openssl x509 -in policies/attestation/pki/ta2-signer.cert.pem \
+            -outform DER -out /tmp/ta2-signer.cert.der
+          pkcs11-tool --module "$PKCS11_MODULE" --token-label tasc-soft-token --login --pin 123456 \
+            --write-object /tmp/ta2-signer.key.der --type privkey --id 01 --label tasc-ta2-key
+          pkcs11-tool --module "$PKCS11_MODULE" --token-label tasc-soft-token --login --pin 123456 \
+            --write-object /tmp/ta2-signer.cert.der --type cert --id 01 --label tasc-ta2-cert
+      - name: Data version-impact gate
+        run: |
+          python3 tools/data_policy/version_impact_gate.py \
+            --repo-root . \
+            --output conformance/reports/data-version-impact.json
+      - name: Governance policy gate
+        run: |
+          python3 tools/governance/policy_gate.py \
+            --repo-root . \
+            --output conformance/reports/governance-policy-gate.json
+      - name: Governance Class A gate
+        run: |
+          python3 tools/governance/class_a_gate.py \
+            --repo-root . \
+            --scope governance/class-a-scope.yaml \
+            --output conformance/reports/class-a-gate.json
+      - name: Reference surface integration tests
+        run: python3 -m unittest reference.tests.test_reference_surface
+      - name: Run kernel conformance tests
+        run: cargo test --manifest-path reference/kernel/Cargo.toml -p asc-conformance-kernel
+      - name: Replay drift validator (verdict + tip-hash)
+        run: |
+          cargo run --manifest-path reference/kernel/Cargo.toml -p asc-conformance-kernel --bin replay-drift-validator -- \
+            --repo-root . \
+            --profiles uas-small,fixed-wing,hybrid-vtol \
+            --vectors-dir conformance/vectors \
+            --fixtures-dir conformance/fixtures \
+            --output conformance/reports/replay-drift.json
+      - name: Validate conformance corpus files
+        run: |
+          test -f conformance/vectors/kernel-smoke.json
+          test -f conformance/vectors/kernel-smoke-fixed-wing.json
+          test -f conformance/vectors/kernel-smoke-hybrid-vtol.json
+          test -f conformance/fixtures/replay-seed-uas-small.json
+          test -f conformance/fixtures/replay-seed-fixed-wing.json
+          test -f conformance/fixtures/replay-seed-hybrid-vtol.json
+          test -f conformance/profiles/uas-small-suite.yaml
+          test -f conformance/profiles/fixed-wing-suite.yaml
+          test -f conformance/profiles/hybrid-vtol-suite.yaml
+      - name: Release placeholder guard
+        run: python3 tools/releasepack/release_guard.py --repo-root .
+      - name: Refresh revocation snapshot
+        run: |
+          python3 tools/attestation/revocation_snapshot.py \
+            --repo-root . \
+            --sources policies/attestation/revocation-sources.yaml \
+            --output policies/attestation/revocation-snapshot.json
+      - name: Start mirror transparency service
+        run: |
+          mkdir -p conformance/mirror-log
+          python3 tools/transparency/mirror_service.py --storage-dir conformance/mirror-log --host 127.0.0.1 --port 17777 > /tmp/tasc-mirror.log 2>&1 &
+          echo "MIRROR_PID=$!" >> "$GITHUB_ENV"
+          sleep 2
+      - name: Build TASC assurance pack fixtures
+        run: |
+          python3 tools/assurancepack/assurancepack.py --repo-root . --profile uas-small --output conformance/fixtures/tasc/tasc-assurance-pack-uas-small.json --archive conformance/fixtures/tasc/tasc-assurance-pack-uas-small.tgz --badge-id badge-uas-small-active --signer-mode pkcs11 --pkcs11-profile policies/attestation/pkcs11-profile.yaml --pkcs11-module "$PKCS11_MODULE" --pkcs11-token-label tasc-soft-token --pkcs11-key-label tasc-ta2-key --pkcs11-cert-label tasc-ta2-cert --pkcs11-pin-env TASC_PKCS11_PIN --pkcs11-mechanism SHA256-RSA-PKCS --publish-live --rekor-url https://rekor.sigstore.dev --mirror-url http://127.0.0.1:17777 --transparency-retries 4 --transparency-backoff-seconds 2
+          python3 tools/assurancepack/assurancepack.py --repo-root . --profile fixed-wing --output conformance/fixtures/tasc/tasc-assurance-pack-fixed-wing.json --archive conformance/fixtures/tasc/tasc-assurance-pack-fixed-wing.tgz --badge-id badge-fixed-wing-active --signer-mode pkcs11 --pkcs11-profile policies/attestation/pkcs11-profile.yaml --pkcs11-module "$PKCS11_MODULE" --pkcs11-token-label tasc-soft-token --pkcs11-key-label tasc-ta2-key --pkcs11-cert-label tasc-ta2-cert --pkcs11-pin-env TASC_PKCS11_PIN --pkcs11-mechanism SHA256-RSA-PKCS --publish-live --rekor-url https://rekor.sigstore.dev --mirror-url http://127.0.0.1:17777 --transparency-retries 4 --transparency-backoff-seconds 2
+          python3 tools/assurancepack/assurancepack.py --repo-root . --profile hybrid-vtol --output conformance/fixtures/tasc/tasc-assurance-pack-hybrid-vtol.json --archive conformance/fixtures/tasc/tasc-assurance-pack-hybrid-vtol.tgz --badge-id badge-hybrid-vtol-active --signer-mode pkcs11 --pkcs11-profile policies/attestation/pkcs11-profile.yaml --pkcs11-module "$PKCS11_MODULE" --pkcs11-token-label tasc-soft-token --pkcs11-key-label tasc-ta2-key --pkcs11-cert-label tasc-ta2-cert --pkcs11-pin-env TASC_PKCS11_PIN --pkcs11-mechanism SHA256-RSA-PKCS --publish-live --rekor-url https://rekor.sigstore.dev --mirror-url http://127.0.0.1:17777 --transparency-retries 4 --transparency-backoff-seconds 2
+      - name: Stop mirror transparency service
+        if: always()
+        run: |
+          if [ -n "${MIRROR_PID:-}" ]; then
+            kill "$MIRROR_PID" || true
+          fi
+      - name: Offline smoke gate (no Rust compilation)
+        run: |
+          python3 tools/tasc-verify/offline_smoke.py --repo-root . --fixtures-dir conformance/fixtures/tasc --profiles uas-small,fixed-wing,hybrid-vtol --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror --output conformance/reports/tasc-offline-smoke.json
+      - name: Verify TASC fixtures (hard fail)
+        run: |
+          mkdir -p conformance/reports
+          cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify --bundle conformance/fixtures/tasc/tasc-assurance-pack-uas-small.json --profile uas-small --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror --output conformance/reports/tasc-uas-small.json
+          cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify --bundle conformance/fixtures/tasc/tasc-assurance-pack-fixed-wing.json --profile fixed-wing --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror --output conformance/reports/tasc-fixed-wing.json
+          cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify --bundle conformance/fixtures/tasc/tasc-assurance-pack-hybrid-vtol.json --profile hybrid-vtol --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror --output conformance/reports/tasc-hybrid-vtol.json
+      - name: Negative vector gate (check IDs must fail when broken)
+        run: |
+          cargo build --manifest-path tools/tasc-verify/Cargo.toml
+          python3 tools/tasc-verify/negative_vectors.py \
+            --repo-root . \
+            --vectors-index conformance/vectors/tasc-negative-index.yaml \
+            --bundle-template conformance/fixtures/tasc/tasc-assurance-pack-{profile}.json \
+            --profiles uas-small,fixed-wing,hybrid-vtol \
+            --policy eu-north-star \
+            --require-ta TA2 \
+            --require-transparency rekor,mirror \
+            --min-vectors-per-check 3 \
+            --verifier-bin tools/tasc-verify/target/debug/tasc-verify \
+            --output conformance/reports/tasc-negative-vectors.json \
+            --coverage-output conformance/reports/tasc-negative-coverage.json
+      - name: Mutation fuzz gate
+        run: |
+          python3 tools/tasc-verify/mutation_fuzz.py \
+            --repo-root . \
+            --bundle-template conformance/fixtures/tasc/tasc-assurance-pack-{profile}.json \
+            --profiles uas-small,fixed-wing,hybrid-vtol \
+            --policy eu-north-star \
+            --require-ta TA2 \
+            --require-transparency rekor,mirror \
+            --verifier-bin tools/tasc-verify/target/debug/tasc-verify \
+            --output conformance/reports/tasc-mutation-fuzz.json
+      - name: Build conformance index report
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          reports = [
+              ("uas-small", "conformance/vectors/kernel-smoke.json", "conformance/reports/tasc-uas-small.json"),
+              ("fixed-wing", "conformance/vectors/kernel-smoke-fixed-wing.json", "conformance/reports/tasc-fixed-wing.json"),
+              ("hybrid-vtol", "conformance/vectors/kernel-smoke-hybrid-vtol.json", "conformance/reports/tasc-hybrid-vtol.json"),
+          ]
+
+          profiles = []
+          for profile, vector, report_path in reports:
+              payload = json.loads(Path(report_path).read_text(encoding="utf-8"))
+              profiles.append(
+                  {
+                      "profile": profile,
+                      "vector": vector,
+                      "fixture": f"conformance/fixtures/tasc/tasc-assurance-pack-{profile}.json",
+                      "status": payload["result"].lower(),
+                      "failedChecks": payload.get("failedChecks", []),
+                      "report": report_path,
+                  }
+              )
+
+          Path("conformance/reports/conformance-index.json").write_text(
+              json.dumps({"profiles": profiles}, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+      - name: Start mirror service for perf benchmarks
+        run: |
+          mkdir -p conformance/mirror-log
+          python3 tools/transparency/mirror_service.py --storage-dir conformance/mirror-log --host 127.0.0.1 --port 17777 > /tmp/tasc-mirror-perf.log 2>&1 &
+          echo "MIRROR_PERF_PID=$!" >> "$GITHUB_ENV"
+          sleep 2
+      - name: Performance benchmarks + SLO gate
+        run: |
+          python3 tools/perf/benchmark_verify.py \
+            --repo-root . \
+            --profiles uas-small,fixed-wing,hybrid-vtol \
+            --bundle-template conformance/fixtures/tasc/tasc-assurance-pack-{profile}.json \
+            --iterations 2 \
+            --policy eu-north-star \
+            --require-ta TA2 \
+            --require-transparency rekor,mirror \
+            --verifier-cmd "cargo run --manifest-path tools/tasc-verify/Cargo.toml --" \
+            --output conformance/reports/perf-verify.json
+          python3 tools/perf/benchmark_replay.py \
+            --repo-root . \
+            --profiles uas-small,fixed-wing,hybrid-vtol \
+            --trace-template conformance/fixtures/tasc/runtime-e2e-{profile}/operational-trace-{profile}-ga-smoke.json \
+            --iterations 2 \
+            --output conformance/reports/perf-replay.json
+          python3 tools/perf/benchmark_packaging.py \
+            --repo-root . \
+            --profiles uas-small,fixed-wing,hybrid-vtol \
+            --iterations 1 \
+            --signer-mode pkcs11 \
+            --pkcs11-profile policies/attestation/pkcs11-profile.yaml \
+            --pkcs11-module "$PKCS11_MODULE" \
+            --pkcs11-token-label tasc-soft-token \
+            --pkcs11-key-label tasc-ta2-key \
+            --pkcs11-cert-label tasc-ta2-cert \
+            --pkcs11-pin-env TASC_PKCS11_PIN \
+            --pkcs11-mechanism SHA256-RSA-PKCS \
+            --rekor-url https://rekor.sigstore.dev \
+            --mirror-url http://127.0.0.1:17777 \
+            --output conformance/reports/perf-packaging.json
+          python3 tools/perf/slo_gate.py \
+            --repo-root . \
+            --policy policies/perf/slo.yaml \
+            --verify-report conformance/reports/perf-verify.json \
+            --replay-report conformance/reports/perf-replay.json \
+            --packaging-report conformance/reports/perf-packaging.json \
+            --output conformance/reports/perf-slo.json
+      - name: Build handoff package + offline verify smoke
+        run: |
+          python3 tools/handoff/build_handoff.py \
+            --repo-root . \
+            --version ci \
+            --sample-profile uas-small \
+            --output dist/tasc-handoff-ci.tgz
+          rm -rf /tmp/tasc-handoff-smoke
+          mkdir -p /tmp/tasc-handoff-smoke
+          tar -xzf dist/tasc-handoff-ci.tgz -C /tmp/tasc-handoff-smoke
+          /tmp/tasc-handoff-smoke/bin/verify-offline.sh \
+            /tmp/tasc-handoff-smoke/sample/tasc-assurance-pack-uas-small.json \
+            uas-small
+      - name: Stop mirror service for perf benchmarks
+        if: always()
+        run: |
+          if [ -n "${MIRROR_PERF_PID:-}" ]; then
+            kill "$MIRROR_PERF_PID" || true
+          fi
+      - name: Upload conformance report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: conformance-report
+          path: conformance/reports/

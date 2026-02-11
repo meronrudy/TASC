@@ -1,0 +1,10 @@
+version: 1.0.0
+intent: >
+  Energy envelope contract for safe continuation and reserve planning. The kernel
+  must enforce a hard minimum state-of-charge threshold and reserve endurance.
+normative_refs:
+  - ASC-KERNEL-ENERGY-001
+  - ASC-KERNEL-ENERGY-002
+min_soc_percent: 20.0
+reserve_endurance_s: 180.0
+max_power_w: 2500.0

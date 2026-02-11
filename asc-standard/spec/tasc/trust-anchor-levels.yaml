@@ -1,0 +1,19 @@
+version: 0.1.0
+levels:
+  - id: TA0
+    name: software-signed
+    description: Vendor managed software key signatures only.
+  - id: TA1
+    name: tpm-backed
+    description: TPM rooted key with attestation quote evidence.
+  - id: TA2
+    name: hsm-backed
+    description: Certified HSM or secure element key custody with lifecycle controls.
+requirements:
+  TA2:
+    certificate_profiles:
+      - HSM_CERTIFIED
+      - SECURE_ELEMENT_CERTIFIED
+    max_rotation_days: 365
+    require_hsm_backed_claim: true
+    require_secure_boot_claim: true

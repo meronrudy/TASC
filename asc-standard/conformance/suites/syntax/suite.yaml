@@ -1,0 +1,19 @@
+version: 0.1.0
+suite: syntax
+description: Schema and envelope contract validation suite.
+artifacts:
+  - schemas/assurance-pack.schema.json
+  - schemas/evidence-map.schema.json
+  - schemas/conformance-report.schema.json
+checks:
+  - CHK_SCHEMA_ASSURANCEPACK
+  - CHK_SCHEMA_EVIDENCEMAP
+  - CHK_SCHEMA_CONFORMANCE_REPORT
+  - CHK_SCHEMA_SIGNED_LOG
+  - CHK_SCHEMA_REPLAY_RECIPE
+  - CHK_SCHEMA_ATTESTATION
+  - CHK_SCHEMA_INCIDENT_INITIAL
+  - CHK_SCHEMA_INCIDENT_PACK
+  - CHK_SCHEMA_TRANSPARENCY_REKOR
+  - CHK_SCHEMA_TRANSPARENCY_MIRROR
+  - CHK_SCHEMA_BADGE_ENTRY

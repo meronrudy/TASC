@@ -1,0 +1,23 @@
+{
+  "proofVersion": "0.2",
+  "logId": "mirror",
+  "logUrl": "http://127.0.0.1:17777",
+  "entryUuid": "1f7097fc9b17120d",
+  "logIndex": 0,
+  "treeSize": 1,
+  "rootHash": "sha256:0c401f8b1b85856f030b863249856101371cbea3f9a6042fb7b335a4c873f688",
+  "leafHash": "sha256:f1dc7f9c6c5995cdcabe1670db46c3a9fe66162370e33af16d1e035dd3b984b7",
+  "checkpoint": "mirror\n1\nsha256:0c401f8b1b85856f030b863249856101371cbea3f9a6042fb7b335a4c873f688\n",
+  "checkpointHash": "sha256:115209c4e27b481963e454611b42dd021991bd235f5ae120da28ca17f81ee194",
+  "entryDigest": "sha256:9bba01c1c36bf4ce181b10bf88c155eeff91b4dceac861fa6e4597fbc5b9e01e",
+  "inclusionPath": [
+    "sha256:5a43b01ac4febd7022ea65f69e7dd36fff9219a946a6bba8cfb429a13342ab0f"
+  ],
+  "consistencyPath": [],
+  "inclusionProofHash": "sha256:3371114140bb4ba799efa859abf1a6a24ede4daff4d4c5030fd3c03261ebaa0d",
+  "consistencyProofHash": "sha256:830f53d9db3ef6b6c5eb9da9e73b767980abb57b14ec5006acda18c0adb987a7",
+  "integratedTimeUtc": "2026-02-11T21:50:11Z",
+  "signature": "CyHHMLecU0AM+6GJ18qBokgyh6JVTKiR2RKhXeFSV0hRoqXCg+VJrOuoIVa1eTdSpAEm/yboH1xYpJ34RIdqT0IrnrMWRC9ROgUQlWOdQCMMw0LiJJvIAAtEP4IQ4V+nDKcgLWhkOv7luNATyEaAY8T2eK8J4xG7z2DdgjHNqs2z6u+pbVPyxIKuOOf1Brn/9G3M1XjgNNlb/YzlvLd4vcUYlEqTxvuvx7WT/BAHuGfvkIqR87upXoauN2PJPH34QciY5y8gZP++Xs1TBORY/w/sDgf/5eXYKRerRCQP6V81iPkZMR5GmRAC4QNg97+6wB41ExR7vMDwejiZydYmuw==",
+  "verifiedOffline": true,
+  "source": "live"
+}

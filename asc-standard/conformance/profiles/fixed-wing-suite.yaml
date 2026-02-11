@@ -1,0 +1,10 @@
+profile: fixed-wing
+suites:
+  - syntax
+  - semantics
+  - timing
+  - replay
+  - tasc
+vectors:
+  - conformance/vectors/kernel-smoke-fixed-wing.json
+assurance_pack_fixture: conformance/fixtures/tasc/tasc-assurance-pack-fixed-wing.json

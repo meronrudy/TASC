@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_SCHEMA_CONFORMANCE_REPORT",
+  "targetCheckId": "CHK_SCHEMA_CONFORMANCE_REPORT",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_SCHEMA_CONFORMANCE_REPORT.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

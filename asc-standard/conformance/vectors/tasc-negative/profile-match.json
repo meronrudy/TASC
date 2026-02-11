@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_PROFILE_MATCH",
+  "targetCheckId": "CHK_PROFILE_MATCH",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_PROFILE_MATCH.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

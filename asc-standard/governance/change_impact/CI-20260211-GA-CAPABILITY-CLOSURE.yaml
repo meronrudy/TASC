@@ -1,0 +1,35 @@
+change_impact_id: CI-20260211-GA-CAPABILITY-CLOSURE
+title: "GA capability closure impact assessment"
+owner: "ASC/TASC Maintainers"
+date: "2026-02-11"
+change_scope:
+  - "tools/tasc-verify/**"
+  - "tools/assurancepack/**"
+  - "tools/transparency/**"
+  - "spec/tasc/checks.yaml"
+  - "conformance/fixtures/tasc/**"
+  - "conformance/vectors/tasc-negative*"
+safety_effects:
+  behavior_change: true
+  affected_profiles:
+    - uas-small
+    - fixed-wing
+    - hybrid-vtol
+  check_ids_impacted:
+    - CHK_REPLAY_OPERATIONAL_PARITY
+    - CHK_ATTESTATION_TA2
+    - CHK_TRANSPARENCY_REKOR_PROOF
+    - CHK_TRANSPARENCY_MIRROR_PROOF
+verification_plan:
+  required_tests:
+    - "offline_smoke.py all profiles"
+    - "tasc-verify verify all profile fixture bundles"
+    - "negative_vectors.py coverage gate"
+  required_evidence:
+    - "conformance/reports/tasc-offline-smoke*.json"
+    - "conformance/reports/tasc-*.json"
+    - "conformance/reports/tasc-negative-coverage*.json"
+rollback_plan: "Revert GA capability closure commits and restore prior validated verifier/tooling state while preserving audit evidence history."
+approvals:
+  - "ASC Maintainer"
+  - "Safety/Assurance Reviewer"

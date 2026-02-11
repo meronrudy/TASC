@@ -1,0 +1,5 @@
+{
+  "test_id": "TST-DET-001",
+  "status": "pass",
+  "method": "tip-hash parity"
+}

@@ -1,0 +1,8 @@
+name: fixed-wing
+timing:
+  control_hz: 40
+  deadline_ms: 15
+capabilities:
+  vtol: false
+  fixed_wing: true
+  max_payload_kg: 5.0

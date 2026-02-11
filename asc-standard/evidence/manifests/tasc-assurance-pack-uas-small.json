@@ -1,0 +1,488 @@
+{
+  "assurancePackVersion": "0.2",
+  "profile": "uas-small",
+  "policy": "eu-north-star",
+  "specVersion": "0.2.0",
+  "verifier": {
+    "name": "tasc-verify",
+    "version": "0.1.0"
+  },
+  "evidenceMap": {
+    "evidenceMapVersion": "0.1",
+    "system": {
+      "systemId": "sys_urn:example:uas-small:alpha",
+      "releaseId": "rel_2026-02-11_uas-small",
+      "gitCommit": "26aa65d2a9f6",
+      "build": {
+        "buildSystem": "reproducible-build",
+        "artifactDigest": "sha256:5593054903eae87d53607d24865e7e416432d8ab1a82d2a73cb2bacfbec218eb",
+        "configDigest": "sha256:7180ebad23d580da61b745fcbece074619de0c4dba3eb0ab6c3498da7ac6cec4"
+      }
+    },
+    "tasc": {
+      "specVersion": "0.2.0",
+      "profile": "uas-small",
+      "verifier": {
+        "name": "tasc-verify",
+        "version": "0.1.0"
+      }
+    },
+    "topology": {
+      "graphDigest": "sha256:b60f6ab24614669eaefb855e215443827492f26618daf976de6893f930c29296",
+      "nodes": [
+        {
+          "id": "n_ai_planner",
+          "type": "autonomy_planner"
+        },
+        {
+          "id": "n_safety_kernel",
+          "type": "safety_kernel"
+        },
+        {
+          "id": "n_interlock_gate",
+          "type": "interlock_gate",
+          "defaultClosed": true
+        },
+        {
+          "id": "n_actuator_bus",
+          "type": "actuator_integrator"
+        }
+      ],
+      "edges": [
+        {
+          "from": "n_ai_planner",
+          "to": "n_safety_kernel",
+          "signal": "intent_vector"
+        },
+        {
+          "from": "n_safety_kernel",
+          "to": "n_interlock_gate",
+          "signal": "cmd_authorized"
+        },
+        {
+          "from": "n_interlock_gate",
+          "to": "n_actuator_bus",
+          "signal": "actuator_command"
+        }
+      ],
+      "conformanceAssertions": [
+        {
+          "id": "A001",
+          "claim": "Every actuator output path is mediated by interlock_gate",
+          "status": "proven",
+          "proofRef": "sha256:78ed8ff0ab16f9d7f1a9048e7925e6b5856d2026ee92cbdf86d6d88041f760cf"
+        },
+        {
+          "id": "A002",
+          "claim": "Only safety_kernel may command interlock_gate authority",
+          "status": "proven",
+          "proofRef": "sha256:2c73780624526559ee43e6ca6c1d3d54dba93043bc183e014cd25ee08aaa6191"
+        }
+      ]
+    },
+    "runtimeSafety": {
+      "heartbeat": {
+        "minHz": 10,
+        "failToSafeWithinMs": 200
+      },
+      "safeStateDefinition": "profile:uas-small:safe-set:v0.1"
+    },
+    "logs": {
+      "schemaVersion": "0.2",
+      "signedMerkleLog": {
+        "root": "sha256:3511e71c0a4c216c1b529242a3fae3e458ccff9a54db5ac0338ecf4541326385",
+        "signature": "hQ9pwuVJuFTuS6EnOqsir8ipIO+AMjNsKXIfCgCmwkx8C6N08smGE9dgfE2OM9odGhX59s5AtvVderbcaVgrxrJqKY4gGtRYlHsQr12nc5hMLDTWgJwpARGAmNvJtPGYnqUbgBsUj/dV+HZZBhxCgbQyFKQtz5RtoqP4H7kSofYmsRnm4oBXIlKmrSJ1WhPsezXru2n6Yk9SMhPdiC+AVKaSOYU56IDp/JLxtgzLzcg7KrBuzFx2ojoCSAmMRwXcHr027HaCZdfuyq9PHxY8R2RFbG5JN+bESuQBHsrDyYRbFBNSZF2QlQHE/eRuNkOx81VA2tFST2f5E6//4ZA+SA==",
+        "signerKeyId": "kid:tasc-ta2-uas-small"
+      },
+      "retentionPolicy": {
+        "minimumMonths": 6,
+        "operatorPolicyMonths": 24
+      }
+    },
+    "attestation": {
+      "level": "TA2",
+      "evidenceRef": "sha256:882be90911fc678f19a7006e3d37e0db3d167dc568e7e30efdc19906a46f3089"
+    },
+    "replay": {
+      "recipeRef": "sha256:9fe185ac47d894adb65e8e069cdd702fc4cf280f091ad8ea439f3d973d234391",
+      "containerDigest": "sha256:0852fb5bfd371fd884eaf32c279f2cb8e1f159b9842c42f1dfa71ef567ea9c3f",
+      "inputsDigest": "sha256:938560578e026d2991b3835decdc51fd1aad5f6c3b923c3f02a4607896d80e10",
+      "seedsDigest": "sha256:bf4e4577cf9d510fd40e18bcf70e84b6da19fec40c5cbdf506f423aef94500f4",
+      "configDigest": "sha256:1fdea0037ae979b0d5d20cac836dd2a87074fd01b732b64cfd4f719934c42c5e",
+      "buildDigest": "sha256:c51ed1151f2f5cd4beb5cffc5ef08ccd6ca422e78ddc28443ceb69f0d1578934",
+      "environmentDigest": "sha256:a37180b19d198d2cca88c73524e0586c59d5e57c02a98ecf1b493863a391908c"
+    },
+    "incident": {
+      "ontologyVersion": "0.1",
+      "templates": [
+        "tasc-incident-initial-v0.1",
+        "tasc-incident-pack-v0.1"
+      ],
+      "reportingWindowsDays": {
+        "standard": 15,
+        "widespread": 2,
+        "fatal": 10
+      }
+    }
+  },
+  "conformanceReport": {
+    "tascVerifyVersion": "0.1.0",
+    "specVersion": "0.2.0",
+    "profile": "uas-small",
+    "policy": "eu-north-star",
+    "bundleDigest": "sha256:e5dbf073eaf04ab23b82e5b2215e3c156dd9696a930ffc63e42adce8c524f6ab",
+    "requireTa": "TA2",
+    "requireTransparency": [
+      "rekor",
+      "mirror"
+    ],
+    "result": "PASS",
+    "checks": [
+      {
+        "id": "CHK_SCHEMA_ASSURANCEPACK",
+        "result": "PASS",
+        "message": "assurance pack envelope present | remediation: Ensure assurance pack contains all required top-level sections and valid JSON object structure."
+      },
+      {
+        "id": "CHK_SCHEMA_EVIDENCEMAP",
+        "result": "PASS",
+        "message": "evidence map present | remediation: Regenerate EvidenceMap from current topology and include required sub-sections."
+      },
+      {
+        "id": "CHK_SCHEMA_CONFORMANCE_REPORT",
+        "result": "PASS",
+        "message": "conformance report present | remediation: Re-run tasc-verify and embed the verifier-produced report without manual edits."
+      },
+      {
+        "id": "CHK_SCHEMA_SIGNED_LOG",
+        "result": "PASS",
+        "message": "signed operational log present | remediation: Emit signedOperationalLog with schemaVersion, signerKeyId, signature, root, and events."
+      },
+      {
+        "id": "CHK_SCHEMA_REPLAY_RECIPE",
+        "result": "PASS",
+        "message": "replay recipe present | remediation: Include all replay digests and recipeVersion in replayRecipe."
+      },
+      {
+        "id": "CHK_SCHEMA_ATTESTATION",
+        "result": "PASS",
+        "message": "attestation evidence present | remediation: Provide complete attestationEvidence payload matching schema requirements."
+      },
+      {
+        "id": "CHK_SCHEMA_INCIDENT_INITIAL",
+        "result": "PASS",
+        "message": "incident initial template present | remediation: Include incidentInitialTemplate with required reporting windows fields."
+      },
+      {
+        "id": "CHK_SCHEMA_INCIDENT_PACK",
+        "result": "PASS",
+        "message": "incident full pack template present | remediation: Include incidentPackTemplate with requiredArtifacts and fullPackSlaDays."
+      },
+      {
+        "id": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+        "result": "PASS",
+        "message": "rekor transparency proof present | remediation: Include transparencyProofs.rekor with required proof fields."
+      },
+      {
+        "id": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+        "result": "PASS",
+        "message": "mirror transparency proof present | remediation: Include transparencyProofs.mirror with required proof fields."
+      },
+      {
+        "id": "CHK_SCHEMA_BADGE_ENTRY",
+        "result": "PASS",
+        "message": "badge entry present | remediation: Include badgeEntry with badgeId, badgeType, and active status fields."
+      },
+      {
+        "id": "CHK_PROFILE_MATCH",
+        "result": "PASS",
+        "message": "profile matches uas-small | remediation: Regenerate bundle with matching --profile and evidence profile metadata."
+      },
+      {
+        "id": "CHK_POLICY_MATCH",
+        "result": "PASS",
+        "message": "policy matches eu-north-star | remediation: Set bundle policy to match verifier invocation policy."
+      },
+      {
+        "id": "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+        "result": "PASS",
+        "message": "all actuator paths mediated by interlock gate | remediation: Ensure every actuator path flows through interlock_gate."
+      },
+      {
+        "id": "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+        "result": "PASS",
+        "message": "interlock authority exclusive to safety kernel | remediation: Ensure only safety_kernel sources authority edges into interlock_gate."
+      },
+      {
+        "id": "CHK_TOPOLOGY_ASSERTION_REFS",
+        "result": "PASS",
+        "message": "required assertion refs are proven and hash-addressed | remediation: Populate A001/A002 assertions as proven with sha256 proofRef values."
+      },
+      {
+        "id": "CHK_ARTIFACT_HASH_INTEGRITY",
+        "result": "PASS",
+        "message": "artifact hashes validated | remediation: Recompute artifact digests and ensure files exist beside bundle."
+      },
+      {
+        "id": "CHK_LOG_HASH_CHAIN",
+        "result": "PASS",
+        "message": "log hash chain verified | remediation: Rebuild event chain so prevHash/hash/root are internally consistent."
+      },
+      {
+        "id": "CHK_LOG_SIGNATURE",
+        "result": "PASS",
+        "message": "log signature validated with FILE key source | remediation: Re-sign operational log root with declared signerKeyId."
+      },
+      {
+        "id": "CHK_RETENTION_EU_MINIMUM",
+        "result": "PASS",
+        "message": "retention minimum satisfied (6 months) | remediation: Set evidenceMap.logs.retentionPolicy.minimumMonths to at least 6."
+      },
+      {
+        "id": "CHK_REPLAY_COMPLETENESS",
+        "result": "PASS",
+        "message": "replay completeness checks passed | remediation: Populate seeds/build/config/environment/container digests and profile."
+      },
+      {
+        "id": "CHK_ATTESTATION_TA2",
+        "result": "PASS",
+        "message": "attestation TA2 satisfies minimum TA2 | remediation: Provide TA2 attestation meeting trust policy and lifecycle constraints."
+      },
+      {
+        "id": "CHK_INCIDENT_WINDOWS_EU",
+        "result": "PASS",
+        "message": "incident window policy checks passed | remediation: Set incident windows to 15/2/10 and fullPackSlaDays <= 10."
+      },
+      {
+        "id": "CHK_TRANSPARENCY_REKOR_PROOF",
+        "result": "PASS",
+        "message": "rekor transparency proof verified | remediation: Regenerate Rekor proof against trusted checkpoint and signature rules."
+      },
+      {
+        "id": "CHK_TRANSPARENCY_MIRROR_PROOF",
+        "result": "PASS",
+        "message": "mirror transparency proof verified | remediation: Regenerate mirror proof against trusted checkpoint and signature rules."
+      },
+      {
+        "id": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+        "result": "PASS",
+        "message": "badge badge-uas-small-active is active | remediation: Use active badge entry present as active in badge registry."
+      }
+    ],
+    "failedChecks": []
+  },
+  "signedOperationalLog": {
+    "schemaVersion": "0.2",
+    "algorithm": "sha256-chain-v1",
+    "signerKeyId": "kid:tasc-ta2-uas-small",
+    "signature": "hQ9pwuVJuFTuS6EnOqsir8ipIO+AMjNsKXIfCgCmwkx8C6N08smGE9dgfE2OM9odGhX59s5AtvVderbcaVgrxrJqKY4gGtRYlHsQr12nc5hMLDTWgJwpARGAmNvJtPGYnqUbgBsUj/dV+HZZBhxCgbQyFKQtz5RtoqP4H7kSofYmsRnm4oBXIlKmrSJ1WhPsezXru2n6Yk9SMhPdiC+AVKaSOYU56IDp/JLxtgzLzcg7KrBuzFx2ojoCSAmMRwXcHr027HaCZdfuyq9PHxY8R2RFbG5JN+bESuQBHsrDyYRbFBNSZF2QlQHE/eRuNkOx81VA2tFST2f5E6//4ZA+SA==",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64",
+    "signingTimeUtc": "2026-02-11T18:15:05Z",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "trustRootsDigest": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500",
+    "keySource": "FILE",
+    "root": "sha256:3511e71c0a4c216c1b529242a3fae3e458ccff9a54db5ac0338ecf4541326385",
+    "events": [
+      {
+        "seq": 1,
+        "tickMs": 0,
+        "eventType": "mode_switch",
+        "payloadDigest": "sha256:657cd6839d0a5a45bed968254f07d45b6fdbae19783c2eddc1d824ec1b8c44d6",
+        "prevHash": "",
+        "hash": "sha256:384c0145c24bb09e4ec1480864792736934670d80b6f3dd7d6595d737ef81dfa"
+      },
+      {
+        "seq": 2,
+        "tickMs": 20,
+        "eventType": "heartbeat",
+        "payloadDigest": "sha256:6642dea6260c9bd52fb89df81a72bbbc77719989ff66e10223e24fd8e0fa4ce4",
+        "prevHash": "sha256:384c0145c24bb09e4ec1480864792736934670d80b6f3dd7d6595d737ef81dfa",
+        "hash": "sha256:f0fd3bafbde3f22912989a0689fd3059f4c0bbe99b4adc7d4b69000384fa33e7"
+      },
+      {
+        "seq": 3,
+        "tickMs": 40,
+        "eventType": "guard_eval",
+        "payloadDigest": "sha256:ae433022bb37c1f2911c6f675b369a4ba09418d1a98164e1d3765953c7c49a91",
+        "prevHash": "sha256:f0fd3bafbde3f22912989a0689fd3059f4c0bbe99b4adc7d4b69000384fa33e7",
+        "hash": "sha256:3511e71c0a4c216c1b529242a3fae3e458ccff9a54db5ac0338ecf4541326385"
+      }
+    ]
+  },
+  "replayRecipe": {
+    "recipeVersion": "0.1",
+    "profile": "uas-small",
+    "seedsDigest": "sha256:bf4e4577cf9d510fd40e18bcf70e84b6da19fec40c5cbdf506f423aef94500f4",
+    "buildDigest": "sha256:c51ed1151f2f5cd4beb5cffc5ef08ccd6ca422e78ddc28443ceb69f0d1578934",
+    "configDigest": "sha256:1fdea0037ae979b0d5d20cac836dd2a87074fd01b732b64cfd4f719934c42c5e",
+    "environmentDigest": "sha256:a37180b19d198d2cca88c73524e0586c59d5e57c02a98ecf1b493863a391908c",
+    "containerDigest": "sha256:0852fb5bfd371fd884eaf32c279f2cb8e1f159b9842c42f1dfa71ef567ea9c3f",
+    "reproducibilityGuarantee": "Deterministic replay with fixed seeds/build/config/environment digests.",
+    "replaySlaHours": 8
+  },
+  "attestationEvidence": {
+    "attestationVersion": "0.2",
+    "level": "TA2",
+    "deviceIdentity": "device:uas-small:hsm-001",
+    "keyId": "hsm-key:uas-small:sig-01",
+    "issuer": "CN=TASCRootCA,O=ASCStandard,C=US",
+    "certificateProfile": "HSM_CERTIFIED",
+    "evidenceDigest": "sha256:2d5182fea02d03e92952a4f0e5509267cc8ad7f8243843b8f8c6c8a85b36fe82",
+    "chainDigest": "sha256:be89777bdef8f83fb48505eac2b9ed0d58ef5514f71b6f854b5d7525d4aeb4af",
+    "evidenceSignature": "B1DE9PHQUWCUk+ak+H7ZbcyYTWIi/375QQR+pV6PLerLxXQjUxIFctLD/hYGsoWPqm5H/SBwWwcs5LEFLbrzh/xjdm+37mVV6P9V6Ydh4NM0WDy/2sUrAYGG68n6ELJfnK2Zlx/JEy6COqQywiRhcbjoOx4yo1lNlFZRqK1PY2WFlSjL0q3GajB2yB9JujTwO36bD9GY6a021o+W83DG5WiYPKoSstUmfICq9Alcol/T/2sAuHIm6S1wv+zFTrYYMAzD+YW7zWdy2gI5lalY4xtAUOEGx5To2ShpW1yhxeY8FvyxCRH+8CtWZPG2Hxzhpb9l6Wq6RWq8Z13P/wSobQ==",
+    "evidenceSignatureAlgorithm": "rsa-sha256",
+    "signingTimeUtc": "2026-02-11T18:15:05Z",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "trustRootsDigest": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500",
+    "revocationSnapshotDigest": "sha256:3105cb885eb3ebcfd1a960327051324344ee169318d13ba95721b2f7d52461d8",
+    "revocationSnapshotPath": "policies/attestation/revocation-snapshot.json",
+    "keySource": "FILE",
+    "nonce": "nonce-uas-small-ta2-verified",
+    "valid": true,
+    "keyLifecycle": {
+      "rotationDays": 90,
+      "maxKeyAgeDays": 365,
+      "revocationEndpoint": "https://registry.tasc.dev/revocations",
+      "lastRotated": "2026-01-15"
+    },
+    "claims": {
+      "secureBootMeasured": true,
+      "hsmBacked": true,
+      "softwareStateDigest": "sha256:332df8414c7503d1e8fd7d33827717387c71245a387b3e76468547912b720c55"
+    }
+  },
+  "incidentInitialTemplate": {
+    "templateId": "tasc-incident-initial-v0.1",
+    "severityLevels": [
+      "S0",
+      "S1",
+      "S2",
+      "S3",
+      "S4"
+    ],
+    "requiredFields": [
+      "operator",
+      "systemId",
+      "datetimeUtc",
+      "location",
+      "severity",
+      "narrative",
+      "evidenceMapHash",
+      "replayRecipeHash",
+      "attestationHash"
+    ],
+    "reportingWindowsDays": {
+      "standard": 15,
+      "widespread": 2,
+      "fatal": 10
+    }
+  },
+  "incidentPackTemplate": {
+    "templateId": "tasc-incident-pack-v0.1",
+    "requiredArtifacts": [
+      "EvidenceMap",
+      "SignedOperationalLog",
+      "TransparencyProofs",
+      "ReplayBundle",
+      "ConfigurationBaseline",
+      "CorrectiveActionPlan"
+    ],
+    "fullPackSlaDays": 10
+  },
+  "transparencyProofs": {
+    "rekor": {
+      "proofVersion": "0.2",
+      "logId": "rekor",
+      "checkpointHash": "sha256:79ec4f7f90aa715ceab95f6f6f4e3f861668952ca64cf3959f6f010f9692754f",
+      "entryDigest": "sha256:143e185f90f0f5d48c303673a2edbe91464eedb2db02f0eb94bae7c2a71b559f",
+      "inclusionProofHash": "sha256:5b51e991017f50885ea1ab9c077f39cda7dbc134978920722587a24c9440390a",
+      "consistencyProofHash": "sha256:871f6dd4b280dd040e9520fed920e7bac38c70285ef0ab7845554d37a5ea8c56",
+      "integratedTimeUtc": "2026-02-11T18:15:05Z",
+      "signature": "sig:rekor:2ec77c5c1e2b23a75cdebfbfb4bf9d4bc39d398ed7b5b63d17d1ec022691780d",
+      "verifiedOffline": true
+    },
+    "mirror": {
+      "proofVersion": "0.2",
+      "logId": "mirror",
+      "checkpointHash": "sha256:6b4dbd5ca669a8be150f8227b4043f6feb7e05f9f641245f5e30d2f0fd9763b9",
+      "entryDigest": "sha256:143e185f90f0f5d48c303673a2edbe91464eedb2db02f0eb94bae7c2a71b559f",
+      "inclusionProofHash": "sha256:5e8f8c966d6c6b65487222ba4222b2ce2e21fa346aa6ee4cdb867949de90197b",
+      "consistencyProofHash": "sha256:540c140aadee245d9defcdb6ed84b57dce1fe741e280435b152651f05b06bd1a",
+      "integratedTimeUtc": "2026-02-11T18:15:05Z",
+      "signature": "sig:mirror:06f4aa49afb05f7aabb9daa61f4c04f910f1683dfee43c795bd02b2a9229095a",
+      "verifiedOffline": true
+    }
+  },
+  "badgeEntry": {
+    "badgeId": "badge-uas-small-active",
+    "badgeType": "TASC_AUDIT_GRADE",
+    "systemDigest": "sha256:810529e1ef349aaf550be1c73e7569c620a42e4dcd3cdbcf02c595bdc0f9ce70",
+    "specVersion": "0.2.0",
+    "conformanceReportDigest": "sha256:d81467d9f68d3a231873bfa36cdda49a91707db1b8f5b047e15e384dca916abc",
+    "attestationDigest": "sha256:882be90911fc678f19a7006e3d37e0db3d167dc568e7e30efdc19906a46f3089",
+    "issuedAt": "2026-02-11T18:15:05Z",
+    "expiresAt": "2027-02-11T00:00:00Z",
+    "status": "active",
+    "transparencyLogIds": [
+      "rekor",
+      "mirror"
+    ]
+  },
+  "lineage": {
+    "gitCommit": "26aa65d2a9f6",
+    "specHash": "sha256:8d08dd68f4a4c1d666b2d1409c27fde292d70ad10594fc03f5eb6ff92c3651c0",
+    "conformanceReportDigest": "sha256:d81467d9f68d3a231873bfa36cdda49a91707db1b8f5b047e15e384dca916abc",
+    "assurancePackDigest": "sha256:143e185f90f0f5d48c303673a2edbe91464eedb2db02f0eb94bae7c2a71b559f",
+    "hashlockDigest": "sha256:09bcd6f7b7909e2da9278e719af7eb0c8968bb6eaab52839646e6d8ea17155f8",
+    "generatedAtUtc": "2026-02-11T18:15:05Z"
+  },
+  "artifacts": [
+    {
+      "path": "spec-hash-uas-small.txt",
+      "sha256": "sha256:938240cc916a6e00a3bb4cac4f14b118e94c4a58dd98c82628ee333fdd3a9339"
+    },
+    {
+      "path": "kernel-test-uas-small.json",
+      "sha256": "sha256:da41f607b7f177edd9df59c33ca1d7a8242942859c77d133350c028955ae701f"
+    },
+    {
+      "path": "replay-determinism-uas-small.json",
+      "sha256": "sha256:0acab97a8106f15b743821ea651f44ab9569e07f819cdcfcc47c382513069c22"
+    },
+    {
+      "path": "temporal-guarantee-uas-small.json",
+      "sha256": "sha256:7c6deff407bef4a064a0b0b74b302979766cddc4877609cb29287798724e460e"
+    },
+    {
+      "path": "signed-operational-log-uas-small.json",
+      "sha256": "sha256:7d11bb08abb9a2c3f2046e741f36e095e200395f991ef19d869ead11923c8b66"
+    },
+    {
+      "path": "replay-recipe-uas-small.json",
+      "sha256": "sha256:c0af27a2121984abe00d8892c905c1d9ce06f85387b9164802affc3a1f91276e"
+    },
+    {
+      "path": "attestation-ta2-uas-small.json",
+      "sha256": "sha256:3c2c88f684be3920bd65529b45e916f8bf971d8c9008a6c145ef941dd9bc4c40"
+    },
+    {
+      "path": "policies/attestation/pki/ta2-signer.cert.pem",
+      "sha256": "sha256:4e0ddb97e8b2f444d24167e8bad41b8189aff14ecf2563eb8b2681c174e518e5"
+    },
+    {
+      "path": "policies/attestation/pki/ta2-chain.pem",
+      "sha256": "sha256:be89777bdef8f83fb48505eac2b9ed0d58ef5514f71b6f854b5d7525d4aeb4af"
+    },
+    {
+      "path": "policies/attestation/pki/trust-roots.pem",
+      "sha256": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500"
+    },
+    {
+      "path": "policies/attestation/revocation-snapshot.json",
+      "sha256": "sha256:3105cb885eb3ebcfd1a960327051324344ee169318d13ba95721b2f7d52461d8"
+    }
+  ]
+}

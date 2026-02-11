@@ -1,0 +1,32 @@
+{
+  "attestationVersion": "0.2",
+  "level": "TA2",
+  "deviceIdentity": "device:fixed-wing:hsm-001",
+  "keyId": "hsm-key:fixed-wing:sig-01",
+  "issuer": "CN=TASCRootCA,O=ASCStandard,C=US",
+  "certificateProfile": "HSM_CERTIFIED",
+  "evidenceDigest": "sha256:6f813dc787b26db48af8f5b6e12a1f4a84b57d8a69640a75368eae6943137b6c",
+  "chainDigest": "sha256:be89777bdef8f83fb48505eac2b9ed0d58ef5514f71b6f854b5d7525d4aeb4af",
+  "evidenceSignature": "LeFdYpEaKinLoqbZGKuGthAGuFvBblYzb0QZWK5ifqFdjIrf9uJgWjQpHaXYVF9WLG0yRwhrLV7QKWSqVNt2VLTsapX91bnr1qh/7W6Q1RUqEQy7mJo8ACFb6nLPc9k41GhzJic3P6llDd2OMHzgjdw+Epr8LARRAZ209HkgDSFPygxGgylvYeqQ71akJejBexRCWYJ0LhRRwm7MFpDsUYBL8LyeETh7nFm18JQnMpgu1wAekFQwpcEg/11jYIKHS91jBiIlg+ft9+f4gjZ08fNEBxudJ1e02oISp5TQoc5OwWpbR3s3bye0YI9/5J/6HTbUq9YFFXpB7iZt7b6L5w==",
+  "evidenceSignatureAlgorithm": "rsa-sha256",
+  "signingTimeUtc": "2026-02-11T19:27:25Z",
+  "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+  "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+  "trustRootsDigest": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500",
+  "revocationSnapshotDigest": "sha256:3105cb885eb3ebcfd1a960327051324344ee169318d13ba95721b2f7d52461d8",
+  "revocationSnapshotPath": "policies/attestation/revocation-snapshot.json",
+  "keySource": "PKCS11",
+  "nonce": "nonce-fixed-wing-ta2-verified",
+  "valid": true,
+  "keyLifecycle": {
+    "rotationDays": 90,
+    "maxKeyAgeDays": 365,
+    "revocationEndpoint": "https://registry.tasc.dev/revocations",
+    "lastRotated": "2026-01-15"
+  },
+  "claims": {
+    "secureBootMeasured": true,
+    "hsmBacked": true,
+    "softwareStateDigest": "sha256:2133dfb25f721a18811c5ef8b3908ed6af47ba1e0f81a206a983a7f0fb53925b"
+  }
+}

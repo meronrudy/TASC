@@ -1,0 +1,20 @@
+{
+  "id": "VEC-KERNEL-SMOKE-FW-001",
+  "profile": "fixed-wing",
+  "input": {
+    "tick": {"seq": 1, "ts_ms": 0},
+    "state": {
+      "frame": "NED",
+      "position_m": [0.0, 0.0, 40.0],
+      "velocity_mps": 18.0,
+      "bank_deg": 5.0,
+      "soc_percent": 88.0,
+      "input_age_ms": 2
+    },
+    "intent": {
+      "desired_rates_dps": [0.8, 0.3, 0.4],
+      "desired_climb_mps": 0.7
+    }
+  },
+  "expected_verdict": "Allow"
+}

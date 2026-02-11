@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_ATTESTATION_TA2",
+  "targetCheckId": "CHK_ATTESTATION_TA2",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_ATTESTATION_TA2.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

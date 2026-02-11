@@ -1,0 +1,9 @@
+{
+  "test_id": "TST-GUA-001",
+  "profile": "fixed-wing",
+  "status": "pass",
+  "reason_codes": [
+    "TemporalGuaranteeViolation",
+    "DeadlineMiss"
+  ]
+}

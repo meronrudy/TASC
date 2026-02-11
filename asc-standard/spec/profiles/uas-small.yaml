@@ -1,0 +1,8 @@
+name: uas-small
+timing:
+  control_hz: 50
+  deadline_ms: 10
+capabilities:
+  vtol: false
+  fixed_wing: true
+  max_payload_kg: 2.5

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asc-standard.dev/schemas/assurance-pack.schema.json",
+  "title": "TASC Assurance Pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assurancePackVersion",
+    "profile",
+    "policy",
+    "specVersion",
+    "verifier",
+    "evidenceMap",
+    "conformanceReport",
+    "signedOperationalLog",
+    "replayRecipe",
+    "attestationEvidence",
+    "incidentInitialTemplate",
+    "incidentPackTemplate",
+    "transparencyProofs",
+    "badgeEntry",
+    "artifacts"
+  ],
+  "properties": {
+    "assurancePackVersion": {"type": "string", "pattern": "^0\\.(1|2)$"},
+    "profile": {"type": "string", "minLength": 1},
+    "policy": {"type": "string", "const": "eu-north-star"},
+    "specVersion": {"type": "string", "minLength": 1},
+    "verifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"type": "string", "const": "tasc-verify"},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
+    "evidenceMap": {"$ref": "evidence-map.schema.json"},
+    "conformanceReport": {"$ref": "conformance-report.schema.json"},
+    "signedOperationalLog": {"$ref": "signed-operational-log.schema.json"},
+    "replayRecipe": {"$ref": "replay-recipe.schema.json"},
+    "attestationEvidence": {"$ref": "attestation-evidence.schema.json"},
+    "incidentInitialTemplate": {"$ref": "incident-initial.schema.json"},
+    "incidentPackTemplate": {"$ref": "incident-pack.schema.json"},
+    "transparencyProofs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rekor", "mirror"],
+      "properties": {
+        "rekor": {"$ref": "transparency-proof.schema.json"},
+        "mirror": {"$ref": "transparency-proof.schema.json"}
+      }
+    },
+    "badgeEntry": {"$ref": "badge-entry.schema.json"},
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gitCommit",
+        "specHash",
+        "conformanceReportDigest",
+        "assurancePackDigest",
+        "hashlockDigest",
+        "generatedAtUtc"
+      ],
+      "properties": {
+        "gitCommit": {"type": "string", "minLength": 7},
+        "specHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "conformanceReportDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "assurancePackDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "hashlockDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "generatedAtUtc": {"type": "string", "format": "date-time"}
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"assurancePackVersion": {"const": "0.2"}}
+      },
+      "then": {
+        "required": ["lineage"]
+      }
+    }
+  ]
+}

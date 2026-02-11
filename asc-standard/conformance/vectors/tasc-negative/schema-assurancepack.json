@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_SCHEMA_ASSURANCEPACK",
+  "targetCheckId": "CHK_SCHEMA_ASSURANCEPACK",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_SCHEMA_ASSURANCEPACK.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

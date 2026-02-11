@@ -1,0 +1,41 @@
+name: revocation-snapshot
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refresh revocation snapshot
+        run: |
+          python3 tools/attestation/revocation_snapshot.py \
+            --repo-root . \
+            --sources policies/attestation/revocation-sources.yaml \
+            --output policies/attestation/revocation-snapshot.json
+      - name: Validate refreshed snapshot shape
+        run: |
+          python3 - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          snapshot = json.loads(Path("policies/attestation/revocation-snapshot.json").read_text(encoding="utf-8"))
+          for field in ["snapshotId", "sourceDigests", "ocspStatuses", "signature", "signatureAlgorithm", "signerCertPath", "generatedAtUtc", "nextUpdateUtc"]:
+            if field not in snapshot:
+              raise SystemExit(f"missing field: {field}")
+          if snapshot["signatureAlgorithm"] != "rsa-sha256":
+            raise SystemExit("snapshot signatureAlgorithm must be rsa-sha256")
+          if not snapshot["ocspStatuses"]:
+            raise SystemExit("ocspStatuses must not be empty")
+          next_update = datetime.fromisoformat(snapshot["nextUpdateUtc"].replace("Z", "+00:00"))
+          if next_update <= datetime.now(timezone.utc):
+            raise SystemExit("nextUpdateUtc must be in the future")
+          PY
+      - name: Upload snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: revocation-snapshot
+          path: policies/attestation/revocation-snapshot.json

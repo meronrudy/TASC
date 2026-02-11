@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_SCHEMA_SIGNED_LOG",
+  "targetCheckId": "CHK_SCHEMA_SIGNED_LOG",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_SCHEMA_SIGNED_LOG.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

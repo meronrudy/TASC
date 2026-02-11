@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asc-standard.dev/schemas/conformance-report.schema.json",
+  "title": "TASC Conformance Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tascVerifyVersion",
+    "specVersion",
+    "profile",
+    "policy",
+    "bundleDigest",
+    "result",
+    "checks",
+    "failedChecks"
+  ],
+  "properties": {
+    "tascVerifyVersion": {"type": "string", "minLength": 1},
+    "specVersion": {"type": "string", "minLength": 1},
+    "profile": {"type": "string", "minLength": 1},
+    "policy": {"type": "string", "minLength": 1},
+    "bundleDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "requireTa": {"type": "string", "enum": ["TA0", "TA1", "TA2"]},
+    "requireTransparency": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["rekor", "mirror"]},
+      "uniqueItems": true
+    },
+    "result": {"type": "string", "enum": ["PASS", "FAIL"]},
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "result", "message"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^CHK_[A-Z0-9_]+$"},
+          "result": {"type": "string", "enum": ["PASS", "FAIL"]},
+          "message": {"type": "string"}
+        }
+      }
+    },
+    "failedChecks": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^CHK_[A-Z0-9_]+$"}
+    }
+  }
+}

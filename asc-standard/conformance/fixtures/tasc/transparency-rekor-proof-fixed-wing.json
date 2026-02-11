@@ -1,0 +1,23 @@
+{
+  "proofVersion": "0.2",
+  "logId": "rekor",
+  "logUrl": "https://rekor.sigstore.dev",
+  "entryUuid": "afd01bc1905aa931",
+  "logIndex": 0,
+  "treeSize": 1,
+  "rootHash": "sha256:285520dd931f3ab967189f14d513518909e6426a7d80d3e98de5994ad8c6afbe",
+  "leafHash": "sha256:9f77943f0c346d4314dec69297628c15697f3bd111c61c1753dc360e1692f077",
+  "checkpoint": "rekor\n1\nsha256:285520dd931f3ab967189f14d513518909e6426a7d80d3e98de5994ad8c6afbe\n",
+  "checkpointHash": "sha256:5789cace9146ef79f0dfd00954c902fa04c302ea8a29c67fa0b0f70dc304a0f7",
+  "entryDigest": "sha256:5ee3a0fdc28562b107108aa871ab6eff26b095b2293edfbe1c513fde71cff651",
+  "inclusionPath": [
+    "sha256:a420ef699f7f9ef3595827ef6e18a374a51143abfb3662faaba4c854f32e9960"
+  ],
+  "consistencyPath": [],
+  "inclusionProofHash": "sha256:001d8d60bb7734e731f782c65d26cc59985bb3dccdc4ec6c0d91852aa3be164d",
+  "consistencyProofHash": "sha256:9e1a609ce2681917d3027cb4735a5630eb4a944cc49163631731c8b58c3d4fe4",
+  "integratedTimeUtc": "2026-02-11T21:50:11Z",
+  "signature": "Yeu/9XD+UR5fnJTGec5lRBJVxGu8rym2MqwFZ6/NvwDaJE9LmGg2yHhJItvZIs7N6CKdRSEmnn8zpvS4QA6m5Y3im1IK26rglv2j5bV9GYeBmHrkYfmzbI4gb9h0U78ZmuY0903xRAeTTR9hhzwZiqwWT6VZ8eJuGqCMK6ww045n+aThE1SakydArHQsH07+Za5ttpwMERxUOpjcHW+9eZd/U7L7ZgzsdcSykZhVFLCnwDv3gwaZAKS37Fr53BaIUgdBneDc6VFHrkTReQ19BRTsRtbMMFSI1CnnBGw95Y7Z2T6ACOnCRnmzFrVA0L0JqA665B5Hb+BeDfqs8lJB6w==",
+  "verifiedOffline": true,
+  "source": "live"
+}

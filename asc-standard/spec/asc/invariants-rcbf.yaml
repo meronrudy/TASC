@@ -1,0 +1,10 @@
+version: 1.0.0
+intent: >
+  Hard safety invariants that force deterministic shutdown when violated.
+  These limits are not advisory and are evaluated every control cycle.
+normative_refs:
+  - ASC-KERNEL-INVARIANT-001
+  - ASC-KERNEL-INVARIANT-002
+min_altitude_m: 5.0
+max_bank_deg: 60.0
+require_geofence: true

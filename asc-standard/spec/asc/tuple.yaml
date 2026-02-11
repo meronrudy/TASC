@@ -1,0 +1,14 @@
+version: 0.1.0
+reason_codes:
+  - StateInvalidFrame
+  - StateOutOfBounds
+  - FlowConstraintViolation
+  - EnergyBudgetExceeded
+  - TemporalGuaranteeViolation
+  - InvariantViolation
+  - InputStale
+  - DeadlineMiss
+severities:
+  - Info
+  - Warning
+  - Critical

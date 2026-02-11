@@ -1,0 +1,13 @@
+schema_version: 1
+intent: >
+  Minimal normative audit record contract emitted per kernel evaluation tick.
+  The listed fields are mandatory and order-stable for deterministic replay.
+normative_refs:
+  - ASC-KERNEL-AUDIT-001
+  - ASC-KERNEL-AUDIT-002
+fields:
+  - tick
+  - verdict
+  - reasons
+  - contract_fingerprint
+  - tip_hash

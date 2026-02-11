@@ -1,0 +1,10 @@
+profile: uas-small
+suites:
+  - syntax
+  - semantics
+  - timing
+  - replay
+  - tasc
+vectors:
+  - conformance/vectors/kernel-smoke.json
+assurance_pack_fixture: conformance/fixtures/tasc/tasc-assurance-pack-uas-small.json

@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "allowedIssuers": [
+    "CN=TASC Root CA,O=ASC Standard,C=US"
+  ],
+  "allowedChainDigests": [
+    "sha256:be89777bdef8f83fb48505eac2b9ed0d58ef5514f71b6f854b5d7525d4aeb4af"
+  ],
+  "allowedSignerCertificateDigests": [
+    "sha256:4e0ddb97e8b2f444d24167e8bad41b8189aff14ecf2563eb8b2681c174e518e5"
+  ],
+  "requiredRevocationEndpointPrefix": "https://",
+  "requiredNoncePrefix": "nonce-",
+  "minimumNonceLength": 8,
+  "requiredKeyUsage": [
+    "Digital Signature"
+  ],
+  "trustRootsPath": "policies/attestation/pki/trust-roots.pem",
+  "minimumSignatureAlgorithm": "sha256"
+}

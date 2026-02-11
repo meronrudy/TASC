@@ -1,0 +1,11 @@
+version: 0.1.0
+schemaId: replay-recipe
+requiredDigests:
+  - seedsDigest
+  - buildDigest
+  - configDigest
+  - environmentDigest
+  - containerDigest
+reproducibility:
+  deterministic: true
+  replaySlaHoursMax: 8

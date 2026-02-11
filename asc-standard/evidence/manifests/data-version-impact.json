@@ -1,0 +1,52 @@
+{
+  "gate": "data-version-impact",
+  "impactMap": "data/version-impact-map.yaml",
+  "checksFile": "spec/tasc/checks.yaml",
+  "artifacts": [
+    {
+      "id": "incident-taxonomy",
+      "path": "data/incident-taxonomy/v0.1.yaml",
+      "version": "0.1.0",
+      "sha256": "0f3b2169a03566a15f1414c5f38bcb3f8630559ccce828cbc02b9af270d512c7",
+      "impactedChecks": [
+        "CHK_SCHEMA_INCIDENT_INITIAL",
+        "CHK_SCHEMA_INCIDENT_PACK",
+        "CHK_INCIDENT_WINDOWS_EU"
+      ]
+    },
+    {
+      "id": "logging-schema",
+      "path": "data/logging-schema/v0.1.yaml",
+      "version": "0.1.0",
+      "sha256": "c7c719d0b1091fb9292d09a06d92423467858f0ae222be29489780aa6828353d",
+      "impactedChecks": [
+        "CHK_SCHEMA_SIGNED_LOG",
+        "CHK_LOG_HASH_CHAIN",
+        "CHK_LOG_SIGNATURE",
+        "CHK_RETENTION_EU_MINIMUM"
+      ]
+    },
+    {
+      "id": "replay-taxonomy",
+      "path": "data/replay/v0.1.yaml",
+      "version": "0.1.0",
+      "sha256": "1c2c0b329e980067c4d482c254385b2e581845f6f33270319269a2b268810e67",
+      "impactedChecks": [
+        "CHK_SCHEMA_REPLAY_RECIPE",
+        "CHK_REPLAY_COMPLETENESS"
+      ]
+    },
+    {
+      "id": "retention-policy",
+      "path": "data/retention-policy.md",
+      "version": "0.1.0",
+      "sha256": "8dbda860439e7abcd66038e81e628b257e8aa3c88e6953f73c4a6c6b05bcfc66",
+      "impactedChecks": [
+        "CHK_RETENTION_EU_MINIMUM",
+        "CHK_INCIDENT_WINDOWS_EU"
+      ]
+    }
+  ],
+  "errors": [],
+  "result": "PASS"
+}

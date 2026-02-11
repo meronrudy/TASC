@@ -1,0 +1,11 @@
+{
+  "recipeVersion": "0.1",
+  "profile": "hybrid-vtol",
+  "seedsDigest": "sha256:c6d0348c269d864fba29af9286c6efb169a5f0365acbe5728e88441ba42b0dec",
+  "buildDigest": "sha256:5e71241c5f8c37a2a57c839d995a8686d335d6f80ed0932dffbdbddc486ef351",
+  "configDigest": "sha256:9d15965aead96da3d4e1b20f5728a32352d54d42d23917d8c451d5dc86d299f5",
+  "environmentDigest": "sha256:bf326e812b04e04878322ebcaac3bef37d15cc004ca6e7290627cd6a8f86d636",
+  "containerDigest": "sha256:18ec77ed5514faea790ee70d72ef5dd193afdf0b04cb19017d817ece8362230d",
+  "reproducibilityGuarantee": "Deterministic replay with fixed seeds/build/config/environment digests.",
+  "replaySlaHours": 8
+}

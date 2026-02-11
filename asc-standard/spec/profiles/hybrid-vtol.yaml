@@ -1,0 +1,8 @@
+name: hybrid-vtol
+timing:
+  control_hz: 60
+  deadline_ms: 8
+capabilities:
+  vtol: true
+  fixed_wing: true
+  max_payload_kg: 4.0

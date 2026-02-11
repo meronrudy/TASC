@@ -1,0 +1,18 @@
+name: reproducibility
+on: [push, pull_request]
+jobs:
+  spec-hash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: First generation
+        run: |
+          cargo run --manifest-path tools/specgen/Cargo.toml -- --profile uas-small --repo-root .
+          cp evidence/manifests/spec-hash.txt /tmp/spec-hash-first.txt
+      - name: Second generation
+        run: cargo run --manifest-path tools/specgen/Cargo.toml -- --profile uas-small --repo-root .
+      - name: Assert hash equality
+        run: diff -u /tmp/spec-hash-first.txt evidence/manifests/spec-hash.txt
+      - name: Ensure deterministic outputs
+        run: git diff --exit-code

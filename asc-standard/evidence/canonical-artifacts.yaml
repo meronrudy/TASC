@@ -1,0 +1,17 @@
+version: 0.1.0
+keep:
+  - evidence/manifests/spec-hash.txt
+  - evidence/manifests/tracecheck-report.json
+  - evidence/manifests/replay-drift.json
+  - evidence/manifests/data-version-impact.json
+  - evidence/manifests/governance-policy-gate.json
+  - evidence/manifests/class-a-gate.json
+  - evidence/manifests/canonicalize-report.json
+  - evidence/manifests/hashlock.json
+  - evidence/manifests/releasepack.json
+  - evidence/manifests/releasepack.tgz
+  - evidence/manifests/tasc-assurance-pack-*.json
+  - evidence/manifests/tasc-assurance-pack-*.tgz
+  - evidence/manifests/tasc-assurance-pack-*.tgz.sig
+  - evidence/manifests/tasc-conformance-*.json
+  - evidence/manifests/replay-from-log-*.json

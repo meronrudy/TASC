@@ -1,0 +1,5 @@
+version: 0.1.0
+suite: fault-injection
+description: Negative vectors mapped one-to-one with required check IDs.
+vectorsIndex: conformance/vectors/tasc-negative-index.yaml
+expectedBehavior: each vector fails targetCheckId
