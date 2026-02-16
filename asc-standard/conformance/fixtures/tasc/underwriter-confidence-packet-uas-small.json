@@ -1,0 +1,58 @@
+{
+  "objectType": "underwriter_confidence_packet",
+  "objectName": "Underwriter Confidence Packet",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:e44a49ffaeb7b219e6c845070446587b3dcdd42685d934f1afd00b30f20fe216",
+  "bundleDigest": "sha256:c586ac9aa5d1ed5e64ae94865b6aff09f636f5b06593eba94ee67080cef80993",
+  "signer": {
+    "signerKeyId": "kid:underwriter-confidence-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-02-13T06:49:08Z",
+    "notAfterUtc": "2026-03-15T06:49:08Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:b5f9e70c4fe3710ecbfa761d4c5bed6d86c13fdd77c35d65cc0c56861f2322ba",
+    "signedAtUtc": "2026-02-13T06:49:08Z",
+    "signature": "0Xr8BQWGm0K7dpGt31Yep/W/4tzOrzcmyXKqNsAcA1L9dwW/hnTnDNIkBJc8FD2oSblqv3EDBG2fLjHHqNBOmQyyHK5d8/eswknsdz1o+uB8cEVlsi0SUgDCXy7yGpFM0J2G0ApS+a6E3KmkKhR/fMAh4HGkSgahf/Q0prWOUbKNuBkahrqgNdVQolYwQvL5mQpbs7fbDMIhvGgpIYR+Ef8e4owg4latms01h38GBSHH/a9POJNZsHZHdlQcnOxTmJq2IAq5GJTOK7cF1A9//o4SKdgseSiL6PDJP98V20ZMlWgaHNvT530xJ/uXrBpGLiFuhDjZfsDbV7Qv4D4fIg=="
+  },
+  "artifactRef": {
+    "path": "underwriter-confidence-packet-uas-small.json",
+    "sha256": "sha256:09871937bccf0fd22b5c1e7338c8d2d1525331661093201293e9d05999a2edaa"
+  },
+  "inputs": {
+    "profile": "uas-small",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "underwriterConfidencePacket",
+    "objectType": "underwriter_confidence_packet",
+    "objectName": "Underwriter Confidence Packet",
+    "evidenceMapDigest": "sha256:63f8f2612c9903790ed88e21ace175d094b4dbce787566d8787cbb40d16d13da",
+    "attestationDigest": "sha256:59166cf800545fa177368605cb9fe56f7406aa2e320d3f95c57766d2e4137ca0",
+    "signedOperationalLogRoot": "sha256:3511e71c0a4c216c1b529242a3fae3e458ccff9a54db5ac0338ecf4541326385",
+    "badgeId": "badge-uas-small-active",
+    "requiredTransparency": [
+      "rekor",
+      "mirror"
+    ]
+  }
+}

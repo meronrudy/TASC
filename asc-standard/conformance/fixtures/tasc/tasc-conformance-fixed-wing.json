@@ -1,9 +1,9 @@
 {
   "tascVerifyVersion": "0.1.0",
-  "specVersion": "0.2.0",
+  "specVersion": "0.3.0",
   "profile": "fixed-wing",
   "policy": "eu-north-star",
-  "bundleDigest": "sha256:1e92901fb6de5fd11cd9d9fae51b623deb706150beb0bcc3d896094175c47c6d",
+  "bundleDigest": "sha256:19595d873d3c5620c0dcc553f5f04f400cbc923d5b08328aa8a7c207d64546ed",
   "requireTa": "TA2",
   "requireTransparency": [
     "rekor",
@@ -67,6 +67,51 @@
       "message": "badge entry present | remediation: Include badgeEntry with badgeId, badgeType, and active status fields."
     },
     {
+      "id": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+      "result": "PASS",
+      "message": "procurement objects schema valid for lifecycleStage active | remediation: Add procurementObjects section with all required fields defined in schemas/procurement-object.schema.json."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "result": "PASS",
+      "message": "required procurement object set present for active | remediation: Include Shipment Eligibility Certificate, Underwriter Confidence Packet, Procurement Bid Packet, and conditionally Recycler Intake Passport."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "result": "PASS",
+      "message": "embedded procurement objects match standalone artifacts | remediation: Regenerate standalone procurement object artifacts and ensure artifactRef digests/paths match embedded copies."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "result": "PASS",
+      "message": "procurement object inputHash values verified | remediation: Recompute inputHash from canonicalized inputs and update the signed payload."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "result": "PASS",
+      "message": "procurement object bundleDigest binding verified | remediation: Regenerate procurement objects after final bundle digest is known so bundleDigest fields are accurate."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "result": "PASS",
+      "message": "procurement object signatures validated | remediation: Re-sign procurement object payloads with declared signer material and verify certificate paths exist."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "result": "PASS",
+      "message": "procurement object trust floor TA2 satisfied | remediation: Ensure each procurement object signer declares TA2 and uses PKCS11-backed key source for GA policy."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+      "result": "PASS",
+      "message": "procurement object validity windows are active | remediation: Set notBeforeUtc/notAfterUtc to a valid active interval at verification time."
+    },
+    {
+      "id": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+      "result": "PASS",
+      "message": "recyclerIntakePassport conditional satisfied for lifecycleStage active | remediation: Provide Recycler Intake Passport when lifecycleStage is decommission or recycle; omit otherwise."
+    },
+    {
       "id": "CHK_PROFILE_MATCH",
       "result": "PASS",
       "message": "profile matches fixed-wing | remediation: Regenerate bundle with matching --profile and evidence profile metadata."
@@ -119,7 +164,7 @@
     {
       "id": "CHK_REPLAY_OPERATIONAL_PARITY",
       "result": "PASS",
-      "message": "replay-from-log operational parity verified for fixed-wing"
+      "message": "replay-from-log operational parity verified for fixed-wing | remediation: Re-run runtime mission + replay-from-log so verdict/reasons/tip-hash drift_count is zero."
     },
     {
       "id": "CHK_ATTESTATION_TA2",

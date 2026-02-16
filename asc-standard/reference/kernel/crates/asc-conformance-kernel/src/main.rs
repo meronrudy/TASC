@@ -117,11 +117,15 @@ where
     while let Some(arg) = args.next() {
         match arg.as_str() {
             "--repo-root" => {
-                let value = args.next().ok_or_else(|| anyhow!("missing value for --repo-root"))?;
+                let value = args
+                    .next()
+                    .ok_or_else(|| anyhow!("missing value for --repo-root"))?;
                 repo_root = PathBuf::from(value);
             }
             "--profiles" => {
-                let value = args.next().ok_or_else(|| anyhow!("missing value for --profiles"))?;
+                let value = args
+                    .next()
+                    .ok_or_else(|| anyhow!("missing value for --profiles"))?;
                 profiles = value
                     .split(',')
                     .map(str::trim)
@@ -130,16 +134,21 @@ where
                     .collect::<Vec<_>>();
             }
             "--vectors-dir" => {
-                let value = args.next().ok_or_else(|| anyhow!("missing value for --vectors-dir"))?;
+                let value = args
+                    .next()
+                    .ok_or_else(|| anyhow!("missing value for --vectors-dir"))?;
                 vectors_dir = PathBuf::from(value);
             }
             "--fixtures-dir" => {
-                let value =
-                    args.next().ok_or_else(|| anyhow!("missing value for --fixtures-dir"))?;
+                let value = args
+                    .next()
+                    .ok_or_else(|| anyhow!("missing value for --fixtures-dir"))?;
                 fixtures_dir = PathBuf::from(value);
             }
             "--output" => {
-                let value = args.next().ok_or_else(|| anyhow!("missing value for --output"))?;
+                let value = args
+                    .next()
+                    .ok_or_else(|| anyhow!("missing value for --output"))?;
                 output = PathBuf::from(value);
             }
             "--update-fixtures" => {
@@ -215,10 +224,7 @@ fn run_sequence(
         input.intent.desired_climb_mps += signed_noise(seed, idx, 10, 0.1);
         input.state.bank_deg += signed_noise(seed, idx, 11, 2.0);
         input.state.bank_deg = input.state.bank_deg.clamp(-45.0, 45.0);
-        input.state.input_age_ms = input
-            .state
-            .input_age_ms
-            .saturating_add((idx % 3).min(2));
+        input.state.input_age_ms = input.state.input_age_ms.saturating_add((idx % 3).min(2));
 
         let output = runtime.evaluate(&input);
         last_verdict = Some(format!("{:?}", output.verdict));
@@ -406,8 +412,11 @@ fn main() -> Result<()> {
         fs::create_dir_all(parent)
             .with_context(|| format!("failed creating {}", parent.display()))?;
     }
-    fs::write(&output_path, serde_json::to_string_pretty(&aggregate)? + "\n")
-        .with_context(|| format!("failed writing {}", output_path.display()))?;
+    fs::write(
+        &output_path,
+        serde_json::to_string_pretty(&aggregate)? + "\n",
+    )
+    .with_context(|| format!("failed writing {}", output_path.display()))?;
     println!("report: {}", output_path.display());
 
     if overall_fail {

@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+  "targetCheckId": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_PROCUREMENT_OBJECT_INPUT_HASH.",
+  "mutation": {
+    "operation": "tamper_inputs_hash_binding",
+    "expectedResult": "FAIL"
+  }
+}

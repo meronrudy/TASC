@@ -55,15 +55,14 @@ struct VerifyArgs {
     revocation_snapshot: PathBuf,
     #[arg(long, default_value = "policies/provenance/freshness-policy.yaml")]
     freshness_policy: PathBuf,
-    #[arg(
-        long,
-        default_value = "policies/transparency/verification-policy.yaml"
-    )]
+    #[arg(long, default_value = "policies/transparency/verification-policy.yaml")]
     transparency_policy: PathBuf,
     #[arg(long, default_value = "spec/tasc/remediation.yaml")]
     remediation_file: PathBuf,
     #[arg(long)]
     output: Option<PathBuf>,
+    #[arg(long, default_value_t = false)]
+    legacy_compat: bool,
 }
 
 #[derive(Debug, Args)]
@@ -391,6 +390,73 @@ struct BadgeEntry {
 }
 
 #[derive(Debug, Deserialize)]
+struct ProcurementSigner {
+    #[serde(rename = "signerKeyId")]
+    signer_key_id: String,
+    #[serde(rename = "trustAnchorLevel")]
+    trust_anchor_level: String,
+    #[serde(rename = "keySource")]
+    key_source: String,
+    #[serde(rename = "signerCertificatePath")]
+    signer_certificate_path: String,
+    #[serde(rename = "certificateChainPath")]
+    certificate_chain_path: String,
+    #[serde(rename = "signatureAlgorithm")]
+    signature_algorithm: String,
+    #[serde(rename = "signatureEncoding")]
+    signature_encoding: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProcurementValidity {
+    #[serde(rename = "notBeforeUtc")]
+    not_before_utc: String,
+    #[serde(rename = "notAfterUtc")]
+    not_after_utc: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProcurementVerifierInstructions {
+    command: String,
+    #[serde(rename = "requiredChecks")]
+    required_checks: Vec<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProcurementSignatureEnvelope {
+    #[serde(rename = "payloadDigest")]
+    payload_digest: String,
+    #[serde(rename = "signedAtUtc")]
+    signed_at_utc: String,
+    signature: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProcurementObject {
+    #[serde(rename = "objectType")]
+    object_type: String,
+    #[serde(rename = "objectName")]
+    object_name: String,
+    #[serde(rename = "policyPackId")]
+    policy_pack_id: String,
+    #[serde(rename = "policyPackVersion")]
+    policy_pack_version: String,
+    #[serde(rename = "inputHash")]
+    input_hash: String,
+    #[serde(rename = "bundleDigest")]
+    bundle_digest: String,
+    signer: ProcurementSigner,
+    validity: ProcurementValidity,
+    #[serde(rename = "verifierInstructions")]
+    verifier_instructions: ProcurementVerifierInstructions,
+    #[serde(rename = "signatureEnvelope")]
+    signature_envelope: ProcurementSignatureEnvelope,
+    #[serde(rename = "artifactRef")]
+    artifact_ref: ArtifactRef,
+    inputs: Value,
+}
+
+#[derive(Debug, Deserialize)]
 struct RevocationSnapshot {
     #[serde(default)]
     version: String,
@@ -602,10 +668,7 @@ fn cmd_check_proof(args: CheckProofArgs) -> Result<()> {
     let freshness = FreshnessPolicy {
         max_age_hours: HashMap::new(),
     };
-    let trusted_base = args
-        .trusted_checkpoints
-        .parent()
-        .unwrap_or(Path::new("."));
+    let trusted_base = args.trusted_checkpoints.parent().unwrap_or(Path::new("."));
     let (ok, message) = verify_transparency_proof(
         &proof,
         &trusted_map,
@@ -774,6 +837,21 @@ fn evaluate_check(id: &str, bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, S
             ],
             "badge entry",
         ),
+        "CHK_SCHEMA_PROCUREMENT_OBJECTS" => check_procurement_objects_schema(bundle, ctx),
+        "CHK_PROCUREMENT_OBJECT_REQUIRED_SET" => check_procurement_object_required_set(bundle, ctx),
+        "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY" => {
+            check_procurement_object_artifact_parity(bundle, ctx)
+        }
+        "CHK_PROCUREMENT_OBJECT_INPUT_HASH" => check_procurement_object_input_hash(bundle, ctx),
+        "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING" => {
+            check_procurement_object_bundle_binding(bundle, ctx)
+        }
+        "CHK_PROCUREMENT_OBJECT_SIGNATURE" => check_procurement_object_signature(bundle, ctx),
+        "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR" => check_procurement_object_trust_floor(bundle, ctx),
+        "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW" => {
+            check_procurement_object_validity_window(bundle, ctx)
+        }
+        "CHK_RECYCLER_INTAKE_CONDITIONAL" => check_recycler_intake_conditional(bundle, ctx),
         "CHK_PROFILE_MATCH" => check_bundle_value(bundle, "/profile", &ctx.args.profile, "profile"),
         "CHK_POLICY_MATCH" => check_bundle_value(bundle, "/policy", &ctx.args.policy, "policy"),
         "CHK_TOPOLOGY_INTERLOCK_MEDIATION" => check_interlock_mediation(bundle),
@@ -789,28 +867,24 @@ fn evaluate_check(id: &str, bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, S
         }
         "CHK_ATTESTATION_TA2" => check_attestation(bundle, ctx),
         "CHK_INCIDENT_WINDOWS_EU" => check_incident_windows(bundle),
-        "CHK_TRANSPARENCY_REKOR_PROOF" => {
-            check_named_proof(
-                bundle,
-                ctx.trusted_map,
-                ctx.required_transparency,
-                "rekor",
-                ctx.transparency_policy,
-                ctx.freshness_policy,
-                ctx.bundle_dir,
-            )
-        }
-        "CHK_TRANSPARENCY_MIRROR_PROOF" => {
-            check_named_proof(
-                bundle,
-                ctx.trusted_map,
-                ctx.required_transparency,
-                "mirror",
-                ctx.transparency_policy,
-                ctx.freshness_policy,
-                ctx.bundle_dir,
-            )
-        }
+        "CHK_TRANSPARENCY_REKOR_PROOF" => check_named_proof(
+            bundle,
+            ctx.trusted_map,
+            ctx.required_transparency,
+            "rekor",
+            ctx.transparency_policy,
+            ctx.freshness_policy,
+            ctx.bundle_dir,
+        ),
+        "CHK_TRANSPARENCY_MIRROR_PROOF" => check_named_proof(
+            bundle,
+            ctx.trusted_map,
+            ctx.required_transparency,
+            "mirror",
+            ctx.transparency_policy,
+            ctx.freshness_policy,
+            ctx.bundle_dir,
+        ),
         "CHK_BADGE_ACTIVE_NOT_REVOKED" => check_badge_status(bundle, ctx.registry),
         _ => (false, format!("unknown check id {}", id)),
     }
@@ -1074,20 +1148,26 @@ fn check_log_signature(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String
     if log.schema_version != "0.2" {
         return (
             false,
-            format!("unsupported signedOperationalLog schemaVersion {}", log.schema_version),
+            format!(
+                "unsupported signedOperationalLog schemaVersion {}",
+                log.schema_version
+            ),
         );
     }
     if log.signer_key_id.trim().is_empty() {
-        return (false, "signerKeyId is required for schemaVersion 0.2".into());
-    }
-    if log.signature_algorithm != "rsa-sha256" || log.signature_encoding != "base64" {
         return (
             false,
-            "0.2 log signature must use rsa-sha256/base64".into(),
+            "signerKeyId is required for schemaVersion 0.2".into(),
         );
     }
+    if log.signature_algorithm != "rsa-sha256" || log.signature_encoding != "base64" {
+        return (false, "0.2 log signature must use rsa-sha256/base64".into());
+    }
     if log.signing_time_utc.trim().is_empty() {
-        return (false, "signingTimeUtc is required for schemaVersion 0.2".into());
+        return (
+            false,
+            "signingTimeUtc is required for schemaVersion 0.2".into(),
+        );
     }
     let signer_cert = resolve_artifact_path(&log.signer_certificate_path, ctx.bundle_dir);
     let chain = resolve_artifact_path(&log.certificate_chain_path, ctx.bundle_dir);
@@ -1097,13 +1177,17 @@ fn check_log_signature(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String
         .get("assurance_pack")
         .copied()
         .unwrap_or(168);
-    if let Err(err) = check_file_age_hours(signer_cert.clone(), max_age, "signer certificate freshness")
+    if let Err(err) =
+        check_file_age_hours(signer_cert.clone(), max_age, "signer certificate freshness")
     {
         return (false, err.to_string());
     }
     let trust_roots = resolve_policy_path(&ctx.args.trust_roots, ctx.bundle_dir);
     if !signer_cert.exists() || !chain.exists() || !trust_roots.exists() {
-        return (false, "missing cert/chain/trust roots for log signature".into());
+        return (
+            false,
+            "missing cert/chain/trust roots for log signature".into(),
+        );
     }
     let expected_trust_digest = match sha256_file_prefixed(&trust_roots) {
         Ok(v) => v,
@@ -1120,7 +1204,10 @@ fn check_log_signature(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String
     }
 
     if let Err(err) = verify_certificate_chain(&signer_cert, &chain, &trust_roots) {
-        return (false, format!("certificate chain verification failed: {}", err));
+        return (
+            false,
+            format!("certificate chain verification failed: {}", err),
+        );
     }
     if let Err(err) = verify_signature_base64(&log.root, &log.signature, &signer_cert) {
         return (false, format!("log signature verification failed: {}", err));
@@ -1128,7 +1215,10 @@ fn check_log_signature(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String
     if ctx.args.require_ta == "TA2" && log.key_source != "PKCS11" {
         return (
             false,
-            format!("TA2 log signature requires keySource=PKCS11, got {}", log.key_source),
+            format!(
+                "TA2 log signature requires keySource=PKCS11, got {}",
+                log.key_source
+            ),
         );
     }
 
@@ -1256,10 +1346,7 @@ fn check_replay_operational_parity(
     if result != "PASS" {
         return (
             false,
-            format!(
-                "replay-from-log report result is {}, expected PASS",
-                result
-            ),
+            format!("replay-from-log report result is {}, expected PASS", result),
         );
     }
     let drift_count = replay_payload
@@ -1316,7 +1403,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         return (false, format!("unknown attestation level {}", att.level));
     };
     let Some(required_rank) = level_rank(&ctx.args.require_ta) else {
-        return (false, format!("unknown required TA level {}", ctx.args.require_ta));
+        return (
+            false,
+            format!("unknown required TA level {}", ctx.args.require_ta),
+        );
     };
 
     if found_rank < required_rank {
@@ -1371,13 +1461,16 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         );
     }
     if att.nonce.len() < ctx.attestation_policy.minimum_nonce_length
-        || !att.nonce.starts_with(&ctx.attestation_policy.required_nonce_prefix)
+        || !att
+            .nonce
+            .starts_with(&ctx.attestation_policy.required_nonce_prefix)
     {
         return (
             false,
             format!(
                 "attestation nonce must start with {} and be >= {} chars",
-                ctx.attestation_policy.required_nonce_prefix, ctx.attestation_policy.minimum_nonce_length
+                ctx.attestation_policy.required_nonce_prefix,
+                ctx.attestation_policy.minimum_nonce_length
             ),
         );
     }
@@ -1405,9 +1498,13 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
     }
 
     let trust_roots = resolve_policy_path(&ctx.args.trust_roots, ctx.bundle_dir);
-    let revocation_snapshot_path = resolve_policy_path(&ctx.args.revocation_snapshot, ctx.bundle_dir);
+    let revocation_snapshot_path =
+        resolve_policy_path(&ctx.args.revocation_snapshot, ctx.bundle_dir);
     if !trust_roots.exists() || !revocation_snapshot_path.exists() {
-        return (false, "trust roots or revocation snapshot path missing".into());
+        return (
+            false,
+            "trust roots or revocation snapshot path missing".into(),
+        );
     }
     let trust_roots_digest = match sha256_file_prefixed(&trust_roots) {
         Ok(v) => v,
@@ -1485,7 +1582,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
     }
 
     let signer_cert = if att.signer_certificate_path.is_empty() {
-        resolve_artifact_path("policies/attestation/pki/ta2-signer.cert.pem", ctx.bundle_dir)
+        resolve_artifact_path(
+            "policies/attestation/pki/ta2-signer.cert.pem",
+            ctx.bundle_dir,
+        )
     } else {
         resolve_artifact_path(&att.signer_certificate_path, ctx.bundle_dir)
     };
@@ -1537,7 +1637,11 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
             return (false, format!("attestation signature invalid: {}", err));
         }
     }
-    if !ctx.attestation_policy.allowed_signer_certificate_digests.is_empty() {
+    if !ctx
+        .attestation_policy
+        .allowed_signer_certificate_digests
+        .is_empty()
+    {
         let signer_cert_digest = match sha256_file_prefixed(&signer_cert) {
             Ok(v) => v,
             Err(e) => return (false, format!("failed hashing signer certificate: {}", e)),
@@ -1550,7 +1654,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         {
             return (
                 false,
-                format!("signer certificate digest {} is not allowed", signer_cert_digest),
+                format!(
+                    "signer certificate digest {} is not allowed",
+                    signer_cert_digest
+                ),
             );
         }
     }
@@ -1565,12 +1672,18 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         .iter()
         .any(|revoked| revoked.eq_ignore_ascii_case(&serial))
     {
-        return (false, format!("signer certificate serial {} is revoked", serial));
+        return (
+            false,
+            format!("signer certificate serial {} is revoked", serial),
+        );
     }
     if ctx.revocation_snapshot.generated_at_utc.trim().is_empty()
         || ctx.revocation_snapshot.next_update_utc.trim().is_empty()
     {
-        return (false, "revocation snapshot missing generatedAtUtc/nextUpdateUtc".into());
+        return (
+            false,
+            "revocation snapshot missing generatedAtUtc/nextUpdateUtc".into(),
+        );
     }
     if !ctx.revocation_snapshot.version.is_empty() && ctx.revocation_snapshot.version != "0.3.0" {
         return (
@@ -1585,7 +1698,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         return (false, "revocation snapshot missing snapshotId".into());
     }
     if ctx.revocation_snapshot.source_digests.is_empty() {
-        return (false, "revocation snapshot sourceDigests must not be empty".into());
+        return (
+            false,
+            "revocation snapshot sourceDigests must not be empty".into(),
+        );
     }
     let mut has_crl_source = false;
     let mut has_ocsp_source = false;
@@ -1593,7 +1709,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         if !is_sha_prefixed(digest) {
             return (
                 false,
-                format!("revocation source digest for {} is not sha256-prefixed", source_id),
+                format!(
+                    "revocation source digest for {} is not sha256-prefixed",
+                    source_id
+                ),
             );
         }
         let lowered = source_id.to_lowercase();
@@ -1605,13 +1724,22 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         }
     }
     if !has_crl_source {
-        return (false, "revocation snapshot must include at least one CRL source digest".into());
+        return (
+            false,
+            "revocation snapshot must include at least one CRL source digest".into(),
+        );
     }
     if !has_ocsp_source {
-        return (false, "revocation snapshot must include at least one OCSP source digest".into());
+        return (
+            false,
+            "revocation snapshot must include at least one OCSP source digest".into(),
+        );
     }
     if ctx.revocation_snapshot.ocsp_statuses.is_empty() {
-        return (false, "revocation snapshot ocspStatuses must not be empty".into());
+        return (
+            false,
+            "revocation snapshot ocspStatuses must not be empty".into(),
+        );
     }
     for (idx, status) in ctx.revocation_snapshot.ocsp_statuses.iter().enumerate() {
         if status.source_id.trim().is_empty()
@@ -1620,7 +1748,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         {
             return (
                 false,
-                format!("ocspStatuses[{}] missing sourceId/certSerial/checkedAtUtc", idx),
+                format!(
+                    "ocspStatuses[{}] missing sourceId/certSerial/checkedAtUtc",
+                    idx
+                ),
             );
         }
         match status.status.as_str() {
@@ -1670,7 +1801,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
     snapshot_id_obj.remove("signatureAlgorithm");
     snapshot_id_obj.remove("signerCertPath");
     let snapshot_id_payload = Value::Object(snapshot_id_obj);
-    let snapshot_id_expected = format!("sha256:{}", sha256_hex_str(&canonical_json(&snapshot_id_payload)));
+    let snapshot_id_expected = format!(
+        "sha256:{}",
+        sha256_hex_str(&canonical_json(&snapshot_id_payload))
+    );
     if snapshot_id_expected != ctx.revocation_snapshot.snapshot_id {
         return (
             false,
@@ -1719,10 +1853,16 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
     };
     let now = Utc::now();
     if generated_at > next_update {
-        return (false, "revocation snapshot generatedAtUtc is after nextUpdateUtc".into());
+        return (
+            false,
+            "revocation snapshot generatedAtUtc is after nextUpdateUtc".into(),
+        );
     }
     if now > next_update {
-        return (false, "revocation snapshot nextUpdateUtc has expired".into());
+        return (
+            false,
+            "revocation snapshot nextUpdateUtc has expired".into(),
+        );
     }
     if att.signing_time_utc.trim().is_empty() {
         return (false, "attestation signingTimeUtc is required".into());
@@ -1732,7 +1872,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
         Err(e) => return (false, format!("invalid attestation signingTimeUtc: {}", e)),
     };
     if att_signing_time > now {
-        return (false, "attestation signingTimeUtc cannot be in the future".into());
+        return (
+            false,
+            "attestation signingTimeUtc cannot be in the future".into(),
+        );
     }
     if att_signing_time < generated_at {
         return (
@@ -1749,7 +1892,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
             if !usage.contains(required_usage) {
                 return (
                     false,
-                    format!("required certificate key usage {} not present", required_usage),
+                    format!(
+                        "required certificate key usage {} not present",
+                        required_usage
+                    ),
                 );
             }
         }
@@ -1819,7 +1965,10 @@ fn check_attestation(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) 
     if att.level == "TA2" && att.key_source != "PKCS11" {
         return (
             false,
-            format!("TA2 attestation requires keySource=PKCS11, got {}", att.key_source),
+            format!(
+                "TA2 attestation requires keySource=PKCS11, got {}",
+                att.key_source
+            ),
         );
     }
 
@@ -1879,7 +2028,10 @@ fn check_named_proof(
     bundle_dir: &Path,
 ) -> (bool, String) {
     if !policy.required_logs.is_empty() && !policy.required_logs.iter().any(|log| log == expected) {
-        return (true, format!("{} not required by transparency policy", expected));
+        return (
+            true,
+            format!("{} not required by transparency policy", expected),
+        );
     }
     if !required_transparency.iter().any(|log| log == expected) {
         return (true, format!("{} not required by invocation", expected));
@@ -1905,7 +2057,11 @@ fn check_named_proof(
     let declared_bundle_digest = bundle
         .pointer("/lineage/assurancePackDigest")
         .and_then(Value::as_str)
-        .or_else(|| bundle.pointer("/conformanceReport/bundleDigest").and_then(Value::as_str));
+        .or_else(|| {
+            bundle
+                .pointer("/conformanceReport/bundleDigest")
+                .and_then(Value::as_str)
+        });
 
     if expected == "mirror" && policy.require_mirror_parity {
         let rekor_digest = bundle
@@ -1943,10 +2099,16 @@ fn verify_transparency_proof(
     freshness_policy: &FreshnessPolicy,
     bundle_dir: &Path,
 ) -> (bool, String) {
-    if !proof.proof_version.is_empty() && proof.proof_version != "0.1" && proof.proof_version != "0.2" {
+    if !proof.proof_version.is_empty()
+        && proof.proof_version != "0.1"
+        && proof.proof_version != "0.2"
+    {
         return (
             false,
-            format!("unsupported proofVersion {} for {}", proof.proof_version, expected_log),
+            format!(
+                "unsupported proofVersion {} for {}",
+                proof.proof_version, expected_log
+            ),
         );
     }
     if proof.log_id != expected_log {
@@ -2021,10 +2183,7 @@ fn verify_transparency_proof(
         }
     }
     if !proof.source.is_empty() && proof.source != "live" && proof.source != "local" {
-        return (
-            false,
-            format!("unsupported proof source {}", proof.source),
-        );
+        return (false, format!("unsupported proof source {}", proof.source));
     }
     if !proof.integrated_time_utc.is_empty() && !proof.integrated_time_utc.ends_with('Z') {
         return (
@@ -2161,14 +2320,20 @@ fn verify_transparency_proof(
     if let Err(err) = verify_certificate_chain(&signer_cert, &chain, &trust_roots) {
         return (
             false,
-            format!("transparency signer chain invalid for {}: {}", expected_log, err),
+            format!(
+                "transparency signer chain invalid for {}: {}",
+                expected_log, err
+            ),
         );
     }
     let payload = transparency_signature_payload(proof);
     if let Err(err) = verify_signature_base64(&payload, &proof.signature, &signer_cert) {
         return (
             false,
-            format!("transparency signature invalid for {}: {}", expected_log, err),
+            format!(
+                "transparency signature invalid for {}: {}",
+                expected_log, err
+            ),
         );
     }
     if policy.require_entry_digest_matches_bundle {
@@ -2183,7 +2348,12 @@ fn verify_transparency_proof(
                     ),
                 )
             }
-            None => return (false, "declared bundle digest missing for proof binding".into()),
+            None => {
+                return (
+                    false,
+                    "declared bundle digest missing for proof binding".into(),
+                )
+            }
         }
     }
     if policy.max_checkpoint_age_hours > 0 {
@@ -2195,7 +2365,10 @@ fn verify_transparency_proof(
         if parsed > now {
             return (
                 false,
-                format!("integratedTimeUtc {} cannot be in the future", proof.integrated_time_utc),
+                format!(
+                    "integratedTimeUtc {} cannot be in the future",
+                    proof.integrated_time_utc
+                ),
             );
         }
         let age_hours = now.signed_duration_since(parsed).num_hours();
@@ -2218,6 +2391,712 @@ fn verify_transparency_proof(
     (
         true,
         format!("{} transparency proof verified", expected_log),
+    )
+}
+
+fn procurement_object_specs() -> [(&'static str, &'static str, &'static str); 4] {
+    [
+        (
+            "shipmentEligibilityCertificate",
+            "shipment_eligibility_certificate",
+            "Shipment Eligibility Certificate",
+        ),
+        (
+            "underwriterConfidencePacket",
+            "underwriter_confidence_packet",
+            "Underwriter Confidence Packet",
+        ),
+        (
+            "procurementBidPacket",
+            "procurement_bid_packet",
+            "Procurement Bid Packet",
+        ),
+        (
+            "recyclerIntakePassport",
+            "recycler_intake_passport",
+            "Recycler Intake Passport",
+        ),
+    ]
+}
+
+fn procurement_ga_version_gate(bundle: &Value, ctx: &VerifyContext<'_>) -> Option<(bool, String)> {
+    let version = bundle
+        .pointer("/assurancePackVersion")
+        .and_then(Value::as_str)
+        .unwrap_or_default();
+    if version == "0.2" {
+        if ctx.args.legacy_compat {
+            return Some((
+                true,
+                "legacy-compat mode enabled: skipping GA 0.3 procurement-object enforcement for 0.2 pack"
+                    .into(),
+            ));
+        }
+        return Some((
+            false,
+            "assurancePackVersion 0.3 required for procurement-object checks (0.2 accepted only with --legacy-compat)"
+                .into(),
+        ));
+    }
+    if version != "0.3" {
+        return Some((
+            false,
+            format!(
+                "unsupported assurancePackVersion {} for procurement-object checks (expected 0.3)",
+                version
+            ),
+        ));
+    }
+    None
+}
+
+fn procurement_objects_map(bundle: &Value) -> Result<serde_json::Map<String, Value>> {
+    let Some(value) = bundle.pointer("/procurementObjects").cloned() else {
+        bail!("missing procurementObjects");
+    };
+    let Some(map) = value.as_object() else {
+        bail!("procurementObjects must be an object");
+    };
+    Ok(map.clone())
+}
+
+fn lifecycle_stage(bundle: &Value) -> Result<String> {
+    let Some(stage) = bundle
+        .pointer("/releaseContext/lifecycleStage")
+        .and_then(Value::as_str)
+    else {
+        bail!("missing releaseContext.lifecycleStage");
+    };
+    match stage {
+        "active" | "maintenance" | "decommission" | "recycle" => Ok(stage.to_string()),
+        _ => bail!("invalid lifecycleStage {}", stage),
+    }
+}
+
+fn is_recycler_required(stage: &str) -> bool {
+    matches!(stage, "decommission" | "recycle")
+}
+
+fn parse_procurement_object(bundle: &Value, key: &str) -> Result<ProcurementObject> {
+    let pointer = format!("/procurementObjects/{}", key);
+    let Some(value) = bundle.pointer(&pointer).cloned() else {
+        bail!("missing procurement object {}", key);
+    };
+    serde_json::from_value(value).with_context(|| format!("invalid procurement object {}", key))
+}
+
+fn procurement_signature_payload_value(object: &ProcurementObject) -> Value {
+    serde_json::json!({
+        "objectType": object.object_type,
+        "objectName": object.object_name,
+        "policyPackId": object.policy_pack_id,
+        "policyPackVersion": object.policy_pack_version,
+        "inputHash": object.input_hash,
+        "bundleDigest": object.bundle_digest,
+        "signer": {
+            "signerKeyId": object.signer.signer_key_id,
+            "trustAnchorLevel": object.signer.trust_anchor_level,
+            "keySource": object.signer.key_source,
+            "signerCertificatePath": object.signer.signer_certificate_path,
+            "certificateChainPath": object.signer.certificate_chain_path,
+            "signatureAlgorithm": object.signer.signature_algorithm,
+            "signatureEncoding": object.signer.signature_encoding,
+        },
+        "validity": {
+            "notBeforeUtc": object.validity.not_before_utc,
+            "notAfterUtc": object.validity.not_after_utc,
+        },
+        "verifierInstructions": {
+            "command": object.verifier_instructions.command,
+            "requiredChecks": object.verifier_instructions.required_checks,
+        },
+        "artifactRef": {
+            "path": object.artifact_ref.path,
+            "sha256": object.artifact_ref.sha256,
+        },
+        "inputs": object.inputs,
+    })
+}
+
+fn check_procurement_objects_schema(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+
+    let stage = match lifecycle_stage(bundle) {
+        Ok(value) => value,
+        Err(err) => return (false, err.to_string()),
+    };
+    let objects_map = match procurement_objects_map(bundle) {
+        Ok(value) => value,
+        Err(err) => return (false, err.to_string()),
+    };
+    let specs = procurement_object_specs();
+    for (key, expected_type, expected_name) in specs {
+        let Some(raw) = objects_map.get(key) else {
+            continue;
+        };
+        let parsed: ProcurementObject = match serde_json::from_value(raw.clone()) {
+            Ok(value) => value,
+            Err(err) => {
+                return (
+                    false,
+                    format!("invalid procurement object {}: {}", key, err),
+                )
+            }
+        };
+        if parsed.object_type != expected_type {
+            return (
+                false,
+                format!(
+                    "procurement object {} type mismatch (expected {}, got {})",
+                    key, expected_type, parsed.object_type
+                ),
+            );
+        }
+        if parsed.object_name != expected_name {
+            return (
+                false,
+                format!(
+                    "procurement object {} name mismatch (expected {}, got {})",
+                    key, expected_name, parsed.object_name
+                ),
+            );
+        }
+        if parsed.policy_pack_id.trim().is_empty() || parsed.policy_pack_version.trim().is_empty() {
+            return (
+                false,
+                format!(
+                    "procurement object {} missing policyPackId/policyPackVersion",
+                    key
+                ),
+            );
+        }
+        if parsed.signer.signer_key_id.trim().is_empty() {
+            return (
+                false,
+                format!("procurement object {} signer.signerKeyId is required", key),
+            );
+        }
+        if parsed.verifier_instructions.command.trim().is_empty()
+            || parsed.verifier_instructions.required_checks.is_empty()
+        {
+            return (
+                false,
+                format!(
+                    "procurement object {} verifierInstructions command/requiredChecks invalid",
+                    key
+                ),
+            );
+        }
+        if parsed.signature_envelope.signed_at_utc.trim().is_empty()
+            || parsed.signature_envelope.signature.trim().is_empty()
+        {
+            return (
+                false,
+                format!(
+                    "procurement object {} signatureEnvelope missing signedAtUtc/signature",
+                    key
+                ),
+            );
+        }
+        if !is_sha_prefixed(&parsed.input_hash) || !is_sha_prefixed(&parsed.bundle_digest) {
+            return (
+                false,
+                format!(
+                    "procurement object {} inputHash/bundleDigest must be sha256-prefixed",
+                    key
+                ),
+            );
+        }
+    }
+
+    if is_recycler_required(&stage) && !objects_map.contains_key("recyclerIntakePassport") {
+        return (
+            false,
+            format!(
+                "lifecycleStage {} requires recyclerIntakePassport procurement object",
+                stage
+            ),
+        );
+    }
+
+    (
+        true,
+        format!(
+            "procurement objects schema valid for lifecycleStage {}",
+            stage
+        ),
+    )
+}
+
+fn check_procurement_object_required_set(
+    bundle: &Value,
+    ctx: &VerifyContext<'_>,
+) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+    let stage = match lifecycle_stage(bundle) {
+        Ok(value) => value,
+        Err(err) => return (false, err.to_string()),
+    };
+    let objects_map = match procurement_objects_map(bundle) {
+        Ok(value) => value,
+        Err(err) => return (false, err.to_string()),
+    };
+
+    for required in [
+        "shipmentEligibilityCertificate",
+        "underwriterConfidencePacket",
+        "procurementBidPacket",
+    ] {
+        if !objects_map.contains_key(required) {
+            return (
+                false,
+                format!("required procurement object {} is missing", required),
+            );
+        }
+    }
+    if is_recycler_required(&stage) && !objects_map.contains_key("recyclerIntakePassport") {
+        return (
+            false,
+            format!(
+                "lifecycleStage {} requires recyclerIntakePassport procurement object",
+                stage
+            ),
+        );
+    }
+    (
+        true,
+        format!("required procurement object set present for {}", stage),
+    )
+}
+
+fn check_procurement_object_artifact_parity(
+    bundle: &Value,
+    ctx: &VerifyContext<'_>,
+) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+    let objects_map = match procurement_objects_map(bundle) {
+        Ok(value) => value,
+        Err(err) => return (false, err.to_string()),
+    };
+    let specs = procurement_object_specs();
+    for (key, _, _) in specs {
+        let Some(embedded_value) = objects_map.get(key) else {
+            continue;
+        };
+        let object: ProcurementObject = match serde_json::from_value(embedded_value.clone()) {
+            Ok(value) => value,
+            Err(err) => {
+                return (
+                    false,
+                    format!("invalid procurement object {}: {}", key, err),
+                )
+            }
+        };
+        let standalone_path = resolve_artifact_path(&object.artifact_ref.path, ctx.bundle_dir);
+        if !standalone_path.exists() {
+            return (
+                false,
+                format!(
+                    "standalone procurement object artifact missing for {} at {}",
+                    key,
+                    standalone_path.display()
+                ),
+            );
+        }
+        let standalone: Value = match read_json(&standalone_path) {
+            Ok(value) => value,
+            Err(err) => {
+                return (
+                    false,
+                    format!(
+                        "failed reading standalone procurement object {} at {}: {}",
+                        key,
+                        standalone_path.display(),
+                        err
+                    ),
+                )
+            }
+        };
+        let digest = procurement_artifact_digest(&standalone);
+        if digest != object.artifact_ref.sha256 {
+            return (
+                false,
+                format!(
+                    "artifactRef.sha256 mismatch for {} (expected {}, got {})",
+                    key, object.artifact_ref.sha256, digest
+                ),
+            );
+        }
+        let embedded_canonical = canonical_json_sorted(embedded_value);
+        let standalone_canonical = canonical_json_sorted(&standalone);
+        if embedded_canonical != standalone_canonical {
+            return (
+                false,
+                format!(
+                    "embedded and standalone procurement object mismatch for {}",
+                    key
+                ),
+            );
+        }
+    }
+    (
+        true,
+        "embedded procurement objects match standalone artifacts".into(),
+    )
+}
+
+fn check_procurement_object_input_hash(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+    for (key, _, _) in procurement_object_specs() {
+        let object = match parse_procurement_object(bundle, key) {
+            Ok(value) => value,
+            Err(_) => continue,
+        };
+        let expected = format!(
+            "sha256:{}",
+            sha256_hex_str(&canonical_json_sorted(&object.inputs))
+        );
+        if expected != object.input_hash {
+            return (
+                false,
+                format!(
+                    "inputHash mismatch for {} (expected {}, got {})",
+                    key, expected, object.input_hash
+                ),
+            );
+        }
+    }
+    (true, "procurement object inputHash values verified".into())
+}
+
+fn check_procurement_object_bundle_binding(
+    bundle: &Value,
+    ctx: &VerifyContext<'_>,
+) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+    let declared_bundle_digest = bundle
+        .pointer("/lineage/assurancePackDigest")
+        .and_then(Value::as_str)
+        .or_else(|| {
+            bundle
+                .pointer("/conformanceReport/bundleDigest")
+                .and_then(Value::as_str)
+        });
+    let Some(declared_bundle_digest) = declared_bundle_digest else {
+        return (
+            false,
+            "missing declared assurance pack digest for bundle binding".into(),
+        );
+    };
+    if !is_sha_prefixed(declared_bundle_digest) {
+        return (
+            false,
+            format!(
+                "declared assurance pack digest is not sha256-prefixed: {}",
+                declared_bundle_digest
+            ),
+        );
+    }
+    for (key, _, _) in procurement_object_specs() {
+        let object = match parse_procurement_object(bundle, key) {
+            Ok(value) => value,
+            Err(_) => continue,
+        };
+        if object.bundle_digest != declared_bundle_digest {
+            return (
+                false,
+                format!(
+                    "bundleDigest mismatch for {} (expected {}, got {})",
+                    key, declared_bundle_digest, object.bundle_digest
+                ),
+            );
+        }
+    }
+    (
+        true,
+        "procurement object bundleDigest binding verified".into(),
+    )
+}
+
+fn check_procurement_object_signature(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+    let trust_roots = resolve_policy_path(&ctx.args.trust_roots, ctx.bundle_dir);
+    if !trust_roots.exists() {
+        return (
+            false,
+            format!(
+                "trust roots file missing for procurement object signature checks: {}",
+                trust_roots.display()
+            ),
+        );
+    }
+
+    for (key, _, _) in procurement_object_specs() {
+        let object = match parse_procurement_object(bundle, key) {
+            Ok(value) => value,
+            Err(_) => continue,
+        };
+        if object.signer.signature_algorithm != "rsa-sha256"
+            || object.signer.signature_encoding != "base64"
+        {
+            return (
+                false,
+                format!(
+                    "unsupported signature settings for {}: {}/{}",
+                    key, object.signer.signature_algorithm, object.signer.signature_encoding
+                ),
+            );
+        }
+        if object.signature_envelope.payload_digest.trim().is_empty()
+            || object.signature_envelope.signature.trim().is_empty()
+        {
+            return (
+                false,
+                format!(
+                    "signatureEnvelope payloadDigest/signature is required for {}",
+                    key
+                ),
+            );
+        }
+        if !is_sha_prefixed(&object.signature_envelope.payload_digest) {
+            return (
+                false,
+                format!(
+                    "signatureEnvelope.payloadDigest for {} must be sha256-prefixed",
+                    key
+                ),
+            );
+        }
+        let signed_at = match parse_utc(&object.signature_envelope.signed_at_utc) {
+            Ok(value) => value,
+            Err(err) => {
+                return (
+                    false,
+                    format!("invalid signatureEnvelope.signedAtUtc for {}: {}", key, err),
+                )
+            }
+        };
+        if signed_at > Utc::now() {
+            return (
+                false,
+                format!(
+                    "signatureEnvelope.signedAtUtc for {} cannot be in the future",
+                    key
+                ),
+            );
+        }
+
+        let payload_value = procurement_signature_payload_value(&object);
+        let expected_payload_digest = format!(
+            "sha256:{}",
+            sha256_hex_str(&canonical_json_sorted(&payload_value))
+        );
+        if expected_payload_digest != object.signature_envelope.payload_digest {
+            return (
+                false,
+                format!(
+                    "signatureEnvelope.payloadDigest mismatch for {} (expected {}, got {})",
+                    key, expected_payload_digest, object.signature_envelope.payload_digest
+                ),
+            );
+        }
+
+        let signer_cert =
+            resolve_artifact_path(&object.signer.signer_certificate_path, ctx.bundle_dir);
+        let chain = resolve_artifact_path(&object.signer.certificate_chain_path, ctx.bundle_dir);
+        if !signer_cert.exists() || !chain.exists() {
+            return (
+                false,
+                format!(
+                    "signer certificate chain material missing for {} (cert {}, chain {})",
+                    key,
+                    signer_cert.display(),
+                    chain.display()
+                ),
+            );
+        }
+        if let Err(err) = verify_certificate_chain(&signer_cert, &chain, &trust_roots) {
+            return (
+                false,
+                format!("certificate chain verification failed for {}: {}", key, err),
+            );
+        }
+        if let Err(err) = verify_signature_base64(
+            &object.signature_envelope.payload_digest,
+            &object.signature_envelope.signature,
+            &signer_cert,
+        ) {
+            return (
+                false,
+                format!("signature verification failed for {}: {}", key, err),
+            );
+        }
+    }
+    (true, "procurement object signatures validated".into())
+}
+
+fn check_procurement_object_trust_floor(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+    let level_rank = |level: &str| match level {
+        "TA0" => Some(0),
+        "TA1" => Some(1),
+        "TA2" => Some(2),
+        _ => None,
+    };
+    let Some(required_rank) = level_rank(&ctx.args.require_ta) else {
+        return (
+            false,
+            format!("unknown required TA level {}", ctx.args.require_ta),
+        );
+    };
+    for (key, _, _) in procurement_object_specs() {
+        let object = match parse_procurement_object(bundle, key) {
+            Ok(value) => value,
+            Err(_) => continue,
+        };
+        let Some(found_rank) = level_rank(&object.signer.trust_anchor_level) else {
+            return (
+                false,
+                format!(
+                    "unknown trustAnchorLevel {} for {}",
+                    object.signer.trust_anchor_level, key
+                ),
+            );
+        };
+        if found_rank < required_rank {
+            return (
+                false,
+                format!(
+                    "trustAnchorLevel {} for {} below required {}",
+                    object.signer.trust_anchor_level, key, ctx.args.require_ta
+                ),
+            );
+        }
+        if ctx.args.require_ta == "TA2" && object.signer.key_source != "PKCS11" {
+            return (
+                false,
+                format!(
+                    "TA2 floor requires signer.keySource=PKCS11 for {} (got {})",
+                    key, object.signer.key_source
+                ),
+            );
+        }
+    }
+    (
+        true,
+        format!(
+            "procurement object trust floor {} satisfied",
+            ctx.args.require_ta
+        ),
+    )
+}
+
+fn check_procurement_object_validity_window(
+    bundle: &Value,
+    ctx: &VerifyContext<'_>,
+) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+    let now = Utc::now();
+    for (key, _, _) in procurement_object_specs() {
+        let object = match parse_procurement_object(bundle, key) {
+            Ok(value) => value,
+            Err(_) => continue,
+        };
+        let not_before = match parse_utc(&object.validity.not_before_utc) {
+            Ok(value) => value,
+            Err(err) => return (false, format!("invalid notBeforeUtc for {}: {}", key, err)),
+        };
+        let not_after = match parse_utc(&object.validity.not_after_utc) {
+            Ok(value) => value,
+            Err(err) => return (false, format!("invalid notAfterUtc for {}: {}", key, err)),
+        };
+        if not_before > not_after {
+            return (
+                false,
+                format!(
+                    "validity window invalid for {}: notBeforeUtc is after notAfterUtc",
+                    key
+                ),
+            );
+        }
+        if now < not_before {
+            return (
+                false,
+                format!(
+                    "validity window not active for {}: current time is before notBeforeUtc",
+                    key
+                ),
+            );
+        }
+        if now > not_after {
+            return (
+                false,
+                format!(
+                    "validity window expired for {}: current time is after notAfterUtc",
+                    key
+                ),
+            );
+        }
+    }
+    (
+        true,
+        "procurement object validity windows are active".into(),
+    )
+}
+
+fn check_recycler_intake_conditional(bundle: &Value, ctx: &VerifyContext<'_>) -> (bool, String) {
+    if let Some(result) = procurement_ga_version_gate(bundle, ctx) {
+        return result;
+    }
+    let stage = match lifecycle_stage(bundle) {
+        Ok(value) => value,
+        Err(err) => return (false, err.to_string()),
+    };
+    let objects_map = match procurement_objects_map(bundle) {
+        Ok(value) => value,
+        Err(err) => return (false, err.to_string()),
+    };
+    let has_recycler = objects_map.contains_key("recyclerIntakePassport");
+    if is_recycler_required(&stage) && !has_recycler {
+        return (
+            false,
+            format!(
+                "recyclerIntakePassport required for lifecycleStage {}",
+                stage
+            ),
+        );
+    }
+    if !is_recycler_required(&stage) && has_recycler {
+        return (
+            true,
+            format!(
+                "recyclerIntakePassport provided for optional lifecycleStage {}",
+                stage
+            ),
+        );
+    }
+    (
+        true,
+        format!(
+            "recyclerIntakePassport conditional satisfied for lifecycleStage {}",
+            stage
+        ),
     )
 }
 
@@ -2288,6 +3167,60 @@ fn canonical_json(value: &Value) -> String {
     serde_json::to_string(value).unwrap_or_else(|_| "{}".to_string())
 }
 
+fn canonicalize_sorted(value: &Value) -> Value {
+    match value {
+        Value::Object(map) => {
+            let mut keys = map.keys().cloned().collect::<Vec<_>>();
+            keys.sort();
+            let mut out = serde_json::Map::new();
+            for key in keys {
+                if let Some(entry) = map.get(&key) {
+                    out.insert(key, canonicalize_sorted(entry));
+                }
+            }
+            Value::Object(out)
+        }
+        Value::Array(items) => Value::Array(items.iter().map(canonicalize_sorted).collect()),
+        _ => value.clone(),
+    }
+}
+
+fn canonical_json_sorted(value: &Value) -> String {
+    serde_json::to_string(&canonicalize_sorted(value)).unwrap_or_else(|_| "{}".to_string())
+}
+
+fn procurement_artifact_digest(value: &Value) -> String {
+    let mut normalized = value.clone();
+    if let Some(root) = normalized.as_object_mut() {
+        if let Some(artifact_ref) = root.get_mut("artifactRef").and_then(Value::as_object_mut) {
+            artifact_ref.insert(
+                "sha256".to_string(),
+                Value::String(
+                    "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+                        .to_string(),
+                ),
+            );
+        }
+        if let Some(signature_envelope) = root
+            .get_mut("signatureEnvelope")
+            .and_then(Value::as_object_mut)
+        {
+            signature_envelope.insert(
+                "payloadDigest".to_string(),
+                Value::String(
+                    "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+                        .to_string(),
+                ),
+            );
+            signature_envelope.insert("signature".to_string(), Value::String(String::new()));
+        }
+    }
+    format!(
+        "sha256:{}",
+        sha256_hex_str(&canonical_json_sorted(&normalized))
+    )
+}
+
 fn is_sha_prefixed(value: &str) -> bool {
     value.starts_with("sha256:")
         && value.len() == 71
@@ -2356,7 +3289,13 @@ fn temp_path(prefix: &str, extension: &str) -> PathBuf {
         .duration_since(SystemTime::UNIX_EPOCH)
         .map(|d| d.as_nanos())
         .unwrap_or(0);
-    std::env::temp_dir().join(format!("{}-{}-{}.{}", prefix, std::process::id(), nanos, extension))
+    std::env::temp_dir().join(format!(
+        "{}-{}-{}.{}",
+        prefix,
+        std::process::id(),
+        nanos,
+        extension
+    ))
 }
 
 fn verify_signature_base64(payload: &str, signature_b64: &str, signer_cert: &Path) -> Result<()> {
@@ -2369,7 +3308,8 @@ fn verify_signature_base64(payload: &str, signature_b64: &str, signer_cert: &Pat
     let pubkey_path = temp_path("tasc-pubkey", "pem");
     fs::write(&payload_path, payload.as_bytes())
         .with_context(|| format!("failed writing {}", payload_path.display()))?;
-    fs::write(&sig_path, sig_bytes).with_context(|| format!("failed writing {}", sig_path.display()))?;
+    fs::write(&sig_path, sig_bytes)
+        .with_context(|| format!("failed writing {}", sig_path.display()))?;
 
     let extract = Command::new("openssl")
         .args(["x509", "-in"])

@@ -1,318 +1,176 @@
 {
-  "hashlockVersion": "0.2.0",
-  "generatedAtUtc": "2026-02-11T18:15:05.353006+00:00",
   "entries": [
     {
-      "path": "evidence/manifests/.gitkeep",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sizeBytes": 0,
-      "mtimeUtc": "2026-02-11T12:54:03.412130+00:00"
+      "path": "evidence/manifests/canonicalize-report.json",
+      "sha256": "bbaae7bffcdc4a205ad30669523e5d8e432cf7c778569c75f5f624ffbd249b9c",
+      "sizeBytes": 5647
     },
     {
-      "path": "evidence/manifests/api-contract-check.json",
-      "sha256": "c63c451b7cc8ab9fdc6c48c2bedb656dce50c6360b77cf1f713fd3fec718043b",
-      "sizeBytes": 101,
-      "mtimeUtc": "2026-02-11T12:54:03.412182+00:00"
+      "path": "evidence/manifests/class-a-gate.json",
+      "sha256": "ed93a56ef9bd627ad943937f6809c4989b4d71822de4a440edfe1e8d475ca75d",
+      "sizeBytes": 24739
     },
     {
-      "path": "evidence/manifests/attestation-ta2-fixed-wing.json",
-      "sha256": "0be655fb9275eb95177c1e390e10e0f902b1a4d366f031e832ad2ad3218698c5",
-      "sizeBytes": 1733,
-      "mtimeUtc": "2026-02-11T18:14:24.832129+00:00"
+      "path": "evidence/manifests/data-version-impact.json",
+      "sha256": "c4965648ee5e2f13437b539dca62604cfeae5fc5481aa2df3e6d937b28e799b7",
+      "sizeBytes": 1489
     },
     {
-      "path": "evidence/manifests/attestation-ta2-hybrid-vtol.json",
-      "sha256": "c5b01c6a92efc1facb3f5465b66969edd671bb09074d02dbbab28cb768a84b93",
-      "sizeBytes": 1736,
-      "mtimeUtc": "2026-02-11T18:14:25.176552+00:00"
-    },
-    {
-      "path": "evidence/manifests/attestation-ta2-uas-small.json",
-      "sha256": "3b30ce5ceac6c3f1ec73cd40e7c92cc59a7173f6563ca1a0457226dd25a0e91d",
-      "sizeBytes": 1730,
-      "mtimeUtc": "2026-02-11T18:14:24.174948+00:00"
+      "path": "evidence/manifests/governance-policy-gate.json",
+      "sha256": "9b6b3af40fae31c6dc3bce894c595aa1788a0e9ae7798f669888b08a230faed6",
+      "sizeBytes": 1640
     },
     {
       "path": "evidence/manifests/hashlock.json",
-      "sha256": "b919ed79c553636c64dabbed722a83360b673a266478fd9126ce0b0cb2aaad0d",
-      "sizeBytes": 12650,
-      "mtimeUtc": "2026-02-11T18:14:25.494661+00:00"
+      "sha256": "0a39661d5f2861dcec26cb15e2a80251d042a2fa589a1fd0d2211fb7f3032914",
+      "sizeBytes": 15674
     },
     {
-      "path": "evidence/manifests/kernel-test-fixed-wing.json",
-      "sha256": "515bef9f5a48a6690ac9cb2b197bd591f310153d456e6f141479f25961c78025",
-      "sizeBytes": 87,
-      "mtimeUtc": "2026-02-11T18:14:24.808873+00:00"
+      "path": "evidence/manifests/procurement-bid-packet-fixed-wing.json",
+      "sha256": "4408f20580e40aa49b538ea4dbff42c58d86a302987191729a2052ad8d75c773",
+      "sizeBytes": 2686
     },
     {
-      "path": "evidence/manifests/kernel-test-hybrid-vtol.json",
-      "sha256": "6090c57644e189c4eae39516700d2313880c5808b57c12a8cc27c2e032018d9a",
-      "sizeBytes": 88,
-      "mtimeUtc": "2026-02-11T18:14:25.153431+00:00"
+      "path": "evidence/manifests/procurement-bid-packet-hybrid-vtol.json",
+      "sha256": "3a3faf4b581dc4f066783caec19666c2d69613ca3e19b3bde0c7f3e37dec221a",
+      "sizeBytes": 2689
     },
     {
-      "path": "evidence/manifests/kernel-test-uas-small.json",
-      "sha256": "da41f607b7f177edd9df59c33ca1d7a8242942859c77d133350c028955ae701f",
-      "sizeBytes": 86,
-      "mtimeUtc": "2026-02-11T18:14:24.149715+00:00"
-    },
-    {
-      "path": "evidence/manifests/kernel-test.json",
-      "sha256": "b7aca52d8639a81eddcc45232706dc6b23ed9e8ac0e2c2bd5c33c55cf7fb4901",
-      "sizeBytes": 60,
-      "mtimeUtc": "2026-02-11T13:40:16.588023+00:00"
+      "path": "evidence/manifests/procurement-bid-packet-uas-small.json",
+      "sha256": "fbcbca058ab43c7d40c6cd778ee2e7f8e05c13632da2b2d72c4325518b66cf0a",
+      "sizeBytes": 2683
     },
     {
       "path": "evidence/manifests/releasepack.json",
-      "sha256": "983eae80167735aed5cdd72d4fd1fbe9e24e487285baf82a1a0dda8646904cfe",
-      "sizeBytes": 871,
-      "mtimeUtc": "2026-02-11T18:10:40.449484+00:00"
+      "sha256": "f74dc183b69a715ee3cc674b113785d0d5fa06de0f73695f387b85b5341bebaa",
+      "sizeBytes": 2418
     },
     {
       "path": "evidence/manifests/releasepack.tgz",
-      "sha256": "f1b43ca734764ee4c96100209e530d5d65f8b436ad17dc1e910d2b88b568282c",
-      "sizeBytes": 12637,
-      "mtimeUtc": "2026-02-11T18:10:40.449215+00:00"
+      "sha256": "3d0e97c80951010b91b5f7f984269b91f81cfceed6f250113f2246bf7e894e21",
+      "sizeBytes": 45244
     },
     {
-      "path": "evidence/manifests/replay-determinism-fixed-wing.json",
-      "sha256": "294b78c11049b29d510d87ccc9f3ebccdf26ac10364c209c99fd3ff4c942534d",
-      "sizeBytes": 110,
-      "mtimeUtc": "2026-02-11T18:14:24.808935+00:00"
+      "path": "evidence/manifests/replay-drift.json",
+      "sha256": "08e49d18f2ecea1ced32668137c32fbc1031bc31821186afe8771b7de8a4a562",
+      "sizeBytes": 2142
     },
     {
-      "path": "evidence/manifests/replay-determinism-hybrid-vtol.json",
-      "sha256": "954b81b13276dc50623b3da7801c70d52f44d11f7f39edb58399eca2b90b458f",
-      "sizeBytes": 111,
-      "mtimeUtc": "2026-02-11T18:14:25.153486+00:00"
+      "path": "evidence/manifests/replay-from-log-fixed-wing.json",
+      "sha256": "27698bb93758b61eb79ccf3d67a64c87f513168439e94a73da206a2e7a6162a2",
+      "sizeBytes": 151
     },
     {
-      "path": "evidence/manifests/replay-determinism-uas-small.json",
-      "sha256": "0acab97a8106f15b743821ea651f44ab9569e07f819cdcfcc47c382513069c22",
-      "sizeBytes": 109,
-      "mtimeUtc": "2026-02-11T18:14:24.149765+00:00"
+      "path": "evidence/manifests/replay-from-log-hybrid-vtol.json",
+      "sha256": "0f756be643379b01aca6163f7d04e903128d20eb329fae6dc9fcf333a1359e03",
+      "sizeBytes": 153
     },
     {
-      "path": "evidence/manifests/replay-determinism.json",
-      "sha256": "a5570754e44e5504fb54a40f9c607961df4bbdbeb17fdfe70da106a9b1f37b25",
-      "sizeBytes": 82,
-      "mtimeUtc": "2026-02-11T13:40:16.590632+00:00"
+      "path": "evidence/manifests/replay-from-log-uas-small.json",
+      "sha256": "bfa5be37e8630e8abd4a341b001cd1bcbe5efd52092f41c67db57f76701b9bd3",
+      "sizeBytes": 149
     },
     {
-      "path": "evidence/manifests/replay-recipe-fixed-wing.json",
-      "sha256": "5cf5f58e3ec0957ef77b42a6349cd69cc55cdd7a89fa2e019ab583c0bbe7e37f",
-      "sizeBytes": 655,
-      "mtimeUtc": "2026-02-11T18:14:24.832042+00:00"
+      "path": "evidence/manifests/shipment-eligibility-certificate-fixed-wing.json",
+      "sha256": "f85129f30ba0a34c8d9eff7d2ae388616dfda32ed00671d80ca5de181fb403f1",
+      "sizeBytes": 2751
     },
     {
-      "path": "evidence/manifests/replay-recipe-hybrid-vtol.json",
-      "sha256": "09cf99a7f9095726dd8e2b604b42f25379d10a36078338ace24d6aa6cf10801b",
-      "sizeBytes": 656,
-      "mtimeUtc": "2026-02-11T18:14:25.176466+00:00"
+      "path": "evidence/manifests/shipment-eligibility-certificate-hybrid-vtol.json",
+      "sha256": "440b5e4cb9c65bdfae2f2910e136c86146b4e2577ff7db49683a3f82bf8616eb",
+      "sizeBytes": 2754
     },
     {
-      "path": "evidence/manifests/replay-recipe-uas-small.json",
-      "sha256": "c0af27a2121984abe00d8892c905c1d9ce06f85387b9164802affc3a1f91276e",
-      "sizeBytes": 654,
-      "mtimeUtc": "2026-02-11T18:14:24.174888+00:00"
-    },
-    {
-      "path": "evidence/manifests/signed-operational-log-fixed-wing.json",
-      "sha256": "066698d9a94c38e7e27494b2761add9056a16fdd7adc4b7cf693ce54346df1f5",
-      "sizeBytes": 1962,
-      "mtimeUtc": "2026-02-11T18:14:24.831933+00:00"
-    },
-    {
-      "path": "evidence/manifests/signed-operational-log-hybrid-vtol.json",
-      "sha256": "ba58d0b8e8ef44e1ff2afc1ca7170fea744e569a05f83e0b355ae4b15018e9c2",
-      "sizeBytes": 1963,
-      "mtimeUtc": "2026-02-11T18:14:25.176355+00:00"
-    },
-    {
-      "path": "evidence/manifests/signed-operational-log-uas-small.json",
-      "sha256": "f9d269d5e94d2fbd91e11f1826871da93cfd3a5c02afb08e343b6ff360bcda53",
-      "sizeBytes": 1961,
-      "mtimeUtc": "2026-02-11T18:14:24.174808+00:00"
-    },
-    {
-      "path": "evidence/manifests/spec-hash-fixed-wing.txt",
-      "sha256": "938240cc916a6e00a3bb4cac4f14b118e94c4a58dd98c82628ee333fdd3a9339",
-      "sizeBytes": 65,
-      "mtimeUtc": "2026-02-11T18:14:24.808723+00:00"
-    },
-    {
-      "path": "evidence/manifests/spec-hash-hybrid-vtol.txt",
-      "sha256": "938240cc916a6e00a3bb4cac4f14b118e94c4a58dd98c82628ee333fdd3a9339",
-      "sizeBytes": 65,
-      "mtimeUtc": "2026-02-11T18:14:25.153290+00:00"
-    },
-    {
-      "path": "evidence/manifests/spec-hash-uas-small.txt",
-      "sha256": "938240cc916a6e00a3bb4cac4f14b118e94c4a58dd98c82628ee333fdd3a9339",
-      "sizeBytes": 65,
-      "mtimeUtc": "2026-02-11T18:14:24.149585+00:00"
+      "path": "evidence/manifests/shipment-eligibility-certificate-uas-small.json",
+      "sha256": "1f8ff253da96f604f77e588ad874d8ce6edf13a449f193a3bdd58110763eacfc",
+      "sizeBytes": 2748
     },
     {
       "path": "evidence/manifests/spec-hash.txt",
       "sha256": "938240cc916a6e00a3bb4cac4f14b118e94c4a58dd98c82628ee333fdd3a9339",
-      "sizeBytes": 65,
-      "mtimeUtc": "2026-02-11T16:45:21.122840+00:00"
+      "sizeBytes": 65
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-fixed-wing.json",
-      "sha256": "748aaffe8580cf5441e3d8c8e005e98c6f915381505a6926a34d34bd95d3a046",
-      "sizeBytes": 20119,
-      "mtimeUtc": "2026-02-11T18:14:25.107653+00:00"
+      "sha256": "e2f6e209c0dfe3f374126241c4985e6d36db0f12be3b2ef2c4ea37a5d44ee1b9",
+      "sizeBytes": 37478
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-fixed-wing.tgz",
-      "sha256": "1a8a2cf442ada06809e89cd7a39677ee9f957a87efbc3d060e0ad66c896455a4",
-      "sizeBytes": 9433,
-      "mtimeUtc": "2026-02-11T18:14:25.111007+00:00"
+      "sha256": "5e36158fd8256bca39d57f1f30e0a490a165f64dbf0c62899d8140e43b3696e4",
+      "sizeBytes": 35593
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-fixed-wing.tgz.sig",
-      "sha256": "5259db902e45b387ad5a6941cc885c4d60a57c9adba440f0175c83cce2450881",
-      "sizeBytes": 345,
-      "mtimeUtc": "2026-02-11T18:14:25.117288+00:00"
+      "sha256": "81c62a8f75d448e36289de0e3e4091569d342dc0f6d8cd66ebfa391598248e13",
+      "sizeBytes": 345
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-hybrid-vtol.json",
-      "sha256": "87b9dd0ea2485adb9e85ab3e47802210e241124af68d72c69c918678c2c48922",
-      "sizeBytes": 20141,
-      "mtimeUtc": "2026-02-11T18:14:25.451944+00:00"
+      "sha256": "96861719d2bf3c7b74296f0654ad2605f7cd1c3654f2a8a7e4af931de4e40deb",
+      "sizeBytes": 37781
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-hybrid-vtol.tgz",
-      "sha256": "8df6a4d7621eaea1da0d380494bb1fc6c2bde3a7c4de5e49d9a1b16898423e6f",
-      "sizeBytes": 9439,
-      "mtimeUtc": "2026-02-11T18:14:25.455322+00:00"
+      "sha256": "dc9942cd839dcef8da7765efc7e1a74ae2bd4919f9151bddd03a53dfba465989",
+      "sizeBytes": 35753
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-hybrid-vtol.tgz.sig",
-      "sha256": "f5108697ebaf2776f643d7395dc37098656738f6e199984bd3dfeef1b9e05f86",
-      "sizeBytes": 345,
-      "mtimeUtc": "2026-02-11T18:14:25.462372+00:00"
+      "sha256": "80018a73152bfd4b82baf624020528871363b9a9e7a60bcefb11e821e2044c35",
+      "sizeBytes": 345
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-uas-small.json",
-      "sha256": "0c17cc5c43e916d583d905bff81757b5b37a50ea137dc162e187b06ce0957da1",
-      "sizeBytes": 20097,
-      "mtimeUtc": "2026-02-11T18:14:24.759583+00:00"
+      "sha256": "465d83dd5ea97e0578e033c5d7f48a0953bbfcf8b4ada5cbaccf803c49c411e6",
+      "sizeBytes": 37507
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-uas-small.tgz",
-      "sha256": "58ac3e2f748dfcc2b1b27f97f831ef83a38b3981718dbffa088afe644bc0d19f",
-      "sizeBytes": 9431,
-      "mtimeUtc": "2026-02-11T18:14:24.763637+00:00"
+      "sha256": "443903728e6559da170c70a9799455cac31dbb2ebcc97fea0e3b8b4d137d25dc",
+      "sizeBytes": 35638
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-uas-small.tgz.sig",
-      "sha256": "b5022e9c40ecc0e91083e32324c69a2e849824960c67d298c238680f6648b28b",
-      "sizeBytes": 345,
-      "mtimeUtc": "2026-02-11T18:14:24.770403+00:00"
-    },
-    {
-      "path": "evidence/manifests/tasc-assurance-pack.json",
-      "sha256": "2f275b40fc3248d2edd480dca9545a8fdd4d59d7fb428b76612352281665cabc",
-      "sizeBytes": 15077,
-      "mtimeUtc": "2026-02-11T16:46:39.352860+00:00"
-    },
-    {
-      "path": "evidence/manifests/tasc-assurance-pack.tgz",
-      "sha256": "bcc3bab99d82331b6bf71f199ed8fb6f36e24a443284975693464a89b5932912",
-      "sizeBytes": 5714,
-      "mtimeUtc": "2026-02-11T16:46:39.356262+00:00"
-    },
-    {
-      "path": "evidence/manifests/tasc-assurance-pack.tgz.sig",
-      "sha256": "285f44738115519591ab25e823c133e38dbd5ff93f6fd31f14b71a2a3c7d82f6",
-      "sizeBytes": 77,
-      "mtimeUtc": "2026-02-11T16:46:39.356577+00:00"
+      "sha256": "a11c5472e1682e825b5575e5f38ed8f0c0f94a1787789075a03f70b127b0f8d8",
+      "sizeBytes": 345
     },
     {
       "path": "evidence/manifests/tasc-conformance-fixed-wing.json",
-      "sha256": "a027a866d4f7864b62fa64a39b07d682771f95d6872a3fbb942cdf63072edeb9",
-      "sizeBytes": 5927,
-      "mtimeUtc": "2026-02-11T18:14:25.107012+00:00"
+      "sha256": "8e3d4236cd8e6bcb47ec671b56aaeb7fc5cc1be7e7c832c59855dba8c055f835",
+      "sizeBytes": 8664
     },
     {
       "path": "evidence/manifests/tasc-conformance-hybrid-vtol.json",
-      "sha256": "13f88c18469e83ae7e0f74cb2828923535845fc9c82425a4785533e595ac01c5",
-      "sizeBytes": 5930,
-      "mtimeUtc": "2026-02-11T18:14:25.451319+00:00"
+      "sha256": "f332632069bf76c730cb965e0464898d3b71090cf2131d0210c3ab225bbf68a0",
+      "sizeBytes": 8668
     },
     {
       "path": "evidence/manifests/tasc-conformance-uas-small.json",
-      "sha256": "c2dbb3b8b7e3383261758f06efbdcc4c7948ea97234bd23376349988d68ca67e",
-      "sizeBytes": 5924,
-      "mtimeUtc": "2026-02-11T18:14:24.758900+00:00"
-    },
-    {
-      "path": "evidence/manifests/temporal-guarantee-fixed-wing.json",
-      "sha256": "e51525dbae9e5852127b55d71fe7f832cb7a670ce6a7ce62418d5f00688cbe4b",
-      "sizeBytes": 156,
-      "mtimeUtc": "2026-02-11T18:14:24.808995+00:00"
-    },
-    {
-      "path": "evidence/manifests/temporal-guarantee-hybrid-vtol.json",
-      "sha256": "4370939634e3449432bd6da270c474258a3d059dfc9b54418306190f6b54e3e8",
-      "sizeBytes": 157,
-      "mtimeUtc": "2026-02-11T18:14:25.153533+00:00"
-    },
-    {
-      "path": "evidence/manifests/temporal-guarantee-uas-small.json",
-      "sha256": "7c6deff407bef4a064a0b0b74b302979766cddc4877609cb29287798724e460e",
-      "sizeBytes": 155,
-      "mtimeUtc": "2026-02-11T18:14:24.149816+00:00"
-    },
-    {
-      "path": "evidence/manifests/temporal-guarantee.json",
-      "sha256": "d448bed5bd5256bfe63893313050319f40324df2e8df503a054c95d0b980610d",
-      "sizeBytes": 117,
-      "mtimeUtc": "2026-02-11T13:40:16.592778+00:00"
+      "sha256": "a62edabcc125dfcf55d4cf02ed89e0932fcbc43ce13fc8c69da5b89bf087e958",
+      "sizeBytes": 8660
     },
     {
       "path": "evidence/manifests/tracecheck-report.json",
       "sha256": "7ef2db8177b70d6efb95baa7ba71e55153151d28235c6d85df9828c16dbef061",
-      "sizeBytes": 187,
-      "mtimeUtc": "2026-02-11T13:42:38.032354+00:00"
+      "sizeBytes": 187
     },
     {
-      "path": "evidence/manifests/transparency-mirror-proof-fixed-wing.json",
-      "sha256": "f37bd6c4772a0993484d0e6eef36bd5e98a7dd065e9aaf82acde577d9953e478",
-      "sizeBytes": 557,
-      "mtimeUtc": "2026-02-11T16:46:20.073523+00:00"
+      "path": "evidence/manifests/underwriter-confidence-packet-fixed-wing.json",
+      "sha256": "f4f6660f771581bb81cf85658a55c2d98d5fcf0f2d4ab95d5411c2ed66d314c6",
+      "sizeBytes": 2735
     },
     {
-      "path": "evidence/manifests/transparency-mirror-proof-hybrid-vtol.json",
-      "sha256": "723b87c3ed9a16d30f5795929249c2289bc6cadd29ce3b2b7555dc17823c84a5",
-      "sizeBytes": 557,
-      "mtimeUtc": "2026-02-11T16:46:20.310744+00:00"
+      "path": "evidence/manifests/underwriter-confidence-packet-hybrid-vtol.json",
+      "sha256": "b6da5fc65d97a683b4ee990dfeab7fd11a167b5cb57f5d9e8ddb12d16aab813f",
+      "sizeBytes": 2738
     },
     {
-      "path": "evidence/manifests/transparency-mirror-proof-uas-small.json",
-      "sha256": "05de14d0c74530b866bfb66c38897d27313722a71505560b06522a48c1450b40",
-      "sizeBytes": 557,
-      "mtimeUtc": "2026-02-11T16:46:39.124369+00:00"
-    },
-    {
-      "path": "evidence/manifests/transparency-rekor-proof-fixed-wing.json",
-      "sha256": "6fac0732eb4c5d936b473a9560cc6e6484c643aa76462ce0e141ac2640152762",
-      "sizeBytes": 555,
-      "mtimeUtc": "2026-02-11T16:46:20.073472+00:00"
-    },
-    {
-      "path": "evidence/manifests/transparency-rekor-proof-hybrid-vtol.json",
-      "sha256": "f37fb92fc32be5f425644dbf1a65904672c854e83a762a25ee403f47261edde0",
-      "sizeBytes": 555,
-      "mtimeUtc": "2026-02-11T16:46:20.310692+00:00"
-    },
-    {
-      "path": "evidence/manifests/transparency-rekor-proof-uas-small.json",
-      "sha256": "c2f462714dcb84004fc16b430025bee7661560e788b229e9f5cce2f7da7baa57",
-      "sizeBytes": 555,
-      "mtimeUtc": "2026-02-11T16:46:39.124316+00:00"
+      "path": "evidence/manifests/underwriter-confidence-packet-uas-small.json",
+      "sha256": "64ea26b01e51a1f5a2ce95b42ecaff796358b44b520316de7869535eda221b52",
+      "sizeBytes": 2732
     }
-  ]
+  ],
+  "entriesDigest": "sha256:cf33a1508739eb6dbe6486c4513b871e86e36eb6d8c09f73a0605f0813ce70fb",
+  "hashlockVersion": "0.3.0"
 }

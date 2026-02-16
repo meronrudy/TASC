@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from threading import Lock
+from threading import RLock
 from typing import Any
 from urllib.parse import urlparse
 
@@ -82,7 +82,8 @@ class MirrorStore:
         self.storage_dir = storage_dir
         self.log_id = log_id
         self.entries_file = storage_dir / "entries.jsonl"
-        self.lock = Lock()
+        # proof_for() calls checkpoint(), so we need a re-entrant lock to avoid self-deadlock.
+        self.lock = RLock()
         storage_dir.mkdir(parents=True, exist_ok=True)
         self.entries: list[dict[str, Any]] = self._load_entries()
 
@@ -130,13 +131,14 @@ class MirrorStore:
         checkpoint = self.checkpoint()
         idx = int(record["logIndex"])
         inclusion = inclusion_path(leaf_nodes, idx)
+        consistency: list[str] = []
         inclusion_material = json.dumps(
-            {"path": inclusion, "leaf": leaf_nodes[idx], "root": checkpoint["rootHash"]},
+            {"hashes": inclusion, "rootHash": checkpoint["rootHash"]},
             sort_keys=True,
             separators=(",", ":"),
         ).encode("utf-8")
         consistency_material = json.dumps(
-            {"treeSize": checkpoint["treeSize"], "root": checkpoint["rootHash"]},
+            {"hashes": consistency, "rootHash": checkpoint["rootHash"]},
             sort_keys=True,
             separators=(",", ":"),
         ).encode("utf-8")
@@ -151,7 +153,7 @@ class MirrorStore:
             "rootHash": checkpoint["rootHash"],
             "leafHash": leaf_nodes[idx],
             "inclusionPath": inclusion,
-            "consistencyPath": [],
+            "consistencyPath": consistency,
             "checkpoint": checkpoint["checkpoint"],
             "checkpointHash": checkpoint["checkpointHash"],
             "inclusionProofHash": sha_prefixed(inclusion_material),

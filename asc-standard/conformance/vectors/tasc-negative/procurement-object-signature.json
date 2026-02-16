@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_PROCUREMENT_OBJECT_SIGNATURE",
+  "targetCheckId": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_PROCUREMENT_OBJECT_SIGNATURE.",
+  "mutation": {
+    "operation": "tamper_signature",
+    "expectedResult": "FAIL"
+  }
+}

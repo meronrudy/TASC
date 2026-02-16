@@ -1,0 +1,21 @@
+{
+  "artifactRefs": {
+    "Attestation": "sha256:23b4130b487476f872dd2cbc3e4fde6073eea931aa5c0f2f29adeb0197fb78cc",
+    "CorrectiveActionPlan": "sha256:35b0eacbd36d2a6ff6ff59b1bccfd5245ef35383c304d285b61dcb528563d96c",
+    "EvidenceMap": "sha256:ff16e0863f0e148256e423074aeb7556b2eaefcf839c445dc9f1d7d5593323ff",
+    "ReplayBundle": "sha256:e69ef45f4b04118bdb6e2ce9df2c481bd330125a8bc47042a61545c77aac0c6d",
+    "SignedOperationalLog": "sha256:0809311546e2353760968143a3f34163b49ab51229e631b292ccbefc798ec8d3"
+  },
+  "fullPackSlaDays": 10,
+  "initialRef": "sha256:ff16e0863f0e148256e423074aeb7556b2eaefcf839c445dc9f1d7d5593323ff",
+  "requiredArtifacts": [
+    "EvidenceMap",
+    "SignedOperationalLog",
+    "TransparencyProofs",
+    "ReplayBundle",
+    "ConfigurationBaseline",
+    "CorrectiveActionPlan"
+  ],
+  "templateId": "tasc-incident-pack-v0.1",
+  "timestampUtc": "2026-02-13T06:54:36Z"
+}

@@ -14,4 +14,8 @@ keep:
   - evidence/manifests/tasc-assurance-pack-*.tgz
   - evidence/manifests/tasc-assurance-pack-*.tgz.sig
   - evidence/manifests/tasc-conformance-*.json
+  - evidence/manifests/shipment-eligibility-certificate-*.json
+  - evidence/manifests/underwriter-confidence-packet-*.json
+  - evidence/manifests/procurement-bid-packet-*.json
+  - evidence/manifests/recycler-intake-passport-*.json
   - evidence/manifests/replay-from-log-*.json

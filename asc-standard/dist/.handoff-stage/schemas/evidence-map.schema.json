@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asc-standard.dev/schemas/evidence-map.schema.json",
+  "title": "TASC EvidenceMap",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidenceMapVersion",
+    "system",
+    "tasc",
+    "topology",
+    "runtimeSafety",
+    "logs",
+    "attestation",
+    "replay",
+    "incident"
+  ],
+  "properties": {
+    "evidenceMapVersion": {
+      "type": "string",
+      "pattern": "^0\\.1$"
+    },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["systemId", "releaseId", "gitCommit", "build"],
+      "properties": {
+        "systemId": {"type": "string", "minLength": 1},
+        "releaseId": {"type": "string", "minLength": 1},
+        "gitCommit": {"type": "string", "pattern": "^[a-f0-9]{7,64}$"},
+        "build": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["buildSystem", "artifactDigest", "configDigest"],
+          "properties": {
+            "buildSystem": {"type": "string", "minLength": 1},
+            "artifactDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+            "configDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+          }
+        }
+      }
+    },
+    "tasc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["specVersion", "profile", "verifier"],
+      "properties": {
+        "specVersion": {"type": "string", "minLength": 1},
+        "profile": {"type": "string", "minLength": 1},
+        "verifier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": {"type": "string", "const": "tasc-verify"},
+            "version": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "topology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["graphDigest", "nodes", "edges", "conformanceAssertions"],
+      "properties": {
+        "graphDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "nodes": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "type"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "type": {
+                "type": "string",
+                "enum": [
+                  "autonomy_planner",
+                  "safety_kernel",
+                  "interlock_gate",
+                  "actuator_integrator",
+                  "sensor_bus",
+                  "operator_console"
+                ]
+              },
+              "defaultClosed": {"type": "boolean"}
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to", "signal"],
+            "properties": {
+              "from": {"type": "string", "minLength": 1},
+              "to": {"type": "string", "minLength": 1},
+              "signal": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "conformanceAssertions": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "claim", "status", "proofRef"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^A[0-9]{3}$"},
+              "claim": {"type": "string", "minLength": 1},
+              "status": {"type": "string", "enum": ["proven", "failed", "unknown"]},
+              "proofRef": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+            }
+          }
+        }
+      }
+    },
+    "runtimeSafety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["heartbeat", "safeStateDefinition"],
+      "properties": {
+        "heartbeat": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["minHz", "failToSafeWithinMs"],
+          "properties": {
+            "minHz": {"type": "integer", "minimum": 1},
+            "failToSafeWithinMs": {"type": "integer", "minimum": 1}
+          }
+        },
+        "safeStateDefinition": {"type": "string", "minLength": 1}
+      }
+    },
+    "logs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "signedMerkleLog", "retentionPolicy"],
+      "properties": {
+        "schemaVersion": {"type": "string", "pattern": "^0\\.1$"},
+        "signedMerkleLog": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["root", "signature", "signerKeyId"],
+          "properties": {
+            "root": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+            "signature": {"type": "string", "minLength": 8},
+            "signerKeyId": {"type": "string", "minLength": 1}
+          }
+        },
+        "retentionPolicy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["minimumMonths", "operatorPolicyMonths"],
+          "properties": {
+            "minimumMonths": {"type": "integer", "minimum": 0},
+            "operatorPolicyMonths": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "evidenceRef"],
+      "properties": {
+        "level": {"type": "string", "enum": ["TA0", "TA1", "TA2"]},
+        "evidenceRef": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recipeRef",
+        "containerDigest",
+        "inputsDigest",
+        "seedsDigest",
+        "configDigest",
+        "buildDigest",
+        "environmentDigest"
+      ],
+      "properties": {
+        "recipeRef": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "containerDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "inputsDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "seedsDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "configDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "buildDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "environmentDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    },
+    "incident": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ontologyVersion", "templates", "reportingWindowsDays"],
+      "properties": {
+        "ontologyVersion": {"type": "string", "pattern": "^0\\.1$"},
+        "templates": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "reportingWindowsDays": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["standard", "widespread", "fatal"],
+          "properties": {
+            "standard": {"type": "integer", "minimum": 1},
+            "widespread": {"type": "integer", "minimum": 1},
+            "fatal": {"type": "integer", "minimum": 1}
+          }
+        }
+      }
+    }
+  }
+}

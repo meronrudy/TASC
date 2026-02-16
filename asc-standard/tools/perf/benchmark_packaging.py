@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import time
 from pathlib import Path
@@ -48,7 +49,17 @@ def main() -> int:
 
     repo_root = Path(args.repo_root).resolve()
     profiles = [p.strip() for p in args.profiles.split(",") if p.strip()]
+
+    # Assurance packs embed the current hashlock digest in lineage; refresh once
+    # before measurement so releasepack checks compare against the same digest.
+    run_cmd(
+        ["python3", "tools/hashlock/hashlock.py", "--repo-root", "."],
+        repo_root,
+        "hashlock preflight",
+    )
+
     assurance_profile_reports = []
+    latest_profile_artifacts: dict[str, tuple[Path, Path]] = {}
     for profile in profiles:
         samples = []
         for iteration in range(args.iterations):
@@ -94,9 +105,21 @@ def main() -> int:
             if args.pkcs11_module:
                 cmd.extend(["--pkcs11-module", args.pkcs11_module])
             samples.append(run_cmd(cmd, repo_root, f"assurancepack {profile}"))
+            latest_profile_artifacts[profile] = (
+                out,
+                out.parent / f"tasc-conformance-{profile}.json",
+            )
         assurance_profile_reports.append(
             {"profile": profile, "samplesSeconds": samples, "p95Seconds": p95(samples)}
         )
+
+    # releasepack validates canonical evidence/manifests profile paths; sync from
+    # the latest benchmark-generated artifacts before timing releasepack itself.
+    evidence_dir = repo_root / "evidence/manifests"
+    evidence_dir.mkdir(parents=True, exist_ok=True)
+    for profile, (pack_path, conformance_path) in latest_profile_artifacts.items():
+        shutil.copy2(pack_path, evidence_dir / f"tasc-assurance-pack-{profile}.json")
+        shutil.copy2(conformance_path, evidence_dir / f"tasc-conformance-{profile}.json")
 
     releasepack_samples = []
     for _ in range(args.iterations):

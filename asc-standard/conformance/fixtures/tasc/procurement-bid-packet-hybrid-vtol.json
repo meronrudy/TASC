@@ -1,0 +1,58 @@
+{
+  "objectType": "procurement_bid_packet",
+  "objectName": "Procurement Bid Packet",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:d5e15cff89676231077ccd562eba80cd9e84a6d521fdfa704dcab9c72c6229d6",
+  "bundleDigest": "sha256:c32d49f6e35b0fb996c9c1d8bff0d9fab76d5241fd5990a9709849fc5ef15bf2",
+  "signer": {
+    "signerKeyId": "kid:procurement-bid-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-02-13T06:49:14Z",
+    "notAfterUtc": "2026-03-15T06:49:14Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:78bb2ce7e67ab0b5e434aed84bd0261b2a7ceb6e553b6cc863cf8ad4a6fe149c",
+    "signedAtUtc": "2026-02-13T06:49:14Z",
+    "signature": "DlvXdHrDnPD6jCb/nuxdPlJVGs10JKbjUXSaDscPC3YUzMa7psLmTyoY9mPqrxhwXOhCtQO6RqE4exsgCh+vgzvsFNXJBO9vfRkdE7WrlGgNBnyFxmdEhF/B74e7tlsiKpBIoZOYUrBcML8Ydt5B0eKpX79h6O+1KpGoi/bilarD1idxUMDB+izMjb7Ke4vTijWJ3n3gSCcVqeqIA5ErCPyRXdFUjr5DTrB51VZbWgeuMoBOeKZgaSGlWImTMmAh/mqB4zAU/4cOC0C5Fq/+1Qqw7sDICVZD4NgqRXaXgM6AxVOdTLobUblGGOpuxYkuV1R4OUNok1JigRLw16K/pw=="
+  },
+  "artifactRef": {
+    "path": "procurement-bid-packet-hybrid-vtol.json",
+    "sha256": "sha256:6cb6350c5a5453761bb6b0428ea94c8d68c6aaae575456c10f2c87f446e42f53"
+  },
+  "inputs": {
+    "profile": "hybrid-vtol",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "procurementBidPacket",
+    "objectType": "procurement_bid_packet",
+    "objectName": "Procurement Bid Packet",
+    "evidenceMapDigest": "sha256:93149e4a137180e1a542919a3d6d99a657c4a41332d8d538986efaa6b289d52f",
+    "attestationDigest": "sha256:ed6de18fb18d45104fbff22374f1ac55db3e1e6113e9116ec676928da3f2a7f9",
+    "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
+    "badgeId": "badge-hybrid-vtol-active",
+    "requiredTransparency": [
+      "rekor",
+      "mirror"
+    ]
+  }
+}

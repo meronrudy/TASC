@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+  "targetCheckId": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY.",
+  "mutation": {
+    "operation": "mismatch_embedded_standalone",
+    "expectedResult": "FAIL"
+  }
+}

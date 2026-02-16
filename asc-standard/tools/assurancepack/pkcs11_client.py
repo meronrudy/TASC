@@ -203,8 +203,14 @@ def compose_chain_file(
     chain_output_path: Path,
     intermediate_chain_path: Path | None,
 ) -> Path:
-    chunks = [signer_cert_pem_path.read_text(encoding="utf-8").strip()]
+    signer_text = signer_cert_pem_path.read_text(encoding="utf-8").strip()
+    chunks = [signer_text]
     if intermediate_chain_path and intermediate_chain_path.exists():
-        chunks.append(intermediate_chain_path.read_text(encoding="utf-8").strip())
+        intermediate_text = intermediate_chain_path.read_text(encoding="utf-8").strip()
+        # Avoid duplicating signer cert when the provided chain already starts with it.
+        if signer_text and signer_text in intermediate_text:
+            chunks = [intermediate_text]
+        else:
+            chunks.append(intermediate_text)
     chain_output_path.write_text("\n".join(chunks).strip() + "\n", encoding="utf-8")
     return chain_output_path

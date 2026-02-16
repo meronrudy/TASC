@@ -54,6 +54,7 @@ class Context:
     revocation_snapshot: Path
     freshness_policy: dict[str, Any]
     transparency_policy: dict[str, Any]
+    legacy_compat: bool
 
 
 def sha256_hex_bytes(data: bytes) -> str:
@@ -272,6 +273,10 @@ def check_bundle_value(bundle: dict[str, Any], path: str, expected: str, label: 
     if value != expected:
         return False, f"{label} mismatch: expected {expected}, got {value}"
     return True, f"{label} matches {expected}"
+
+
+def canonical_json_sorted(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"))
 
 
 def topology_nodes(bundle: dict[str, Any]) -> list[dict[str, Any]]:
@@ -876,6 +881,459 @@ def check_incident_windows(bundle: dict[str, Any]) -> tuple[bool, str]:
     return True, "incident window policy checks passed"
 
 
+def procurement_object_specs() -> list[tuple[str, str, str]]:
+    return [
+        (
+            "shipmentEligibilityCertificate",
+            "shipment_eligibility_certificate",
+            "Shipment Eligibility Certificate",
+        ),
+        (
+            "underwriterConfidencePacket",
+            "underwriter_confidence_packet",
+            "Underwriter Confidence Packet",
+        ),
+        (
+            "procurementBidPacket",
+            "procurement_bid_packet",
+            "Procurement Bid Packet",
+        ),
+        (
+            "recyclerIntakePassport",
+            "recycler_intake_passport",
+            "Recycler Intake Passport",
+        ),
+    ]
+
+
+def procurement_ga_version_gate(ctx: Context) -> tuple[bool, str] | None:
+    version = str(pointer(ctx.bundle, "/assurancePackVersion") or "")
+    if version == "0.2":
+        if ctx.legacy_compat:
+            return (
+                True,
+                "legacy-compat mode enabled: skipping GA 0.3 procurement-object enforcement for 0.2 pack",
+            )
+        return (
+            False,
+            "assurancePackVersion 0.3 required for procurement-object checks (0.2 accepted only with --legacy-compat)",
+        )
+    if version != "0.3":
+        return (
+            False,
+            f"unsupported assurancePackVersion {version} for procurement-object checks (expected 0.3)",
+        )
+    return None
+
+
+def procurement_objects_map(ctx: Context) -> tuple[bool, dict[str, Any] | str]:
+    objects = pointer(ctx.bundle, "/procurementObjects")
+    if not isinstance(objects, dict):
+        return False, "procurementObjects must be an object"
+    return True, objects
+
+
+def lifecycle_stage(ctx: Context) -> tuple[bool, str]:
+    stage = str(pointer(ctx.bundle, "/releaseContext/lifecycleStage") or "")
+    if stage not in {"active", "maintenance", "decommission", "recycle"}:
+        return False, f"invalid lifecycleStage {stage}" if stage else "missing releaseContext.lifecycleStage"
+    return True, stage
+
+
+def recycler_required(stage: str) -> bool:
+    return stage in {"decommission", "recycle"}
+
+
+def parse_procurement_object(ctx: Context, key: str) -> tuple[bool, dict[str, Any] | str]:
+    value = pointer(ctx.bundle, f"/procurementObjects/{key}")
+    if value is None:
+        return False, f"missing procurement object {key}"
+    if not isinstance(value, dict):
+        return False, f"procurement object {key} must be an object"
+    return True, value
+
+
+def procurement_signature_payload_value(obj: dict[str, Any]) -> dict[str, Any]:
+    signer = obj.get("signer", {}) if isinstance(obj.get("signer"), dict) else {}
+    validity = obj.get("validity", {}) if isinstance(obj.get("validity"), dict) else {}
+    verifier = (
+        obj.get("verifierInstructions", {})
+        if isinstance(obj.get("verifierInstructions"), dict)
+        else {}
+    )
+    artifact_ref = obj.get("artifactRef", {}) if isinstance(obj.get("artifactRef"), dict) else {}
+    return {
+        "objectType": obj.get("objectType"),
+        "objectName": obj.get("objectName"),
+        "policyPackId": obj.get("policyPackId"),
+        "policyPackVersion": obj.get("policyPackVersion"),
+        "inputHash": obj.get("inputHash"),
+        "bundleDigest": obj.get("bundleDigest"),
+        "signer": {
+            "signerKeyId": signer.get("signerKeyId"),
+            "trustAnchorLevel": signer.get("trustAnchorLevel"),
+            "keySource": signer.get("keySource"),
+            "signerCertificatePath": signer.get("signerCertificatePath"),
+            "certificateChainPath": signer.get("certificateChainPath"),
+            "signatureAlgorithm": signer.get("signatureAlgorithm"),
+            "signatureEncoding": signer.get("signatureEncoding"),
+        },
+        "validity": {
+            "notBeforeUtc": validity.get("notBeforeUtc"),
+            "notAfterUtc": validity.get("notAfterUtc"),
+        },
+        "verifierInstructions": {
+            "command": verifier.get("command"),
+            "requiredChecks": verifier.get("requiredChecks"),
+        },
+        "artifactRef": {
+            "path": artifact_ref.get("path"),
+            "sha256": artifact_ref.get("sha256"),
+        },
+        "inputs": obj.get("inputs"),
+    }
+
+
+def procurement_artifact_digest(payload: Any) -> str:
+    normalized = json.loads(json.dumps(payload))
+    if isinstance(normalized, dict):
+        artifact_ref = normalized.get("artifactRef")
+        if isinstance(artifact_ref, dict):
+            artifact_ref["sha256"] = "sha256:" + ("0" * 64)
+        signature_envelope = normalized.get("signatureEnvelope")
+        if isinstance(signature_envelope, dict):
+            signature_envelope["payloadDigest"] = "sha256:" + ("0" * 64)
+            signature_envelope["signature"] = ""
+    return f"sha256:{sha256_hex_bytes(canonical_json_sorted(normalized).encode('utf-8'))}"
+
+
+def check_procurement_objects_schema(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+
+    ok, stage_or_err = lifecycle_stage(ctx)
+    if not ok:
+        return False, stage_or_err
+    stage = stage_or_err
+
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    objects = objects_or_err
+
+    for key, expected_type, expected_name in procurement_object_specs():
+        if key not in objects:
+            continue
+        obj = objects[key]
+        if not isinstance(obj, dict):
+            return False, f"procurement object {key} must be an object"
+        if obj.get("objectType") != expected_type:
+            return (
+                False,
+                f"procurement object {key} type mismatch (expected {expected_type}, got {obj.get('objectType')})",
+            )
+        if obj.get("objectName") != expected_name:
+            return (
+                False,
+                f"procurement object {key} name mismatch (expected {expected_name}, got {obj.get('objectName')})",
+            )
+        if not str(obj.get("policyPackId", "")).strip() or not str(
+            obj.get("policyPackVersion", "")
+        ).strip():
+            return False, f"procurement object {key} missing policyPackId/policyPackVersion"
+        signer = obj.get("signer")
+        if not isinstance(signer, dict) or not str(signer.get("signerKeyId", "")).strip():
+            return False, f"procurement object {key} signer.signerKeyId is required"
+        verifier = obj.get("verifierInstructions")
+        if (
+            not isinstance(verifier, dict)
+            or not str(verifier.get("command", "")).strip()
+            or not isinstance(verifier.get("requiredChecks"), list)
+            or not verifier.get("requiredChecks")
+        ):
+            return (
+                False,
+                f"procurement object {key} verifierInstructions command/requiredChecks invalid",
+            )
+        sig = obj.get("signatureEnvelope")
+        if (
+            not isinstance(sig, dict)
+            or not str(sig.get("signedAtUtc", "")).strip()
+            or not str(sig.get("signature", "")).strip()
+        ):
+            return False, f"procurement object {key} signatureEnvelope missing signedAtUtc/signature"
+        if not is_sha_prefixed(obj.get("inputHash")) or not is_sha_prefixed(obj.get("bundleDigest")):
+            return False, f"procurement object {key} inputHash/bundleDigest must be sha256-prefixed"
+
+    if recycler_required(stage) and "recyclerIntakePassport" not in objects:
+        return (
+            False,
+            f"lifecycleStage {stage} requires recyclerIntakePassport procurement object",
+        )
+
+    return True, f"procurement objects schema valid for lifecycleStage {stage}"
+
+
+def check_procurement_object_required_set(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+    ok, stage_or_err = lifecycle_stage(ctx)
+    if not ok:
+        return False, stage_or_err
+    stage = stage_or_err
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    objects = objects_or_err
+    for required in [
+        "shipmentEligibilityCertificate",
+        "underwriterConfidencePacket",
+        "procurementBidPacket",
+    ]:
+        if required not in objects:
+            return False, f"required procurement object {required} is missing"
+    if recycler_required(stage) and "recyclerIntakePassport" not in objects:
+        return (
+            False,
+            f"lifecycleStage {stage} requires recyclerIntakePassport procurement object",
+        )
+    return True, f"required procurement object set present for {stage}"
+
+
+def check_procurement_object_artifact_parity(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    objects = objects_or_err
+    for key, _, _ in procurement_object_specs():
+        obj = objects.get(key)
+        if not isinstance(obj, dict):
+            continue
+        artifact_ref = obj.get("artifactRef")
+        if not isinstance(artifact_ref, dict):
+            return False, f"procurement object {key} missing artifactRef"
+        rel = str(artifact_ref.get("path", "")).strip()
+        expected_digest = str(artifact_ref.get("sha256", "")).strip()
+        if not rel or not expected_digest:
+            return False, f"procurement object {key} artifactRef missing path/sha256"
+        path = resolve_artifact_path(rel, ctx.bundle_path.parent)
+        if not path.exists():
+            return False, f"standalone procurement object artifact missing for {key} at {path}"
+        standalone = json.loads(path.read_text(encoding="utf-8"))
+        got_digest = procurement_artifact_digest(standalone)
+        if got_digest != expected_digest:
+            return (
+                False,
+                f"artifactRef.sha256 mismatch for {key} (expected {expected_digest}, got {got_digest})",
+            )
+        if canonical_json_sorted(standalone) != canonical_json_sorted(obj):
+            return False, f"embedded and standalone procurement object mismatch for {key}"
+    return True, "embedded procurement objects match standalone artifacts"
+
+
+def check_procurement_object_input_hash(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    objects = objects_or_err
+    for key, _, _ in procurement_object_specs():
+        obj = objects.get(key)
+        if not isinstance(obj, dict):
+            continue
+        expected = f"sha256:{sha256_hex_bytes(canonical_json_sorted(obj.get('inputs')).encode('utf-8'))}"
+        if str(obj.get("inputHash", "")) != expected:
+            return (
+                False,
+                f"inputHash mismatch for {key} (expected {expected}, got {obj.get('inputHash')})",
+            )
+    return True, "procurement object inputHash values verified"
+
+
+def check_procurement_object_bundle_binding(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+    declared = str(pointer(ctx.bundle, "/lineage/assurancePackDigest") or "")
+    if not declared:
+        declared = str(pointer(ctx.bundle, "/conformanceReport/bundleDigest") or "")
+    if not declared:
+        return False, "missing declared assurance pack digest for bundle binding"
+    if not is_sha_prefixed(declared):
+        return False, f"declared assurance pack digest is not sha256-prefixed: {declared}"
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    objects = objects_or_err
+    for key, _, _ in procurement_object_specs():
+        obj = objects.get(key)
+        if not isinstance(obj, dict):
+            continue
+        if str(obj.get("bundleDigest", "")) != declared:
+            return (
+                False,
+                f"bundleDigest mismatch for {key} (expected {declared}, got {obj.get('bundleDigest')})",
+            )
+    return True, "procurement object bundleDigest binding verified"
+
+
+def check_procurement_object_signature(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+    trust_roots = resolve_policy_path(ctx.trust_roots, ctx.bundle_path.parent)
+    if not trust_roots.exists():
+        return False, f"trust roots file missing for procurement object signature checks: {trust_roots}"
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    objects = objects_or_err
+    now = datetime.now(timezone.utc)
+    for key, _, _ in procurement_object_specs():
+        obj = objects.get(key)
+        if not isinstance(obj, dict):
+            continue
+        signer = obj.get("signer")
+        if not isinstance(signer, dict):
+            return False, f"procurement object {key} missing signer"
+        if signer.get("signatureAlgorithm") != "rsa-sha256" or signer.get("signatureEncoding") != "base64":
+            return (
+                False,
+                f"unsupported signature settings for {key}: {signer.get('signatureAlgorithm')}/{signer.get('signatureEncoding')}",
+            )
+        envelope = obj.get("signatureEnvelope")
+        if not isinstance(envelope, dict):
+            return False, f"procurement object {key} missing signatureEnvelope"
+        payload_digest = str(envelope.get("payloadDigest", ""))
+        signature = str(envelope.get("signature", ""))
+        if not payload_digest or not signature:
+            return False, f"signatureEnvelope payloadDigest/signature is required for {key}"
+        if not is_sha_prefixed(payload_digest):
+            return False, f"signatureEnvelope.payloadDigest for {key} must be sha256-prefixed"
+        signed_at = str(envelope.get("signedAtUtc", ""))
+        ts_ok, ts_or_err = parse_utc(signed_at)
+        if not ts_ok:
+            return False, f"invalid signatureEnvelope.signedAtUtc for {key}: {ts_or_err}"
+        if ts_or_err > now:
+            return False, f"signatureEnvelope.signedAtUtc for {key} cannot be in the future"
+
+        expected_payload_digest = f"sha256:{sha256_hex_bytes(canonical_json_sorted(procurement_signature_payload_value(obj)).encode('utf-8'))}"
+        if expected_payload_digest != payload_digest:
+            return (
+                False,
+                f"signatureEnvelope.payloadDigest mismatch for {key} (expected {expected_payload_digest}, got {payload_digest})",
+            )
+
+        signer_cert = resolve_artifact_path(str(signer.get("signerCertificatePath", "")), ctx.bundle_path.parent)
+        chain_path = resolve_artifact_path(str(signer.get("certificateChainPath", "")), ctx.bundle_path.parent)
+        if not signer_cert.exists() or not chain_path.exists():
+            return (
+                False,
+                f"signer certificate chain material missing for {key} (cert {signer_cert}, chain {chain_path})",
+            )
+        cert_ok, cert_msg = verify_certificate_chain(signer_cert, chain_path, trust_roots)
+        if not cert_ok:
+            return False, f"certificate chain verification failed for {key}: {cert_msg}"
+        sig_ok, sig_msg = verify_signature_base64(payload_digest, signature, signer_cert)
+        if not sig_ok:
+            return False, f"signature verification failed for {key}: {sig_msg}"
+    return True, "procurement object signatures validated"
+
+
+def check_procurement_object_trust_floor(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+    rank = {"TA0": 0, "TA1": 1, "TA2": 2}
+    required = rank.get(ctx.require_ta)
+    if required is None:
+        return False, f"unknown required TA level {ctx.require_ta}"
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    objects = objects_or_err
+    for key, _, _ in procurement_object_specs():
+        obj = objects.get(key)
+        if not isinstance(obj, dict):
+            continue
+        signer = obj.get("signer")
+        if not isinstance(signer, dict):
+            return False, f"procurement object {key} missing signer"
+        level = str(signer.get("trustAnchorLevel", ""))
+        found = rank.get(level)
+        if found is None:
+            return False, f"unknown trustAnchorLevel {level} for {key}"
+        if found < required:
+            return False, f"trustAnchorLevel {level} for {key} below required {ctx.require_ta}"
+        if ctx.require_ta == "TA2" and str(signer.get("keySource", "")) != "PKCS11":
+            return (
+                False,
+                f"TA2 floor requires signer.keySource=PKCS11 for {key} (got {signer.get('keySource')})",
+            )
+    return True, f"procurement object trust floor {ctx.require_ta} satisfied"
+
+
+def check_procurement_object_validity_window(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    objects = objects_or_err
+    now = datetime.now(timezone.utc)
+    for key, _, _ in procurement_object_specs():
+        obj = objects.get(key)
+        if not isinstance(obj, dict):
+            continue
+        validity = obj.get("validity")
+        if not isinstance(validity, dict):
+            return False, f"procurement object {key} missing validity"
+        before_raw = str(validity.get("notBeforeUtc", ""))
+        after_raw = str(validity.get("notAfterUtc", ""))
+        before_ok, before_or_err = parse_utc(before_raw)
+        if not before_ok:
+            return False, f"invalid notBeforeUtc for {key}: {before_or_err}"
+        after_ok, after_or_err = parse_utc(after_raw)
+        if not after_ok:
+            return False, f"invalid notAfterUtc for {key}: {after_or_err}"
+        not_before = before_or_err
+        not_after = after_or_err
+        if not_before > not_after:
+            return False, f"validity window invalid for {key}: notBeforeUtc is after notAfterUtc"
+        if now < not_before:
+            return False, f"validity window not active for {key}: current time is before notBeforeUtc"
+        if now > not_after:
+            return False, f"validity window expired for {key}: current time is after notAfterUtc"
+    return True, "procurement object validity windows are active"
+
+
+def check_recycler_intake_conditional(ctx: Context) -> tuple[bool, str]:
+    gated = procurement_ga_version_gate(ctx)
+    if gated is not None:
+        return gated
+    ok, stage_or_err = lifecycle_stage(ctx)
+    if not ok:
+        return False, stage_or_err
+    stage = stage_or_err
+    ok, objects_or_err = procurement_objects_map(ctx)
+    if not ok:
+        return False, objects_or_err
+    has_recycler = "recyclerIntakePassport" in objects_or_err
+    if recycler_required(stage) and not has_recycler:
+        return False, f"recyclerIntakePassport required for lifecycleStage {stage}"
+    if not recycler_required(stage) and has_recycler:
+        return True, f"recyclerIntakePassport provided for optional lifecycleStage {stage}"
+    return True, f"recyclerIntakePassport conditional satisfied for lifecycleStage {stage}"
+
+
 def verify_transparency_proof(
     proof: dict[str, Any],
     trusted_map: dict[str, dict[str, Any]],
@@ -1274,6 +1732,24 @@ def evaluate_check(check_id: str, ctx: Context) -> tuple[bool, str]:
             ],
             "badge entry",
         )
+    if check_id == "CHK_SCHEMA_PROCUREMENT_OBJECTS":
+        return check_procurement_objects_schema(ctx)
+    if check_id == "CHK_PROCUREMENT_OBJECT_REQUIRED_SET":
+        return check_procurement_object_required_set(ctx)
+    if check_id == "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY":
+        return check_procurement_object_artifact_parity(ctx)
+    if check_id == "CHK_PROCUREMENT_OBJECT_INPUT_HASH":
+        return check_procurement_object_input_hash(ctx)
+    if check_id == "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING":
+        return check_procurement_object_bundle_binding(ctx)
+    if check_id == "CHK_PROCUREMENT_OBJECT_SIGNATURE":
+        return check_procurement_object_signature(ctx)
+    if check_id == "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR":
+        return check_procurement_object_trust_floor(ctx)
+    if check_id == "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW":
+        return check_procurement_object_validity_window(ctx)
+    if check_id == "CHK_RECYCLER_INTAKE_CONDITIONAL":
+        return check_recycler_intake_conditional(ctx)
     if check_id == "CHK_PROFILE_MATCH":
         return check_bundle_value(bundle, "/profile", ctx.profile, "profile")
     if check_id == "CHK_POLICY_MATCH":
@@ -1331,6 +1807,7 @@ def run_profile_checks(
     revocation_snapshot: Path,
     freshness_policy: dict[str, Any],
     transparency_policy: dict[str, Any],
+    legacy_compat: bool,
 ) -> ProfileReport:
     if not bundle_path.exists():
         return ProfileReport(
@@ -1357,6 +1834,7 @@ def run_profile_checks(
         revocation_snapshot=revocation_snapshot,
         freshness_policy=freshness_policy,
         transparency_policy=transparency_policy,
+        legacy_compat=legacy_compat,
     )
 
     checks: list[CheckResult] = []
@@ -1411,6 +1889,7 @@ def main() -> int:
     parser.add_argument("--require-ta", default="TA2")
     parser.add_argument("--require-transparency", default="rekor,mirror")
     parser.add_argument("--profiles", default="uas-small,fixed-wing,hybrid-vtol")
+    parser.add_argument("--legacy-compat", action="store_true")
     parser.add_argument(
         "--output",
         default="conformance/reports/tasc-offline-smoke.json",
@@ -1457,6 +1936,7 @@ def main() -> int:
             revocation_snapshot=revocation_snapshot,
             freshness_policy=freshness_policy,
             transparency_policy=transparency_policy,
+            legacy_compat=args.legacy_compat,
         )
         profile_reports.append(report)
 
@@ -1466,6 +1946,7 @@ def main() -> int:
         "policy": args.policy,
         "requireTa": args.require_ta,
         "requireTransparency": required_transparency,
+        "legacyCompat": bool(args.legacy_compat),
         "checks": check_ids,
         "profiles": [
             {

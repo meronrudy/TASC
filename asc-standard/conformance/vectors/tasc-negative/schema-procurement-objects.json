@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_SCHEMA_PROCUREMENT_OBJECTS",
+  "targetCheckId": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_SCHEMA_PROCUREMENT_OBJECTS.",
+  "mutation": {
+    "operation": "invalidate_required_constraint",
+    "expectedResult": "FAIL"
+  }
+}

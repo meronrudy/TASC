@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+  "targetCheckId": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING.",
+  "mutation": {
+    "operation": "tamper_bundle_binding",
+    "expectedResult": "FAIL"
+  }
+}

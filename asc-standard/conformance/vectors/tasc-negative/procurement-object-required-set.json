@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+  "targetCheckId": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_PROCUREMENT_OBJECT_REQUIRED_SET.",
+  "mutation": {
+    "operation": "drop_required_object",
+    "expectedResult": "FAIL"
+  }
+}

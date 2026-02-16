@@ -1,0 +1,615 @@
+{
+  "offlineSmokeVersion": "0.1.0",
+  "policy": "eu-north-star",
+  "requireTa": "TA2",
+  "requireTransparency": [
+    "rekor",
+    "mirror"
+  ],
+  "legacyCompat": false,
+  "checks": [
+    "CHK_SCHEMA_ASSURANCEPACK",
+    "CHK_SCHEMA_EVIDENCEMAP",
+    "CHK_SCHEMA_CONFORMANCE_REPORT",
+    "CHK_SCHEMA_SIGNED_LOG",
+    "CHK_SCHEMA_REPLAY_RECIPE",
+    "CHK_SCHEMA_ATTESTATION",
+    "CHK_SCHEMA_INCIDENT_INITIAL",
+    "CHK_SCHEMA_INCIDENT_PACK",
+    "CHK_SCHEMA_TRANSPARENCY_REKOR",
+    "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+    "CHK_SCHEMA_BADGE_ENTRY",
+    "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+    "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+    "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+    "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+    "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+    "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+    "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+    "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+    "CHK_RECYCLER_INTAKE_CONDITIONAL",
+    "CHK_PROFILE_MATCH",
+    "CHK_POLICY_MATCH",
+    "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+    "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+    "CHK_TOPOLOGY_ASSERTION_REFS",
+    "CHK_ARTIFACT_HASH_INTEGRITY",
+    "CHK_LOG_HASH_CHAIN",
+    "CHK_LOG_SIGNATURE",
+    "CHK_RETENTION_EU_MINIMUM",
+    "CHK_REPLAY_COMPLETENESS",
+    "CHK_REPLAY_OPERATIONAL_PARITY",
+    "CHK_ATTESTATION_TA2",
+    "CHK_INCIDENT_WINDOWS_EU",
+    "CHK_TRANSPARENCY_REKOR_PROOF",
+    "CHK_TRANSPARENCY_MIRROR_PROOF",
+    "CHK_BADGE_ACTIVE_NOT_REVOKED"
+  ],
+  "profiles": [
+    {
+      "profile": "uas-small",
+      "bundle": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-uas-small.json",
+      "result": "PASS",
+      "checks": [
+        {
+          "id": "CHK_SCHEMA_ASSURANCEPACK",
+          "result": "PASS",
+          "message": "assurance pack envelope present"
+        },
+        {
+          "id": "CHK_SCHEMA_EVIDENCEMAP",
+          "result": "PASS",
+          "message": "evidence map present"
+        },
+        {
+          "id": "CHK_SCHEMA_CONFORMANCE_REPORT",
+          "result": "PASS",
+          "message": "conformance report present"
+        },
+        {
+          "id": "CHK_SCHEMA_SIGNED_LOG",
+          "result": "PASS",
+          "message": "signed operational log present"
+        },
+        {
+          "id": "CHK_SCHEMA_REPLAY_RECIPE",
+          "result": "PASS",
+          "message": "replay recipe present"
+        },
+        {
+          "id": "CHK_SCHEMA_ATTESTATION",
+          "result": "PASS",
+          "message": "attestation evidence present"
+        },
+        {
+          "id": "CHK_SCHEMA_INCIDENT_INITIAL",
+          "result": "PASS",
+          "message": "incident initial template present"
+        },
+        {
+          "id": "CHK_SCHEMA_INCIDENT_PACK",
+          "result": "PASS",
+          "message": "incident full pack template present"
+        },
+        {
+          "id": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+          "result": "PASS",
+          "message": "rekor transparency proof present"
+        },
+        {
+          "id": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+          "result": "PASS",
+          "message": "mirror transparency proof present"
+        },
+        {
+          "id": "CHK_SCHEMA_BADGE_ENTRY",
+          "result": "PASS",
+          "message": "badge entry present"
+        },
+        {
+          "id": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+          "result": "PASS",
+          "message": "procurement objects schema valid for lifecycleStage active"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+          "result": "PASS",
+          "message": "required procurement object set present for active"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+          "result": "PASS",
+          "message": "embedded procurement objects match standalone artifacts"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+          "result": "PASS",
+          "message": "procurement object inputHash values verified"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+          "result": "PASS",
+          "message": "procurement object bundleDigest binding verified"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+          "result": "PASS",
+          "message": "procurement object signatures validated"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+          "result": "PASS",
+          "message": "procurement object trust floor TA2 satisfied"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+          "result": "PASS",
+          "message": "procurement object validity windows are active"
+        },
+        {
+          "id": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+          "result": "PASS",
+          "message": "recyclerIntakePassport conditional satisfied for lifecycleStage active"
+        },
+        {
+          "id": "CHK_PROFILE_MATCH",
+          "result": "PASS",
+          "message": "profile matches uas-small"
+        },
+        {
+          "id": "CHK_POLICY_MATCH",
+          "result": "PASS",
+          "message": "policy matches eu-north-star"
+        },
+        {
+          "id": "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+          "result": "PASS",
+          "message": "all actuator paths mediated by interlock gate"
+        },
+        {
+          "id": "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+          "result": "PASS",
+          "message": "interlock authority exclusive to safety kernel"
+        },
+        {
+          "id": "CHK_TOPOLOGY_ASSERTION_REFS",
+          "result": "PASS",
+          "message": "required assertion refs are proven and hash-addressed"
+        },
+        {
+          "id": "CHK_ARTIFACT_HASH_INTEGRITY",
+          "result": "PASS",
+          "message": "artifact hashes validated"
+        },
+        {
+          "id": "CHK_LOG_HASH_CHAIN",
+          "result": "PASS",
+          "message": "log hash chain verified"
+        },
+        {
+          "id": "CHK_LOG_SIGNATURE",
+          "result": "PASS",
+          "message": "log signature validated with PKCS11 key source"
+        },
+        {
+          "id": "CHK_RETENTION_EU_MINIMUM",
+          "result": "PASS",
+          "message": "retention minimum satisfied (6 months)"
+        },
+        {
+          "id": "CHK_REPLAY_COMPLETENESS",
+          "result": "PASS",
+          "message": "replay completeness checks passed"
+        },
+        {
+          "id": "CHK_REPLAY_OPERATIONAL_PARITY",
+          "result": "PASS",
+          "message": "replay-from-log operational parity verified for uas-small"
+        },
+        {
+          "id": "CHK_ATTESTATION_TA2",
+          "result": "PASS",
+          "message": "attestation TA2 satisfies minimum TA2"
+        },
+        {
+          "id": "CHK_INCIDENT_WINDOWS_EU",
+          "result": "PASS",
+          "message": "incident window policy checks passed"
+        },
+        {
+          "id": "CHK_TRANSPARENCY_REKOR_PROOF",
+          "result": "PASS",
+          "message": "rekor transparency proof verified"
+        },
+        {
+          "id": "CHK_TRANSPARENCY_MIRROR_PROOF",
+          "result": "PASS",
+          "message": "mirror transparency proof verified"
+        },
+        {
+          "id": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+          "result": "PASS",
+          "message": "badge badge-uas-small-active is active"
+        }
+      ],
+      "failedChecks": []
+    },
+    {
+      "profile": "fixed-wing",
+      "bundle": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-fixed-wing.json",
+      "result": "PASS",
+      "checks": [
+        {
+          "id": "CHK_SCHEMA_ASSURANCEPACK",
+          "result": "PASS",
+          "message": "assurance pack envelope present"
+        },
+        {
+          "id": "CHK_SCHEMA_EVIDENCEMAP",
+          "result": "PASS",
+          "message": "evidence map present"
+        },
+        {
+          "id": "CHK_SCHEMA_CONFORMANCE_REPORT",
+          "result": "PASS",
+          "message": "conformance report present"
+        },
+        {
+          "id": "CHK_SCHEMA_SIGNED_LOG",
+          "result": "PASS",
+          "message": "signed operational log present"
+        },
+        {
+          "id": "CHK_SCHEMA_REPLAY_RECIPE",
+          "result": "PASS",
+          "message": "replay recipe present"
+        },
+        {
+          "id": "CHK_SCHEMA_ATTESTATION",
+          "result": "PASS",
+          "message": "attestation evidence present"
+        },
+        {
+          "id": "CHK_SCHEMA_INCIDENT_INITIAL",
+          "result": "PASS",
+          "message": "incident initial template present"
+        },
+        {
+          "id": "CHK_SCHEMA_INCIDENT_PACK",
+          "result": "PASS",
+          "message": "incident full pack template present"
+        },
+        {
+          "id": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+          "result": "PASS",
+          "message": "rekor transparency proof present"
+        },
+        {
+          "id": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+          "result": "PASS",
+          "message": "mirror transparency proof present"
+        },
+        {
+          "id": "CHK_SCHEMA_BADGE_ENTRY",
+          "result": "PASS",
+          "message": "badge entry present"
+        },
+        {
+          "id": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+          "result": "PASS",
+          "message": "procurement objects schema valid for lifecycleStage active"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+          "result": "PASS",
+          "message": "required procurement object set present for active"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+          "result": "PASS",
+          "message": "embedded procurement objects match standalone artifacts"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+          "result": "PASS",
+          "message": "procurement object inputHash values verified"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+          "result": "PASS",
+          "message": "procurement object bundleDigest binding verified"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+          "result": "PASS",
+          "message": "procurement object signatures validated"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+          "result": "PASS",
+          "message": "procurement object trust floor TA2 satisfied"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+          "result": "PASS",
+          "message": "procurement object validity windows are active"
+        },
+        {
+          "id": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+          "result": "PASS",
+          "message": "recyclerIntakePassport conditional satisfied for lifecycleStage active"
+        },
+        {
+          "id": "CHK_PROFILE_MATCH",
+          "result": "PASS",
+          "message": "profile matches fixed-wing"
+        },
+        {
+          "id": "CHK_POLICY_MATCH",
+          "result": "PASS",
+          "message": "policy matches eu-north-star"
+        },
+        {
+          "id": "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+          "result": "PASS",
+          "message": "all actuator paths mediated by interlock gate"
+        },
+        {
+          "id": "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+          "result": "PASS",
+          "message": "interlock authority exclusive to safety kernel"
+        },
+        {
+          "id": "CHK_TOPOLOGY_ASSERTION_REFS",
+          "result": "PASS",
+          "message": "required assertion refs are proven and hash-addressed"
+        },
+        {
+          "id": "CHK_ARTIFACT_HASH_INTEGRITY",
+          "result": "PASS",
+          "message": "artifact hashes validated"
+        },
+        {
+          "id": "CHK_LOG_HASH_CHAIN",
+          "result": "PASS",
+          "message": "log hash chain verified"
+        },
+        {
+          "id": "CHK_LOG_SIGNATURE",
+          "result": "PASS",
+          "message": "log signature validated with PKCS11 key source"
+        },
+        {
+          "id": "CHK_RETENTION_EU_MINIMUM",
+          "result": "PASS",
+          "message": "retention minimum satisfied (6 months)"
+        },
+        {
+          "id": "CHK_REPLAY_COMPLETENESS",
+          "result": "PASS",
+          "message": "replay completeness checks passed"
+        },
+        {
+          "id": "CHK_REPLAY_OPERATIONAL_PARITY",
+          "result": "PASS",
+          "message": "replay-from-log operational parity verified for fixed-wing"
+        },
+        {
+          "id": "CHK_ATTESTATION_TA2",
+          "result": "PASS",
+          "message": "attestation TA2 satisfies minimum TA2"
+        },
+        {
+          "id": "CHK_INCIDENT_WINDOWS_EU",
+          "result": "PASS",
+          "message": "incident window policy checks passed"
+        },
+        {
+          "id": "CHK_TRANSPARENCY_REKOR_PROOF",
+          "result": "PASS",
+          "message": "rekor transparency proof verified"
+        },
+        {
+          "id": "CHK_TRANSPARENCY_MIRROR_PROOF",
+          "result": "PASS",
+          "message": "mirror transparency proof verified"
+        },
+        {
+          "id": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+          "result": "PASS",
+          "message": "badge badge-fixed-wing-active is active"
+        }
+      ],
+      "failedChecks": []
+    },
+    {
+      "profile": "hybrid-vtol",
+      "bundle": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-hybrid-vtol.json",
+      "result": "PASS",
+      "checks": [
+        {
+          "id": "CHK_SCHEMA_ASSURANCEPACK",
+          "result": "PASS",
+          "message": "assurance pack envelope present"
+        },
+        {
+          "id": "CHK_SCHEMA_EVIDENCEMAP",
+          "result": "PASS",
+          "message": "evidence map present"
+        },
+        {
+          "id": "CHK_SCHEMA_CONFORMANCE_REPORT",
+          "result": "PASS",
+          "message": "conformance report present"
+        },
+        {
+          "id": "CHK_SCHEMA_SIGNED_LOG",
+          "result": "PASS",
+          "message": "signed operational log present"
+        },
+        {
+          "id": "CHK_SCHEMA_REPLAY_RECIPE",
+          "result": "PASS",
+          "message": "replay recipe present"
+        },
+        {
+          "id": "CHK_SCHEMA_ATTESTATION",
+          "result": "PASS",
+          "message": "attestation evidence present"
+        },
+        {
+          "id": "CHK_SCHEMA_INCIDENT_INITIAL",
+          "result": "PASS",
+          "message": "incident initial template present"
+        },
+        {
+          "id": "CHK_SCHEMA_INCIDENT_PACK",
+          "result": "PASS",
+          "message": "incident full pack template present"
+        },
+        {
+          "id": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+          "result": "PASS",
+          "message": "rekor transparency proof present"
+        },
+        {
+          "id": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+          "result": "PASS",
+          "message": "mirror transparency proof present"
+        },
+        {
+          "id": "CHK_SCHEMA_BADGE_ENTRY",
+          "result": "PASS",
+          "message": "badge entry present"
+        },
+        {
+          "id": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+          "result": "PASS",
+          "message": "procurement objects schema valid for lifecycleStage active"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+          "result": "PASS",
+          "message": "required procurement object set present for active"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+          "result": "PASS",
+          "message": "embedded procurement objects match standalone artifacts"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+          "result": "PASS",
+          "message": "procurement object inputHash values verified"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+          "result": "PASS",
+          "message": "procurement object bundleDigest binding verified"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+          "result": "PASS",
+          "message": "procurement object signatures validated"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+          "result": "PASS",
+          "message": "procurement object trust floor TA2 satisfied"
+        },
+        {
+          "id": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+          "result": "PASS",
+          "message": "procurement object validity windows are active"
+        },
+        {
+          "id": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+          "result": "PASS",
+          "message": "recyclerIntakePassport conditional satisfied for lifecycleStage active"
+        },
+        {
+          "id": "CHK_PROFILE_MATCH",
+          "result": "PASS",
+          "message": "profile matches hybrid-vtol"
+        },
+        {
+          "id": "CHK_POLICY_MATCH",
+          "result": "PASS",
+          "message": "policy matches eu-north-star"
+        },
+        {
+          "id": "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+          "result": "PASS",
+          "message": "all actuator paths mediated by interlock gate"
+        },
+        {
+          "id": "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+          "result": "PASS",
+          "message": "interlock authority exclusive to safety kernel"
+        },
+        {
+          "id": "CHK_TOPOLOGY_ASSERTION_REFS",
+          "result": "PASS",
+          "message": "required assertion refs are proven and hash-addressed"
+        },
+        {
+          "id": "CHK_ARTIFACT_HASH_INTEGRITY",
+          "result": "PASS",
+          "message": "artifact hashes validated"
+        },
+        {
+          "id": "CHK_LOG_HASH_CHAIN",
+          "result": "PASS",
+          "message": "log hash chain verified"
+        },
+        {
+          "id": "CHK_LOG_SIGNATURE",
+          "result": "PASS",
+          "message": "log signature validated with PKCS11 key source"
+        },
+        {
+          "id": "CHK_RETENTION_EU_MINIMUM",
+          "result": "PASS",
+          "message": "retention minimum satisfied (6 months)"
+        },
+        {
+          "id": "CHK_REPLAY_COMPLETENESS",
+          "result": "PASS",
+          "message": "replay completeness checks passed"
+        },
+        {
+          "id": "CHK_REPLAY_OPERATIONAL_PARITY",
+          "result": "PASS",
+          "message": "replay-from-log operational parity verified for hybrid-vtol"
+        },
+        {
+          "id": "CHK_ATTESTATION_TA2",
+          "result": "PASS",
+          "message": "attestation TA2 satisfies minimum TA2"
+        },
+        {
+          "id": "CHK_INCIDENT_WINDOWS_EU",
+          "result": "PASS",
+          "message": "incident window policy checks passed"
+        },
+        {
+          "id": "CHK_TRANSPARENCY_REKOR_PROOF",
+          "result": "PASS",
+          "message": "rekor transparency proof verified"
+        },
+        {
+          "id": "CHK_TRANSPARENCY_MIRROR_PROOF",
+          "result": "PASS",
+          "message": "mirror transparency proof verified"
+        },
+        {
+          "id": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+          "result": "PASS",
+          "message": "badge badge-hybrid-vtol-active is active"
+        }
+      ],
+      "failedChecks": []
+    }
+  ],
+  "result": "PASS"
+}

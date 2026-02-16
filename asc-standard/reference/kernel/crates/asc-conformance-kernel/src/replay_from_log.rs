@@ -64,8 +64,12 @@ fn parse_args() -> Result<(PathBuf, String, PathBuf, PathBuf)> {
                 repo_root = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?)
             }
             "--profile" => profile = args.next().ok_or_else(|| anyhow!("missing value"))?,
-            "--trace" => trace = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?),
-            "--output" => output = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?),
+            "--trace" => {
+                trace = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?)
+            }
+            "--output" => {
+                output = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?)
+            }
             _ => bail!("unknown argument {}", arg),
         }
     }

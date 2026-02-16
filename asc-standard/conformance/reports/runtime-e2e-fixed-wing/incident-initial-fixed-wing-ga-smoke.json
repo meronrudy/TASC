@@ -1,0 +1,24 @@
+{
+  "evidenceRefs": {
+    "attestationHash": "sha256:98ea389623f005e678fe8230bdf9cb699f0c049a9aae3c29b27a2476b9eabe0f",
+    "evidenceMapHash": "sha256:8236df8ef2a41b3f33e60367302fe5c55960552084da1c008886456d3ecfcfc8",
+    "replayRecipeHash": "sha256:56e741ffcfcecde22126c24334ca2b68d1df31410727a7186b7840b7979ad6c5",
+    "signedLogSegmentHash": "sha256:649ecc891c7cfca4e47fc1a1d823d6e8c5476cfefcec584dc551a42852ba9115"
+  },
+  "interlockDecision": {
+    "allowed": true,
+    "latched": false,
+    "reason": "authorized"
+  },
+  "narrative": "Mission completed without safety intervention.",
+  "profile": "fixed-wing",
+  "reportingWindowsDays": {
+    "fatal": 10,
+    "standard": 15,
+    "widespread": 2
+  },
+  "severity": "S0",
+  "systemId": "sys:fixed-wing:fixed-wing-ga-smoke",
+  "templateId": "tasc-incident-initial-v0.1",
+  "timestampUtc": "2026-02-13T06:54:33Z"
+}

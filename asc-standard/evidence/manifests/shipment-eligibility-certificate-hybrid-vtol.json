@@ -1,0 +1,58 @@
+{
+  "objectType": "shipment_eligibility_certificate",
+  "objectName": "Shipment Eligibility Certificate",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:7921f01860922d3efaa5ceb3e7def5bfb525c19268160c44d26bc8f2176148f4",
+  "bundleDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
+  "signer": {
+    "signerKeyId": "kid:shipment-eligibility-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-02-13T07:04:09Z",
+    "notAfterUtc": "2026-03-15T07:04:09Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:bb98fdc69fba2153e95336476b7052022c6770e4075f309023098d7b43cba525",
+    "signedAtUtc": "2026-02-13T07:04:09Z",
+    "signature": "mzUhnKpSXNdrYWWmHif6L1ku0xxdUgMeNjVEgXfhzte66S1ObpX3Fqgfk2WTb1sE4VYp4VgTeN+2MZaO8XtTDXvfM7XWkCXzggmub7cgq8zGpE8oV8CDzU28BcT1COx1gklqvDTrkpVKroZjeuDrKtt5wdA6323ZN8RqUbf3ToihFd/xDt/OEPhOzHSwxvfXa0keqNDFLido5pPyJ38X01QQFDbXNbEgK51V62+ndyAtJSMhZ66iZJ3DOheEHc5qD1YqF9bSLmr/HS/XCAt7/uFcELlzC5Hz7i4JLI4/5TuaoOme6LvK4LviUQ+5TkMwsKgOnbE7kZkHLvZEIamsCw=="
+  },
+  "artifactRef": {
+    "path": "shipment-eligibility-certificate-hybrid-vtol.json",
+    "sha256": "sha256:96c4d6876e914f82fe86bb35352a5c7df7be3ae6ac2c16c29ac11f4f9275ac32"
+  },
+  "inputs": {
+    "profile": "hybrid-vtol",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "shipmentEligibilityCertificate",
+    "objectType": "shipment_eligibility_certificate",
+    "objectName": "Shipment Eligibility Certificate",
+    "evidenceMapDigest": "sha256:77f108181c60a482b7e750a9c82d97cbae1bc0b7f674e4591ad1d5f0b0c241f6",
+    "attestationDigest": "sha256:765a89e5758e8a8bb0aad3b07fdb0e15b8d4d6b0dbf85589e8f7c323c6e2a5f0",
+    "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
+    "badgeId": "badge-hybrid-vtol-active",
+    "requiredTransparency": [
+      "rekor",
+      "mirror"
+    ]
+  }
+}

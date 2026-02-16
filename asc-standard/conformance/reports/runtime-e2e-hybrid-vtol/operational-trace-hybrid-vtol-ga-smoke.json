@@ -1,0 +1,4207 @@
+{
+  "finalTipHash": "7dcb7b6663e48f822b8776886cc3bc0a80904ae2ba3e9068d9ebbd414e34e82b",
+  "missionId": "hybrid-vtol-ga-smoke",
+  "profile": "hybrid-vtol",
+  "schemaVersion": "0.1",
+  "tickCount": 120,
+  "ticks": [
+    {
+      "expected_reasons": [],
+      "expected_tip_hash": "75916ac550f438ec7aec74c6eb3cd9e56e0bb6521893f4104d9126e275ac761b",
+      "expected_verdict": "Allow",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 1,
+          "ts_ms": 20
+        }
+      },
+      "tick": 1,
+      "ts_ms": 20
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "d2ac397b4b006f70390c01ff58dd130bce7374fe878ace417b86028e48f41178",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 2,
+          "ts_ms": 40
+        }
+      },
+      "tick": 2,
+      "ts_ms": 40
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "8f6e84fdaa65939b2e5ed41a9d2512d3892c560ab31197f7f766b3ffac2ee826",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 3,
+          "ts_ms": 60
+        }
+      },
+      "tick": 3,
+      "ts_ms": 60
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "3c1bc1a0e9e910cb08f94ffcd34d93bff09d06ce63ee3a7fe641b477f629d7ba",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 4,
+          "ts_ms": 80
+        }
+      },
+      "tick": 4,
+      "ts_ms": 80
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "0fb348b4e63eaf42495cd35d77b8355d3ed2340b80e0290d2023d279396e65d1",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 5,
+          "ts_ms": 100
+        }
+      },
+      "tick": 5,
+      "ts_ms": 100
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "7be00c07de35ab36fd856730e0740a32ede94bbda9aea3200eafdb98c2d2baab",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 6,
+          "ts_ms": 120
+        }
+      },
+      "tick": 6,
+      "ts_ms": 120
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "c1b7b3383dac08e6168fe0f68c3263a3e37e0d1e5e571ae3dea821e6647c3cb2",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 7,
+          "ts_ms": 140
+        }
+      },
+      "tick": 7,
+      "ts_ms": 140
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "f4728bf7157a49608e44ebc208d14d7a1f2d2778a68603212aca5d595dceaeef",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 8,
+          "ts_ms": 160
+        }
+      },
+      "tick": 8,
+      "ts_ms": 160
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "245f6f0f6135640f04f6761441486baed24738cc198907687c32ac76eafed1ee",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 9,
+          "ts_ms": 180
+        }
+      },
+      "tick": 9,
+      "ts_ms": 180
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "5cedd078316713685b27248326454d608ae714f4b15df4aea1dd594cdd402de0",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 10,
+          "ts_ms": 200
+        }
+      },
+      "tick": 10,
+      "ts_ms": 200
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "fa3dd038d8b80583da883ef640e91a4ab4aba82067505c34782a7eaa7959e346",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 11,
+          "ts_ms": 220
+        }
+      },
+      "tick": 11,
+      "ts_ms": 220
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "38bcaff3de3befc7a842f37f68f0b9d62a309c86fe25ba55782b107d77c7bf4a",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 12,
+          "ts_ms": 240
+        }
+      },
+      "tick": 12,
+      "ts_ms": 240
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "3c5fff04cedb73abb6ebda8e5cabba3a9ff219baa98c84a3240aba5da3af47ec",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 13,
+          "ts_ms": 260
+        }
+      },
+      "tick": 13,
+      "ts_ms": 260
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "2c95240289f3ad74b7b1fb80605dc77c37c7914ed08253cdbf585376cf76b429",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 14,
+          "ts_ms": 280
+        }
+      },
+      "tick": 14,
+      "ts_ms": 280
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "2c0c84364c0a5e30977db7be1ff615c4346c4ee344b4a292f50ec03477530ecb",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 15,
+          "ts_ms": 300
+        }
+      },
+      "tick": 15,
+      "ts_ms": 300
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "01ae5b0230d1bd5cd59aec7802d694073830f882036c37503acbf909969bceca",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 16,
+          "ts_ms": 320
+        }
+      },
+      "tick": 16,
+      "ts_ms": 320
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "ffef96d3fe2617c3a337b34279b703b015050c767169fb593b669765e168c4c3",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 17,
+          "ts_ms": 340
+        }
+      },
+      "tick": 17,
+      "ts_ms": 340
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "c296964fe8887220c7eeca3e38938057ed95019b29e57ec24d30127464c58f2c",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 18,
+          "ts_ms": 360
+        }
+      },
+      "tick": 18,
+      "ts_ms": 360
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "2782a3966eaf4b3e72462f34097c6fb36dd8caa2fa9a011e2c41184b8123c40a",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 19,
+          "ts_ms": 380
+        }
+      },
+      "tick": 19,
+      "ts_ms": 380
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "435d470aeecf96deb715d41aa99be1618f19d5839f0059fcaf0469070cf726a9",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 20,
+          "ts_ms": 400
+        }
+      },
+      "tick": 20,
+      "ts_ms": 400
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "7510bf3476262122fbb4f2d2e29cea76913319c2d2437c1883e92b0d76232fc2",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 21,
+          "ts_ms": 420
+        }
+      },
+      "tick": 21,
+      "ts_ms": 420
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "9e7a4487e73d00e08c2dec8346109bdbb1d10c02a0dd8a7e8bf0bffd9bb22e33",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 22,
+          "ts_ms": 440
+        }
+      },
+      "tick": 22,
+      "ts_ms": 440
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "3f6b2c50868d1e614d0f6f565861e065756e0990aaedfd93d8b29bf8318a0574",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 23,
+          "ts_ms": 460
+        }
+      },
+      "tick": 23,
+      "ts_ms": 460
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "8e3b445491dc18b74987424c6ecbc624276390769cccd7071b07299bd70c36ad",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 24,
+          "ts_ms": 480
+        }
+      },
+      "tick": 24,
+      "ts_ms": 480
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "4a4c0e86089b2d1b1778287cbc8c67f915b43549ea83157d2d0b0c6496063fad",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 25,
+          "ts_ms": 500
+        }
+      },
+      "tick": 25,
+      "ts_ms": 500
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "ea0ca72d649ba801afa9794f2e8bdff9abeae8d5c1a4a611555745c046027391",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 26,
+          "ts_ms": 520
+        }
+      },
+      "tick": 26,
+      "ts_ms": 520
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "183fe6d866f9c68a2ed40b20baaf05c27d60fa38272058084e8adbbe69332751",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 27,
+          "ts_ms": 540
+        }
+      },
+      "tick": 27,
+      "ts_ms": 540
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "3c33d43875ca230f57124083fbd325dcb711f639f4a3384e5e04788f6561d705",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 28,
+          "ts_ms": 560
+        }
+      },
+      "tick": 28,
+      "ts_ms": 560
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "906f76300c6a97488ae88272b53de7ad8c577b8a3b4ef4e79aaa970a4fe96fc8",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 29,
+          "ts_ms": 580
+        }
+      },
+      "tick": 29,
+      "ts_ms": 580
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "a70800b2959187756c2cc423df64041ae13e117d0625a4102b500b6a20acf106",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 30,
+          "ts_ms": 600
+        }
+      },
+      "tick": 30,
+      "ts_ms": 600
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "80ea4a8d63eb506e41e57114c43ab2e903bd22192bb1d9c22e2b097a1fc88034",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 31,
+          "ts_ms": 620
+        }
+      },
+      "tick": 31,
+      "ts_ms": 620
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "43a463f5d4a0e9f7cf05b87d4c468edbb9da3b8798c82820786bf131dea96223",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 32,
+          "ts_ms": 640
+        }
+      },
+      "tick": 32,
+      "ts_ms": 640
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "b6a04cb96b4a1a78ed7fd8364d2e4f498fb032a37d49fcc7059abe25d70bcad2",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 33,
+          "ts_ms": 660
+        }
+      },
+      "tick": 33,
+      "ts_ms": 660
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "a5c73f3a028e67a08872fd990e34abe49c4c3a299fe344c823c9b1602abdc285",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 34,
+          "ts_ms": 680
+        }
+      },
+      "tick": 34,
+      "ts_ms": 680
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "e5e9a4723f8dcf81ea6c2a6815bb4ec987ad5127d9dd3cfe8b25ef47666f3fd3",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 35,
+          "ts_ms": 700
+        }
+      },
+      "tick": 35,
+      "ts_ms": 700
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "4ad64855e4e189c2a96d8d80a8d7e717fb387a3e43791e99b84472a4f11b1786",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 36,
+          "ts_ms": 720
+        }
+      },
+      "tick": 36,
+      "ts_ms": 720
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "5ecdcab53fd1ba946f63d61f15fdca652a127ec50c11fbf3e303e8270bb1963d",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 37,
+          "ts_ms": 740
+        }
+      },
+      "tick": 37,
+      "ts_ms": 740
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "20ccda005ab28fa1d47cd3c5b0573327ee7068106f63ecf11a377fc157353117",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 38,
+          "ts_ms": 760
+        }
+      },
+      "tick": 38,
+      "ts_ms": 760
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "288d1d0b307deed248f64335855af4268a1fb548bb49dd82177e811dd9b11255",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 39,
+          "ts_ms": 780
+        }
+      },
+      "tick": 39,
+      "ts_ms": 780
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "0edce598e613670601144c1ad95f9866ff3fbcefef4bcd098bee5cdc70c32fdc",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 40,
+          "ts_ms": 800
+        }
+      },
+      "tick": 40,
+      "ts_ms": 800
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "4df8aa2ca15b17102e6b85186d2da0b52880bb8e4fb7d3ed5f8b4779af675807",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 41,
+          "ts_ms": 820
+        }
+      },
+      "tick": 41,
+      "ts_ms": 820
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "263e45c21f8ce47cfe359fc62711f5d4f35573efece2fde53e0b3eb97acb9da1",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 42,
+          "ts_ms": 840
+        }
+      },
+      "tick": 42,
+      "ts_ms": 840
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "98ad5103220062b4f34809b6b223c1b02dbb6abb6bba30646a1d1efe05a2d84b",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 43,
+          "ts_ms": 860
+        }
+      },
+      "tick": 43,
+      "ts_ms": 860
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "30d7cc9cbbc57a6fdf910d8f04f735a5d711220d6e358194781fcc92533f91a2",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 44,
+          "ts_ms": 880
+        }
+      },
+      "tick": 44,
+      "ts_ms": 880
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "b770d147ffe8129dc9769037146d23496453a3d159f4468ee30da321222d3d6e",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 45,
+          "ts_ms": 900
+        }
+      },
+      "tick": 45,
+      "ts_ms": 900
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "7a0dd705de1d7d0c15defa6307c515a1bb518f3b6b0e1bd3a02ad7c0c801b0c6",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 46,
+          "ts_ms": 920
+        }
+      },
+      "tick": 46,
+      "ts_ms": 920
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "5a58d8d46d901b4866cecb055a48f1565a10cc60c654140a010666e133020f80",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 47,
+          "ts_ms": 940
+        }
+      },
+      "tick": 47,
+      "ts_ms": 940
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "cc532a46578cf86ed6b6b6ddd8eeb5fd3f1d8428b93d23272d8e6a72fe8b8fe4",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 48,
+          "ts_ms": 960
+        }
+      },
+      "tick": 48,
+      "ts_ms": 960
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "539078443de7b6464effcf8653e498000efca980b552642b65cd70673584246f",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 49,
+          "ts_ms": 980
+        }
+      },
+      "tick": 49,
+      "ts_ms": 980
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "64d278fa82f91566b52a1a246ec5250319d039a7a551c5e21ffa17a135bfa159",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 50,
+          "ts_ms": 1000
+        }
+      },
+      "tick": 50,
+      "ts_ms": 1000
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "6816a0b89a792cb0f0ebd070736ca3a0a218d0bce81c3bb0806b6dafbc87aac6",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 51,
+          "ts_ms": 1020
+        }
+      },
+      "tick": 51,
+      "ts_ms": 1020
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "663e8cc46e220b1ade96a7016a84ea05c795d9abe2010c14d1a2ea17c70754e0",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 52,
+          "ts_ms": 1040
+        }
+      },
+      "tick": 52,
+      "ts_ms": 1040
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "461aa7696f9f13bd784f81b6c619c7131c19fe8d53a8352a0ae3f5375ddcc2ca",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 53,
+          "ts_ms": 1060
+        }
+      },
+      "tick": 53,
+      "ts_ms": 1060
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "18ff789c2be6a31df610f9f8a30e5e495c62eae9f57c9bd57f6c02d110e29fdd",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 54,
+          "ts_ms": 1080
+        }
+      },
+      "tick": 54,
+      "ts_ms": 1080
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "e1c16e71186033ab7af00a6fbfa146563f9989db22185dc62c33001ce7c86229",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 55,
+          "ts_ms": 1100
+        }
+      },
+      "tick": 55,
+      "ts_ms": 1100
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "c6d88344573463f4a272432f6a929f50761c48ee5ced34240d046cb111aa17fa",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 56,
+          "ts_ms": 1120
+        }
+      },
+      "tick": 56,
+      "ts_ms": 1120
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "fc9460d924f1639ec45671eca8f4e71d910d0d29ae7822b499da420cce3bdc8d",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 57,
+          "ts_ms": 1140
+        }
+      },
+      "tick": 57,
+      "ts_ms": 1140
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "77b24e45bcbe7fb1fb609a887b5fac6e30c251e6c918b7ab17beb45727d37d24",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 58,
+          "ts_ms": 1160
+        }
+      },
+      "tick": 58,
+      "ts_ms": 1160
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "e9aa3680bdd869f76aac3e48c4bc167db01f8429af41df5c2083437bccd0d3e5",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 59,
+          "ts_ms": 1180
+        }
+      },
+      "tick": 59,
+      "ts_ms": 1180
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "9c029dbd72b1ae8131252ccc2cafbcb95bb739df43d845ff366ef607b0ec810a",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 60,
+          "ts_ms": 1200
+        }
+      },
+      "tick": 60,
+      "ts_ms": 1200
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "acf0217e5c49572c291e5b47b73ac62a085ac658337c960394a801f1bf7a5f40",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 61,
+          "ts_ms": 1220
+        }
+      },
+      "tick": 61,
+      "ts_ms": 1220
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "709329ae3840a590b90268e5eaeb08b3e3855f67ca989bd87ce2ddb6ca5c5457",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 62,
+          "ts_ms": 1240
+        }
+      },
+      "tick": 62,
+      "ts_ms": 1240
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "9c8557fa6f1d731c784fc21c1f2d6f28e5ab99b19bd190ceb00066ec3cd24ad7",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 63,
+          "ts_ms": 1260
+        }
+      },
+      "tick": 63,
+      "ts_ms": 1260
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "fe07c06f30b79abeaabb76d4faa3101d4b27d7780bac727aa578d2dfd21f088d",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 64,
+          "ts_ms": 1280
+        }
+      },
+      "tick": 64,
+      "ts_ms": 1280
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "18348cb2c9c8e7532c9f90c3ab5dae835c775ce29771397c7e0b8ce85c4fd748",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 65,
+          "ts_ms": 1300
+        }
+      },
+      "tick": 65,
+      "ts_ms": 1300
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "62dba72fada242d245b72272e52f8652f36e4e7c6417678cb77f48bb855119a2",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 66,
+          "ts_ms": 1320
+        }
+      },
+      "tick": 66,
+      "ts_ms": 1320
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "ebcfa4a73b047fef048107c2563e4a5f6f99d27803f566c19925a3cd18c70b9c",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 67,
+          "ts_ms": 1340
+        }
+      },
+      "tick": 67,
+      "ts_ms": 1340
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "77a1ffef04e54a1a5fb778106165053ed4e0ffb64719ecc449d38fa09f2fc95a",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 68,
+          "ts_ms": 1360
+        }
+      },
+      "tick": 68,
+      "ts_ms": 1360
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "6a20cacff38145dcf2c1adc96954625caebe0a582c7e438d33d1f646a41f8a5f",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 69,
+          "ts_ms": 1380
+        }
+      },
+      "tick": 69,
+      "ts_ms": 1380
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "0d31b720f3613e3961a45cb700da0c5a0370f80677eaa4e880e00724f500b353",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 70,
+          "ts_ms": 1400
+        }
+      },
+      "tick": 70,
+      "ts_ms": 1400
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "b3a217b2feee74f21c046e4a7685bdf66fac8ce95235b9808cdf93674df80a39",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 71,
+          "ts_ms": 1420
+        }
+      },
+      "tick": 71,
+      "ts_ms": 1420
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "4beeb8e0be4058dea0dbd25b698f852ee2959045a7d528bb6ed8cdc3e630e430",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 72,
+          "ts_ms": 1440
+        }
+      },
+      "tick": 72,
+      "ts_ms": 1440
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "869b6b72b37f961034359bfea3a7a6df37da6b77fff8b5091141a16abf9fac90",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 73,
+          "ts_ms": 1460
+        }
+      },
+      "tick": 73,
+      "ts_ms": 1460
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "339d134500fe3e451face29bda3202d2601f17639a388844d46212909cf05d94",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 74,
+          "ts_ms": 1480
+        }
+      },
+      "tick": 74,
+      "ts_ms": 1480
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "3968935c6f90118aefbc898bcb6b5f83175198b07a862b11c92017df031076ef",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 75,
+          "ts_ms": 1500
+        }
+      },
+      "tick": 75,
+      "ts_ms": 1500
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "833f8479c2f19b525c79cef167ff6dfd98a91df55cd453a454bfa7c3f6357ec4",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 76,
+          "ts_ms": 1520
+        }
+      },
+      "tick": 76,
+      "ts_ms": 1520
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "09a44f15354e8f15e5617bf6fb52b92bf26e1454f079baf2d0447e9ee1fd6369",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 77,
+          "ts_ms": 1540
+        }
+      },
+      "tick": 77,
+      "ts_ms": 1540
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "21795c7cbde6b7ac907f91bd13bfea585abb592b3b2d4088799176801fb04f89",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 78,
+          "ts_ms": 1560
+        }
+      },
+      "tick": 78,
+      "ts_ms": 1560
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "84731ff1ed1ac805ae2f60a223745c3b1a9e171f8aae3f5d14a2324fc3a6514b",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 79,
+          "ts_ms": 1580
+        }
+      },
+      "tick": 79,
+      "ts_ms": 1580
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "754d9635fa38c81923425067242e6f1ed4fd15631e50dc3566fc87bdc74aadab",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 80,
+          "ts_ms": 1600
+        }
+      },
+      "tick": 80,
+      "ts_ms": 1600
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "5b2cedafafc87c66da195383e4efeb5c2ea7ff044fb56f76e364e04009ebd91a",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 81,
+          "ts_ms": 1620
+        }
+      },
+      "tick": 81,
+      "ts_ms": 1620
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "44e3564ae86cbcabbc92dc7194ca69039cfb9a71fd20100acab9ddf602579b90",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 82,
+          "ts_ms": 1640
+        }
+      },
+      "tick": 82,
+      "ts_ms": 1640
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "f16feaba5a9665d8b9694aac5037d1a53374235663a32cc4f5eaabf4fffef90e",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 83,
+          "ts_ms": 1660
+        }
+      },
+      "tick": 83,
+      "ts_ms": 1660
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "646a355cf1c8f325e8acabaa559fbf531d7613ba68549e773ab9ef81d24182ad",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 84,
+          "ts_ms": 1680
+        }
+      },
+      "tick": 84,
+      "ts_ms": 1680
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "1a7e61d6ab067176eefee54a537cef6b11b59020568146d9882d84432910dd98",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 85,
+          "ts_ms": 1700
+        }
+      },
+      "tick": 85,
+      "ts_ms": 1700
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "87b835e0c5df7fe2e7227172177dbdf48f8d2a34a7444344d7225d35de3ee2ee",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 86,
+          "ts_ms": 1720
+        }
+      },
+      "tick": 86,
+      "ts_ms": 1720
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "bc3041ec731993524d2441c9aea1d77fff2faf30d2f9dab248ac4676afa120ff",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 87,
+          "ts_ms": 1740
+        }
+      },
+      "tick": 87,
+      "ts_ms": 1740
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "e7a8e632d0afb04fac28c93cb4d335a5249fa55de5e125bc6148b7b2ff8640d8",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 88,
+          "ts_ms": 1760
+        }
+      },
+      "tick": 88,
+      "ts_ms": 1760
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "a9ef5f80301fb46573e278aab1474d8ab2bc2fff88fd37dd7650e0633e04d6be",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 89,
+          "ts_ms": 1780
+        }
+      },
+      "tick": 89,
+      "ts_ms": 1780
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "c6e61c11008cac76469a1eccf271d344ddae3476a03ee5f329612f7b5a238fb7",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 90,
+          "ts_ms": 1800
+        }
+      },
+      "tick": 90,
+      "ts_ms": 1800
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "147a2473f5c90d626c17aa35fbe6e4ea5b302867b0cd564bbfc61025b6655683",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 91,
+          "ts_ms": 1820
+        }
+      },
+      "tick": 91,
+      "ts_ms": 1820
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "fb06e55b619a08d037b785cc71a6844b1c7a5c7d168af253165c77a8d80fa3e0",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 92,
+          "ts_ms": 1840
+        }
+      },
+      "tick": 92,
+      "ts_ms": 1840
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "f94f6de2e7358bab2962023b213e1f092b9ad6d629831ca0e346fda7c0fd95e1",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 93,
+          "ts_ms": 1860
+        }
+      },
+      "tick": 93,
+      "ts_ms": 1860
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "c7ffa420f92010026af711335f1340bc33be65058063535d795ca6e49b4eecdc",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 94,
+          "ts_ms": 1880
+        }
+      },
+      "tick": 94,
+      "ts_ms": 1880
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "f14fa749333be2e666dbba6bc2581a93927d6658d1327a697a7399f4534c2a28",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 95,
+          "ts_ms": 1900
+        }
+      },
+      "tick": 95,
+      "ts_ms": 1900
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "b4738b7a1daa3f80d1ef584f0327470a17dee7267e5e2c9d634b7ca083ce105b",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 96,
+          "ts_ms": 1920
+        }
+      },
+      "tick": 96,
+      "ts_ms": 1920
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "61fcd9ed5b6f73770f18e0bd9096f159f9d812af0095bba739fe7ba766d904ef",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 97,
+          "ts_ms": 1940
+        }
+      },
+      "tick": 97,
+      "ts_ms": 1940
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "f8321ab47f94b4e069ed7e573532f4fdc54857998508b1ebc9ff38e0f82202a1",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 98,
+          "ts_ms": 1960
+        }
+      },
+      "tick": 98,
+      "ts_ms": 1960
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "2dd9361a652d323bbfef60d7694774166987ebfac1eb7bf29a184d4f3aa239ee",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 99,
+          "ts_ms": 1980
+        }
+      },
+      "tick": 99,
+      "ts_ms": 1980
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "b31deed1c66c364de1cde6bc979c928f7fdab4d9abf3579008319c0e1d36e7e3",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 100,
+          "ts_ms": 2000
+        }
+      },
+      "tick": 100,
+      "ts_ms": 2000
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "7056abaac415f82c50d4bac9fc1621e00f295ef9a94074325642d8b1ff862a0b",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 101,
+          "ts_ms": 2020
+        }
+      },
+      "tick": 101,
+      "ts_ms": 2020
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "1f1be834a522969dbcfa81a9fafd9c682bcffbe59d828a4de712afc4e2be564a",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 102,
+          "ts_ms": 2040
+        }
+      },
+      "tick": 102,
+      "ts_ms": 2040
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "631b8ac4057c0b059a9cb4b5c631df72d4f111b325e8ecad6e6c8ab04dfb1572",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 103,
+          "ts_ms": 2060
+        }
+      },
+      "tick": 103,
+      "ts_ms": 2060
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "3b0ff37b9638a2b8a231d649e295665ef53de28aba3d2f98f87660cda8673afc",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 104,
+          "ts_ms": 2080
+        }
+      },
+      "tick": 104,
+      "ts_ms": 2080
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "44a76b0b770c534aa2da5019dd668d56eac2e575c8ee14e82a166d115190c7d5",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 105,
+          "ts_ms": 2100
+        }
+      },
+      "tick": 105,
+      "ts_ms": 2100
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "0c0af8bf2dc89cac2771b15a6a966d858eb5c3705188a4075f43139fc6f284a4",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 106,
+          "ts_ms": 2120
+        }
+      },
+      "tick": 106,
+      "ts_ms": 2120
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "9635a31d1c8ffb9916b59c8a74c582ea7145c15e979de660c61e58c130445774",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 107,
+          "ts_ms": 2140
+        }
+      },
+      "tick": 107,
+      "ts_ms": 2140
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "6557f1e402439e3f94af12016fe9bc8a5a2d072ac03dc4017730ac7b258e03cf",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 108,
+          "ts_ms": 2160
+        }
+      },
+      "tick": 108,
+      "ts_ms": 2160
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "f2d900c2f68233fa2dafc374a8915f690023e97bd535162e25325d0a785de62d",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 109,
+          "ts_ms": 2180
+        }
+      },
+      "tick": 109,
+      "ts_ms": 2180
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "027960c3d50658184d8b973d2c83db5080fe4ffdff58e29da6f723455cc8621e",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 110,
+          "ts_ms": 2200
+        }
+      },
+      "tick": 110,
+      "ts_ms": 2200
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "ab6d5309c8165915ebc156bb606651ceb252cfe2c82979b1559dc02e4050176c",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 111,
+          "ts_ms": 2220
+        }
+      },
+      "tick": 111,
+      "ts_ms": 2220
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "8bc29c35b723e63342e53f0ddc28eed72e58fdd9ff2d94de5719ace0f446f75e",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 112,
+          "ts_ms": 2240
+        }
+      },
+      "tick": 112,
+      "ts_ms": 2240
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "7175addccead855db43e364130163595d6dbb6999ce0b8d6b44f9a90bad8db47",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 113,
+          "ts_ms": 2260
+        }
+      },
+      "tick": 113,
+      "ts_ms": 2260
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "c7650a686f947bed02ef54f73595f3500db8842181b82b1add1a09f85cf5c649",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 114,
+          "ts_ms": 2280
+        }
+      },
+      "tick": 114,
+      "ts_ms": 2280
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "499cb739344985def6c0a74fd17c3d5ec51f0738397516434adaeba86e9bddbf",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 115,
+          "ts_ms": 2300
+        }
+      },
+      "tick": 115,
+      "ts_ms": 2300
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "d823085a00fd4c79381205effa8020250383e5b386727724b808938e551e5f1e",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 116,
+          "ts_ms": 2320
+        }
+      },
+      "tick": 116,
+      "ts_ms": 2320
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "940e053677e7b6d1f76dff52602e00f549de999d3e1524e1d314a72b9147332f",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 117,
+          "ts_ms": 2340
+        }
+      },
+      "tick": 117,
+      "ts_ms": 2340
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "d8abdf7e879b5763d71024b469b3afe971160ccbda1ace25cb8b07acab262501",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 118,
+          "ts_ms": 2360
+        }
+      },
+      "tick": 118,
+      "ts_ms": 2360
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "1b20ff0d9d8bdfadd63781aa7475b479240b9a75f6c0c2fa7388fe4532e3308d",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 119,
+          "ts_ms": 2380
+        }
+      },
+      "tick": 119,
+      "ts_ms": 2380
+    },
+    {
+      "expected_reasons": [
+        "DeadlineMiss"
+      ],
+      "expected_tip_hash": "7dcb7b6663e48f822b8776886cc3bc0a80904ae2ba3e9068d9ebbd414e34e82b",
+      "expected_verdict": "Override",
+      "kernel_input": {
+        "intent": {
+          "desired_climb_mps": 0.1,
+          "desired_rates_dps": [
+            0.25,
+            0.0,
+            0.0
+          ]
+        },
+        "state": {
+          "bank_deg": 0.0,
+          "frame": "NED",
+          "input_age_ms": 0,
+          "position_m": [
+            0.0,
+            0.0,
+            25.0
+          ],
+          "soc_percent": 90.0,
+          "velocity_mps": 10.0
+        },
+        "tick": {
+          "seq": 120,
+          "ts_ms": 2400
+        }
+      },
+      "tick": 120,
+      "ts_ms": 2400
+    }
+  ]
+}

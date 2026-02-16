@@ -3,7 +3,11 @@ use asc_types::Verdict;
 
 use crate::{arbitration::decide, checks::evaluate_checks, KernelLimits};
 
-pub fn constrain(input: &KernelInput, inter_tick_ms: Option<u64>, limits: &KernelLimits) -> KernelOutput {
+pub fn constrain(
+    input: &KernelInput,
+    inter_tick_ms: Option<u64>,
+    limits: &KernelLimits,
+) -> KernelOutput {
     let outcomes = evaluate_checks(input, inter_tick_ms, limits);
     let verdict = decide(&outcomes);
 

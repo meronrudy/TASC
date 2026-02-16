@@ -27,8 +27,16 @@ impl Default for KernelLimits {
             max_bank_deg: t::MAX_BANK_DEG,
             attitude_limit_deg: t::ATTITUDE_LIMIT_DEG,
             min_altitude_m: t::MIN_ALTITUDE_M,
-            position_min_m: [t::POSITION_MIN_X_M, t::POSITION_MIN_Y_M, t::POSITION_MIN_Z_M],
-            position_max_m: [t::POSITION_MAX_X_M, t::POSITION_MAX_Y_M, t::POSITION_MAX_Z_M],
+            position_min_m: [
+                t::POSITION_MIN_X_M,
+                t::POSITION_MIN_Y_M,
+                t::POSITION_MIN_Z_M,
+            ],
+            position_max_m: [
+                t::POSITION_MAX_X_M,
+                t::POSITION_MAX_Y_M,
+                t::POSITION_MAX_Z_M,
+            ],
             min_soc_percent: t::MIN_SOC_PERCENT,
             max_input_age_ms: t::MAX_INPUT_AGE_MS,
             max_tick_interval_ms: t::MAX_TICK_INTERVAL_MS,

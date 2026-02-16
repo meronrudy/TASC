@@ -1,0 +1,24 @@
+{
+  "evidenceRefs": {
+    "attestationHash": "sha256:40462e151e4f7c36f36398ad4d7ff46ffafa3466dcbc7f8be352487b49cd75d8",
+    "evidenceMapHash": "sha256:97d75c8c62854095a81480a89ed876d1eee2e20b9c8868732cecc50f8f99d188",
+    "replayRecipeHash": "sha256:ce11a258ebc34f489f0360c6dc2a4428825f37add16fa45ed10f8a5e42e88f29",
+    "signedLogSegmentHash": "sha256:4d206815ff828aadde89b6547bf6a7ee9ff6a3347e9fcedc12016dd3cf8791b9"
+  },
+  "interlockDecision": {
+    "allowed": true,
+    "latched": false,
+    "reason": "authorized"
+  },
+  "narrative": "Mission completed without safety intervention.",
+  "profile": "uas-small",
+  "reportingWindowsDays": {
+    "fatal": 10,
+    "standard": 15,
+    "widespread": 2
+  },
+  "severity": "S0",
+  "systemId": "sys:uas-small:uas-small-ga-smoke",
+  "templateId": "tasc-incident-initial-v0.1",
+  "timestampUtc": "2026-02-13T06:54:30Z"
+}

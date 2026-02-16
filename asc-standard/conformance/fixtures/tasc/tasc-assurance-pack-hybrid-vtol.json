@@ -1,8 +1,8 @@
 {
-  "assurancePackVersion": "0.2",
+  "assurancePackVersion": "0.3",
   "profile": "hybrid-vtol",
   "policy": "eu-north-star",
-  "specVersion": "0.2.0",
+  "specVersion": "0.3.0",
   "verifier": {
     "name": "tasc-verify",
     "version": "0.1.0"
@@ -12,7 +12,7 @@
     "system": {
       "systemId": "sys_urn:example:hybrid-vtol:alpha",
       "releaseId": "rel_2026-02-11_hybrid-vtol",
-      "gitCommit": "26aa65d2a9f6",
+      "gitCommit": "241fc027941c",
       "build": {
         "buildSystem": "reproducible-build",
         "artifactDigest": "sha256:334ee940940093119b14dd6b8c5e438341df29531262676f752f54f76a66a625",
@@ -20,7 +20,7 @@
       }
     },
     "tasc": {
-      "specVersion": "0.2.0",
+      "specVersion": "0.3.0",
       "profile": "hybrid-vtol",
       "verifier": {
         "name": "tasc-verify",
@@ -101,7 +101,7 @@
     },
     "attestation": {
       "level": "TA2",
-      "evidenceRef": "sha256:7c0b4d158377f560534b19c0db5fbf9efa2bc4bbab868213dee328d5c28565f2"
+      "evidenceRef": "sha256:ed6de18fb18d45104fbff22374f1ac55db3e1e6113e9116ec676928da3f2a7f9"
     },
     "replay": {
       "recipeRef": "sha256:851586d4823a1b55748383035ace1f6358df131b252c7f029f84a2d588d1b88a",
@@ -127,10 +127,10 @@
   },
   "conformanceReport": {
     "tascVerifyVersion": "0.1.0",
-    "specVersion": "0.2.0",
+    "specVersion": "0.3.0",
     "profile": "hybrid-vtol",
     "policy": "eu-north-star",
-    "bundleDigest": "sha256:8cbc0385a1812f8166c7614e04d3e88a2ce6b8f4e44a477610c68032420cfdc7",
+    "bundleDigest": "sha256:cfbc52938fbd4aab7ac838284a81ccfa5edf053d96f55256a5297e4b27923a3c",
     "requireTa": "TA2",
     "requireTransparency": [
       "rekor",
@@ -194,6 +194,51 @@
         "message": "badge entry present | remediation: Include badgeEntry with badgeId, badgeType, and active status fields."
       },
       {
+        "id": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+        "result": "PASS",
+        "message": "procurement objects schema valid for lifecycleStage active | remediation: Add procurementObjects section with all required fields defined in schemas/procurement-object.schema.json."
+      },
+      {
+        "id": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+        "result": "PASS",
+        "message": "required procurement object set present for active | remediation: Include Shipment Eligibility Certificate, Underwriter Confidence Packet, Procurement Bid Packet, and conditionally Recycler Intake Passport."
+      },
+      {
+        "id": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+        "result": "PASS",
+        "message": "embedded procurement objects match standalone artifacts | remediation: Regenerate standalone procurement object artifacts and ensure artifactRef digests/paths match embedded copies."
+      },
+      {
+        "id": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+        "result": "PASS",
+        "message": "procurement object inputHash values verified | remediation: Recompute inputHash from canonicalized inputs and update the signed payload."
+      },
+      {
+        "id": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+        "result": "PASS",
+        "message": "procurement object bundleDigest binding verified | remediation: Regenerate procurement objects after final bundle digest is known so bundleDigest fields are accurate."
+      },
+      {
+        "id": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+        "result": "PASS",
+        "message": "procurement object signatures validated | remediation: Re-sign procurement object payloads with declared signer material and verify certificate paths exist."
+      },
+      {
+        "id": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+        "result": "PASS",
+        "message": "procurement object trust floor TA2 satisfied | remediation: Ensure each procurement object signer declares TA2 and uses PKCS11-backed key source for GA policy."
+      },
+      {
+        "id": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+        "result": "PASS",
+        "message": "procurement object validity windows are active | remediation: Set notBeforeUtc/notAfterUtc to a valid active interval at verification time."
+      },
+      {
+        "id": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+        "result": "PASS",
+        "message": "recyclerIntakePassport conditional satisfied for lifecycleStage active | remediation: Provide Recycler Intake Passport when lifecycleStage is decommission or recycle; omit otherwise."
+      },
+      {
         "id": "CHK_PROFILE_MATCH",
         "result": "PASS",
         "message": "profile matches hybrid-vtol | remediation: Regenerate bundle with matching --profile and evidence profile metadata."
@@ -244,6 +289,11 @@
         "message": "replay completeness checks passed | remediation: Populate seeds/build/config/environment/container digests and profile."
       },
       {
+        "id": "CHK_REPLAY_OPERATIONAL_PARITY",
+        "result": "PASS",
+        "message": "replay-from-log operational parity verified for hybrid-vtol | remediation: Re-run runtime mission + replay-from-log so verdict/reasons/tip-hash drift_count is zero."
+      },
+      {
         "id": "CHK_ATTESTATION_TA2",
         "result": "PASS",
         "message": "attestation TA2 satisfies minimum TA2 | remediation: Provide TA2 attestation meeting trust policy and lifecycle constraints."
@@ -278,9 +328,9 @@
     "signature": "1hszbI0Y9sm6qt/0Hq35QwglAmBZely+W/R3tybuFgVYpfcdlDX2RsOr/W4aOQvHMgKdi1xQR0fZKfnPgfaEO/X7J89M5MrPLIqFWk1maQQH6gahE/s22eVpyjaKdBkl6lhzaVfvZ6Q37qYTAtH2uxMR0wQJKILp6DJFQLi8iMZjoL4EUlHfF6sRp1kKNdYaB/8OYep6S3kQgYvpu9rivyBFTcOOjeNT/07To1qaGppYtFRGway4vOVSnENUcorSHUkBDfd+enjuOY1fCD5lUxA5wFxw4EdUTgeJ/+4ph+/N1YQOBhp3GWgpaCgL5mGu7VjzWB2yxlmHWmbomguezQ==",
     "signatureAlgorithm": "rsa-sha256",
     "signatureEncoding": "base64",
-    "signingTimeUtc": "2026-02-11T19:27:25Z",
-    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
-    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signingTimeUtc": "2026-02-13T06:49:13Z",
+    "signerCertificatePath": "conformance/fixtures/tasc/pkcs11-signer-cert-hybrid-vtol.pem",
+    "certificateChainPath": "conformance/fixtures/tasc/pkcs11-chain-hybrid-vtol.pem",
     "trustRootsDigest": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500",
     "keySource": "PKCS11",
     "root": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
@@ -333,11 +383,11 @@
     "chainDigest": "sha256:be89777bdef8f83fb48505eac2b9ed0d58ef5514f71b6f854b5d7525d4aeb4af",
     "evidenceSignature": "pM21QT55e88qXYw4tOiSMe0pZsXXGUt3o2mTuANfBmZKsgiGbHA+lSCBbn1ZevnuT8ji6NXc0h4XDHwrkkfPikQ8P6mvHY0d/h+YERKhSWKMguLeEQp1G57/4YeWJxz2dpWKu6woH/wJl6x+A3mE+mNtAbXYZmveqGwiXFzc2K/1RJ/LUMsrJzWaJ0P+D/AzPuQgAfwNAEPUhY0QHYJkgLOODwDKirT4YHhs7/B+oE3hy45UFhwYWjHAnSKgR7V5qbXY8JyXfjmwnQWFU9eP5n+SGM3P+qPCyccpFMQbBnx8BPDuaUy/sTWNEn6Jg9Zdbf+0VL50x/C2XDmq87YS6Q==",
     "evidenceSignatureAlgorithm": "rsa-sha256",
-    "signingTimeUtc": "2026-02-11T21:50:27Z",
-    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
-    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signingTimeUtc": "2026-02-13T06:49:13Z",
+    "signerCertificatePath": "conformance/fixtures/tasc/pkcs11-signer-cert-hybrid-vtol.pem",
+    "certificateChainPath": "conformance/fixtures/tasc/pkcs11-chain-hybrid-vtol.pem",
     "trustRootsDigest": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500",
-    "revocationSnapshotDigest": "sha256:210b599ce874af7686b37a86d9967dec0a97d30a159dfe02b42d762f5132492b",
+    "revocationSnapshotDigest": "sha256:9326878cda1e1f71461ff9b846204566e6c287e1a356d732ff43d685b7d96f55",
     "revocationSnapshotPath": "policies/attestation/revocation-snapshot.json",
     "keySource": "PKCS11",
     "nonce": "nonce-hybrid-vtol-ta2-verified",
@@ -397,22 +447,36 @@
       "proofVersion": "0.2",
       "logId": "rekor",
       "logUrl": "https://rekor.sigstore.dev",
-      "entryUuid": "ecdae2391cc83a36",
-      "logIndex": 0,
-      "treeSize": 1,
-      "rootHash": "sha256:cddc5a37352f4191748bc7f0ac298477b4597d3db2844bee655cc4c048da0153",
-      "leafHash": "sha256:f1dc7f9c6c5995cdcabe1670db46c3a9fe66162370e33af16d1e035dd3b984b7",
-      "checkpoint": "rekor\n1\nsha256:cddc5a37352f4191748bc7f0ac298477b4597d3db2844bee655cc4c048da0153\n",
-      "checkpointHash": "sha256:755994598234b9d2ffa819d1b8f80000bed4887b408a41a8101d95f7b7665bc1",
-      "entryDigest": "sha256:9bba01c1c36bf4ce181b10bf88c155eeff91b4dceac861fa6e4597fbc5b9e01e",
+      "entryUuid": "108e9186e8c5677aad53320294979a81fa5525270242249623f213e96e29e1109a58b246ec458b8f",
+      "logIndex": 947089830,
+      "treeSize": 947089831,
+      "rootHash": "sha256:8239155aabdcca10575a72bc5807aa4c6fbf81513ce6d453b041b72ec6e7d5ad",
+      "leafHash": "sha256:9d8be2fa6b7e5bc589003abf0f04324f2cfc73a7b813a15cfca97d60ada0571b",
+      "checkpoint": "rekor.sigstore.dev - 1193050959916656506\n825185572\ngjkVWqvcyhBXWnK8WAeqTG+/gVE85tRTsEG3Lsbn1a0=\n\n\u2014 rekor.sigstore.dev wNI9ajBFAiEAjLd/WwTPQXfWo00DfBVADq1S5oMQUjMEf0tNi2ggp/4CIEym3J/JChlV9kQFgNfUSxmBGK3HtLmwa4z6F/T0nOmi",
+      "checkpointHash": "sha256:9e2a9728833f31100a607dfff692a84ab23db62df061be867f3f887c164bbf07",
+      "entryDigest": "sha256:c32d49f6e35b0fb996c9c1d8bff0d9fab76d5241fd5990a9709849fc5ef15bf2",
       "inclusionPath": [
-        "sha256:b4ccf0db2c08e422147cb5444841a325bb9baf57a015845ad8d11d1f5aa6e87d"
+        "sha256:890b4087f04a0d13fa8a95d12da1e2a6d3116156f8eb69d14f1074bc40b97000",
+        "sha256:d2ae145c21d3945cdafa907a14fc386e5da6b0dc27b5d4cdfd029db0be969156",
+        "sha256:59922b22f205a4ff3d1859c0c2d9a8789db06129b2dd57fc787d9bb3ea66e8bc",
+        "sha256:8d42efdedc2397a9acf16ac1f63ed7072a6e517b1eee82994a22043621f3188d",
+        "sha256:8b68b914fbdeb6feb3adb358edaef126921b3bedbf33a6fec1e8fce553696803",
+        "sha256:1e33618aa3cc53e3ecf685f4da303335f4f5219b48a751e01e3c32f33456ee26",
+        "sha256:eb8425c42c6338828c8f7ed750ee05b0db9d53484f8c65a95622c9dbbc2796b0",
+        "sha256:d5911e49877e2997d0d3de6ff507a505bfe3709794ef41b34a1d7cd54c7c8072",
+        "sha256:8e5fddce6279cec47668ba428800e27a46579e434155b32d1d93e9321c1432e6",
+        "sha256:037ad3401961397f5e54ca5433140c991dd90ecd910bb6a173c2bea17a280e5b",
+        "sha256:ebb120a28a74863dab996d3907af53d0472a7f25fbeb3562f34bcdce1aea4b62",
+        "sha256:578a24daa5ae6c4db673ac02f0513146bae0296345b1b895a524467101615163",
+        "sha256:55727a97cd3e24d6b9c60affc9e860197ac17adcd8d2c75e1eb16dc7436c005c",
+        "sha256:7cb02f138e8da82555f3a129076a4a9302651638c593b9ed5f7942f8f899b88a",
+        "sha256:4f80ea583e36840b4dfaf5fc8ca096aa80b899e13825e908f4bc5818270fcb53"
       ],
       "consistencyPath": [],
-      "inclusionProofHash": "sha256:9559b74659d883d7f86f420b54b8ee0e1965b9ed08e63e7ba8b468921d5abbf5",
-      "consistencyProofHash": "sha256:8969ca283a4109494bbb8d2e45fe6f4b7324108e2cdf26d5f153c1185e3bd271",
-      "integratedTimeUtc": "2026-02-11T21:50:11Z",
-      "signature": "RGZNyLuu21opmIiXrdsBxwrt0GBZkFS/7Egsi7/ji6x9ODLN/5/ML4Q0SuxJpmq1wEoeOEPdhqzK8C8mK3oO1yJXGP9u9iJH+1a6LAQ3CpLbxybnC1IMT994dHWOmI+FaO93yLg/rhPmaUR6YSqkYiw7QGVVo7R8GAS98Wx5pt2qumbcCiayosu9JQBuKLG8mHOFv6wLW3ys39e+GQvCNF2P7LGUQhIDamOUJ4pvTxkHm+ym4ptXOnfobTrFd7HPPTI6ksVYm6K/uQIXUqeqHR0o9mYVsGJTaT1+NJ7g9NzB+lQZ56B62zqPVO+Rd+C5sQdmD1Z9oWfPRQdyCC1rjw==",
+      "inclusionProofHash": "sha256:4ea14698c2a88216d789b20b9955f1144c45db7aadd87875e2e72e7c5b7b4c18",
+      "consistencyProofHash": "sha256:ec8b92d0896ee6fc3af5f308d27c6d400ee0ffa9a38d47a9d34d2fcf05ab1c6b",
+      "integratedTimeUtc": "2026-02-13T06:49:15Z",
+      "signature": "BMvea9DSq9qOU1719PjsSvwin/uG91jyG3Snygp2v6oemaclCzwAFj7h9TFwTdiKbtJi0R8oAAgpZaMFLIuiRWt8Ye7Q/MeX/NXNtmyHgZereGkOPL9nM88Q2+U1epBJtlb3yRBr5kXhnI5Tn0Jd69bCqL6WgcjfNnzZKkPuSMgZRtujrcNrFUCo1zA1B6ezAuXQvM5jjCcOer9cp4n/DgfRH0nCsPCTcBOMsZZy3xJC+gm5wN9PDLJMdz0fcKBVFF3vYFMj5VSWDG9JjYztppp+xymqgL9LAv7b/nPlmocXloX/wWRWYf0GtFAsEHqMv1XTE04cqgCBSFNcOvwnmg==",
       "verifiedOffline": true,
       "source": "live"
     },
@@ -420,22 +484,26 @@
       "proofVersion": "0.2",
       "logId": "mirror",
       "logUrl": "http://127.0.0.1:17777",
-      "entryUuid": "1f7097fc9b17120d",
-      "logIndex": 0,
-      "treeSize": 1,
-      "rootHash": "sha256:0c401f8b1b85856f030b863249856101371cbea3f9a6042fb7b335a4c873f688",
-      "leafHash": "sha256:f1dc7f9c6c5995cdcabe1670db46c3a9fe66162370e33af16d1e035dd3b984b7",
-      "checkpoint": "mirror\n1\nsha256:0c401f8b1b85856f030b863249856101371cbea3f9a6042fb7b335a4c873f688\n",
-      "checkpointHash": "sha256:115209c4e27b481963e454611b42dd021991bd235f5ae120da28ca17f81ee194",
-      "entryDigest": "sha256:9bba01c1c36bf4ce181b10bf88c155eeff91b4dceac861fa6e4597fbc5b9e01e",
+      "entryUuid": "2c3f4041-36d9-4625-a57d-b3f6c95e124a",
+      "logIndex": 16,
+      "treeSize": 17,
+      "rootHash": "sha256:4519004103428e9bd1df772cf4478a448f7da09a121e2925739eead35d458b8d",
+      "leafHash": "sha256:2511461510f3ff3342d60d492814b7aae8afba0383a6665483bd12f341909734",
+      "checkpoint": "mirror\n17\nsha256:4519004103428e9bd1df772cf4478a448f7da09a121e2925739eead35d458b8d\n",
+      "checkpointHash": "sha256:18130725a6a0c570224b6b0ef17438d1ac510c422f572e747784373e4ae7e069",
+      "entryDigest": "sha256:c32d49f6e35b0fb996c9c1d8bff0d9fab76d5241fd5990a9709849fc5ef15bf2",
       "inclusionPath": [
-        "sha256:5a43b01ac4febd7022ea65f69e7dd36fff9219a946a6bba8cfb429a13342ab0f"
+        "sha256:2511461510f3ff3342d60d492814b7aae8afba0383a6665483bd12f341909734",
+        "sha256:be27c917836919776f046e48af64de0480333980c4631d8afdd84a97e0be740e",
+        "sha256:d5350a98875c02bd5bb6c74561e641fa40fd0994c9e7a2bff35885dce22638a3",
+        "sha256:c053029160bf009c2b1dba2ae2597f8ad7da34e90c79ec015094d184af01b290",
+        "sha256:5b4eacf3619983048e6306f205b9e68bfa3e6eb325ddf847fc375df6a8688d00"
       ],
       "consistencyPath": [],
-      "inclusionProofHash": "sha256:3371114140bb4ba799efa859abf1a6a24ede4daff4d4c5030fd3c03261ebaa0d",
-      "consistencyProofHash": "sha256:830f53d9db3ef6b6c5eb9da9e73b767980abb57b14ec5006acda18c0adb987a7",
-      "integratedTimeUtc": "2026-02-11T21:50:11Z",
-      "signature": "CyHHMLecU0AM+6GJ18qBokgyh6JVTKiR2RKhXeFSV0hRoqXCg+VJrOuoIVa1eTdSpAEm/yboH1xYpJ34RIdqT0IrnrMWRC9ROgUQlWOdQCMMw0LiJJvIAAtEP4IQ4V+nDKcgLWhkOv7luNATyEaAY8T2eK8J4xG7z2DdgjHNqs2z6u+pbVPyxIKuOOf1Brn/9G3M1XjgNNlb/YzlvLd4vcUYlEqTxvuvx7WT/BAHuGfvkIqR87upXoauN2PJPH34QciY5y8gZP++Xs1TBORY/w/sDgf/5eXYKRerRCQP6V81iPkZMR5GmRAC4QNg97+6wB41ExR7vMDwejiZydYmuw==",
+      "inclusionProofHash": "sha256:9539ddbacf4f5c4ee083816fe81f7c05318bcfe73355d2bd3249c94794748731",
+      "consistencyProofHash": "sha256:750592220bea3c86e56f4007608a112afccd31bb854761ba609b44f256dac792",
+      "integratedTimeUtc": "2026-02-13T06:49:15Z",
+      "signature": "MkpWc7kxkJ4oKEcCSgHyE6Zbfoe1CZBDQOVpC+LzPEddjT2Sr2YtFCXhNPXGFbOAG0DeNj9HU8bMUJDB9a5Xd497bO8Ca+SZsdF9H1ZAN5819LUtsUJuLxEDNeVow1f/k3OY14Gf10KHjBr33sDVytuHGXBFK8B/eTZwTQyXQ/hXI2cC5iRccJH/HgMYLEriw2GoLFZKoTRaNQVR2/kAq8bN5bQvlej8IpzaVbtXSd3k5KUFM0/+dpIHwKP+4N21cb1EGRnDpOPAZEuVO5UYAA2TMnMHoV9ChXPpSE3wVwFRsq5+B0GAiOA8lih/ufLujtgRtte92zet+5+CfBZnoA==",
       "verifiedOffline": true,
       "source": "live"
     }
@@ -444,10 +512,10 @@
     "badgeId": "badge-hybrid-vtol-active",
     "badgeType": "TASC_AUDIT_GRADE",
     "systemDigest": "sha256:32891b9522e0b732db48f57eac8c010642d9a91db152e5dd7fd71280cdcbc74d",
-    "specVersion": "0.2.0",
-    "conformanceReportDigest": "sha256:346838bbf920172219f16e5f940f12e286397581bc0812bc26b54e11bcef8186",
-    "attestationDigest": "sha256:7c0b4d158377f560534b19c0db5fbf9efa2bc4bbab868213dee328d5c28565f2",
-    "issuedAt": "2026-02-11T19:27:25Z",
+    "specVersion": "0.3.0",
+    "conformanceReportDigest": "sha256:ca2be29cf837a04e5da3b8f29c536e94bceb91fe0fcba66068319eea8eea3d96",
+    "attestationDigest": "sha256:ed6de18fb18d45104fbff22374f1ac55db3e1e6113e9116ec676928da3f2a7f9",
+    "issuedAt": "2026-02-13T06:49:13Z",
     "expiresAt": "2027-02-11T00:00:00Z",
     "status": "active",
     "transparencyLogIds": [
@@ -456,12 +524,12 @@
     ]
   },
   "lineage": {
-    "gitCommit": "26aa65d2a9f6",
+    "gitCommit": "241fc027941c",
     "specHash": "sha256:8d08dd68f4a4c1d666b2d1409c27fde292d70ad10594fc03f5eb6ff92c3651c0",
-    "conformanceReportDigest": "sha256:346838bbf920172219f16e5f940f12e286397581bc0812bc26b54e11bcef8186",
-    "assurancePackDigest": "sha256:9bba01c1c36bf4ce181b10bf88c155eeff91b4dceac861fa6e4597fbc5b9e01e",
-    "hashlockDigest": "sha256:09bcd6f7b7909e2da9278e719af7eb0c8968bb6eaab52839646e6d8ea17155f8",
-    "generatedAtUtc": "2026-02-11T19:27:25Z"
+    "conformanceReportDigest": "sha256:ca2be29cf837a04e5da3b8f29c536e94bceb91fe0fcba66068319eea8eea3d96",
+    "assurancePackDigest": "sha256:c32d49f6e35b0fb996c9c1d8bff0d9fab76d5241fd5990a9709849fc5ef15bf2",
+    "hashlockDigest": "sha256:936bbad781b22458484a8e625af98d245339f048a593596b25bfd57353eba8ce",
+    "generatedAtUtc": "2026-02-13T06:49:13Z"
   },
   "artifacts": [
     {
@@ -482,7 +550,7 @@
     },
     {
       "path": "signed-operational-log-hybrid-vtol.json",
-      "sha256": "sha256:ff28b1e9b70cd87c5644820c797506337bb7f545af4cab981e5101371924d178"
+      "sha256": "sha256:71de15827657ca7a9038f545452c80c673940a7a0cea6b07e65402c30317dbc8"
     },
     {
       "path": "replay-recipe-hybrid-vtol.json",
@@ -490,14 +558,42 @@
     },
     {
       "path": "attestation-ta2-hybrid-vtol.json",
-      "sha256": "sha256:c440a181d36224373a3a5e3b2b276972c9a528a4778f5d13e10eb4fdc8397428"
+      "sha256": "sha256:f1ad54bda629c9007eb4da39ecec0252e39f5a18070feeb387ea4beabf2ac734"
     },
     {
-      "path": "policies/attestation/pki/ta2-signer.cert.pem",
+      "path": "runtime-e2e-hybrid-vtol/mission-input-hybrid-vtol-ga-smoke.json",
+      "sha256": "sha256:6279433ce75043c486ea726dc6b2db26de0db9aa37a870b01ae4bdc52b6254d0"
+    },
+    {
+      "path": "runtime-e2e-hybrid-vtol/operational-trace-hybrid-vtol-ga-smoke.json",
+      "sha256": "sha256:6b7263911fd3866c376bfbaf01089d551ea866140134f4dae4e22e9d6578f39e"
+    },
+    {
+      "path": "replay-from-log-hybrid-vtol.json",
+      "sha256": "sha256:0f756be643379b01aca6163f7d04e903128d20eb329fae6dc9fcf333a1359e03"
+    },
+    {
+      "path": "runtime-e2e-hybrid-vtol/signed-operational-log-hybrid-vtol-ga-smoke.json",
+      "sha256": "sha256:15124f13d687fa2c889ef1e935e94042a2e92d144273959f0273fe2bfb5fc624"
+    },
+    {
+      "path": "runtime-e2e-hybrid-vtol/incident-initial-hybrid-vtol-ga-smoke.json",
+      "sha256": "sha256:d5dea8bd0cbc7bb8688658c2ea9b5b54bb66a57f145f5cf85685ace994a06249"
+    },
+    {
+      "path": "runtime-e2e-hybrid-vtol/incident-pack-hybrid-vtol-ga-smoke.json",
+      "sha256": "sha256:2d00ac79f51606f9cf1fdacf16186b3bea78df141facc02cf2147a477e854c36"
+    },
+    {
+      "path": "runtime-e2e-hybrid-vtol/mission-summary-hybrid-vtol-ga-smoke.json",
+      "sha256": "sha256:c61aa1627349c5c3feef20d579bbeeb120986afc75326e803cfb495c116f266d"
+    },
+    {
+      "path": "pkcs11-signer-cert-hybrid-vtol.pem",
       "sha256": "sha256:4e0ddb97e8b2f444d24167e8bad41b8189aff14ecf2563eb8b2681c174e518e5"
     },
     {
-      "path": "policies/attestation/pki/ta2-chain.pem",
+      "path": "pkcs11-chain-hybrid-vtol.pem",
       "sha256": "sha256:be89777bdef8f83fb48505eac2b9ed0d58ef5514f71b6f854b5d7525d4aeb4af"
     },
     {
@@ -506,11 +602,198 @@
     },
     {
       "path": "policies/attestation/revocation-snapshot.json",
-      "sha256": "sha256:210b599ce874af7686b37a86d9967dec0a97d30a159dfe02b42d762f5132492b"
+      "sha256": "sha256:9326878cda1e1f71461ff9b846204566e6c287e1a356d732ff43d685b7d96f55"
     },
     {
-      "path": "conformance/fixtures/tasc/replay-from-log-hybrid-vtol.json",
-      "sha256": "sha256:37bb5620ebc96637c00247cfa87512d162796926dceaf165680675436c157a37"
+      "path": "shipment-eligibility-certificate-hybrid-vtol.json",
+      "sha256": "sha256:3a1665882fb2fd3c1c11ff0f0976232817ca1547a47e3e7e6d75bf7f359c8ad4"
+    },
+    {
+      "path": "underwriter-confidence-packet-hybrid-vtol.json",
+      "sha256": "sha256:73ff80ec2e73cfff91e57596fae4a2b1c84c71fcde8d2b383ced96fdfd75c29c"
+    },
+    {
+      "path": "procurement-bid-packet-hybrid-vtol.json",
+      "sha256": "sha256:18fe36f74c1826c67ae8e71e926682ef33f94f190f42c4e859e4a547766136b0"
     }
-  ]
+  ],
+  "releaseContext": {
+    "lifecycleStage": "active"
+  },
+  "procurementObjects": {
+    "shipmentEligibilityCertificate": {
+      "objectType": "shipment_eligibility_certificate",
+      "objectName": "Shipment Eligibility Certificate",
+      "policyPackId": "tasc-ga-procurement-objects",
+      "policyPackVersion": "0.3.0",
+      "inputHash": "sha256:801faf2e79e2845fb03d65e058a9fe01247ea9db236a57b3b1ed866e4bae3e69",
+      "bundleDigest": "sha256:c32d49f6e35b0fb996c9c1d8bff0d9fab76d5241fd5990a9709849fc5ef15bf2",
+      "signer": {
+        "signerKeyId": "kid:shipment-eligibility-ta2",
+        "trustAnchorLevel": "TA2",
+        "keySource": "PKCS11",
+        "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+        "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+        "signatureAlgorithm": "rsa-sha256",
+        "signatureEncoding": "base64"
+      },
+      "validity": {
+        "notBeforeUtc": "2026-02-13T06:49:14Z",
+        "notAfterUtc": "2026-03-15T06:49:14Z"
+      },
+      "verifierInstructions": {
+        "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+        "requiredChecks": [
+          "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+          "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+          "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+          "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+          "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+          "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+          "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+        ]
+      },
+      "signatureEnvelope": {
+        "payloadDigest": "sha256:189b5d8ba52e362dbb559c4957d05df422417742dad551e29a80d98fbe7ec2c5",
+        "signedAtUtc": "2026-02-13T06:49:14Z",
+        "signature": "hQXlQSCuFwE/iMdzC27de1nSsCV1K0kiOxZIN3biQMBGyduEF1kJq4zwcMrqVw1kXabq6LaypSaSizBUD7okLusEJ8DRm0dnF/7wnNeZpA1+ya4kmWeAej6CeKSopFkb6+7jVue3VcS/x8kgQGQvlaqDAfh4ihsckFmN2WnZI+bm72WhEt4NVqDi0W4vB/D337YopV8xPbWhDw7lug2qZW01u8/TQ1/FT1TuYvzBzLNNXQjs8lt4GCjfGJoWBI3yFVbshHUtugOUijnLuZYHfSXW1ya7jUImABcIRwBcXJXSbs7m7dAMERAId5mOLUuK72DncxpYn6J9/dTWQUg0rQ=="
+      },
+      "artifactRef": {
+        "path": "shipment-eligibility-certificate-hybrid-vtol.json",
+        "sha256": "sha256:db839a02ca049fe3e16f62652f70392597511bb45763469b49bfb0788e0bc08c"
+      },
+      "inputs": {
+        "profile": "hybrid-vtol",
+        "policy": "eu-north-star",
+        "lifecycleStage": "active",
+        "objectKey": "shipmentEligibilityCertificate",
+        "objectType": "shipment_eligibility_certificate",
+        "objectName": "Shipment Eligibility Certificate",
+        "evidenceMapDigest": "sha256:93149e4a137180e1a542919a3d6d99a657c4a41332d8d538986efaa6b289d52f",
+        "attestationDigest": "sha256:ed6de18fb18d45104fbff22374f1ac55db3e1e6113e9116ec676928da3f2a7f9",
+        "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
+        "badgeId": "badge-hybrid-vtol-active",
+        "requiredTransparency": [
+          "rekor",
+          "mirror"
+        ]
+      }
+    },
+    "underwriterConfidencePacket": {
+      "objectType": "underwriter_confidence_packet",
+      "objectName": "Underwriter Confidence Packet",
+      "policyPackId": "tasc-ga-procurement-objects",
+      "policyPackVersion": "0.3.0",
+      "inputHash": "sha256:f960b4b09e2f470e55422644655ab3c20e342e6b62dae60b5306a141982a9801",
+      "bundleDigest": "sha256:c32d49f6e35b0fb996c9c1d8bff0d9fab76d5241fd5990a9709849fc5ef15bf2",
+      "signer": {
+        "signerKeyId": "kid:underwriter-confidence-ta2",
+        "trustAnchorLevel": "TA2",
+        "keySource": "PKCS11",
+        "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+        "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+        "signatureAlgorithm": "rsa-sha256",
+        "signatureEncoding": "base64"
+      },
+      "validity": {
+        "notBeforeUtc": "2026-02-13T06:49:14Z",
+        "notAfterUtc": "2026-03-15T06:49:14Z"
+      },
+      "verifierInstructions": {
+        "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+        "requiredChecks": [
+          "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+          "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+          "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+          "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+          "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+          "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+          "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+        ]
+      },
+      "signatureEnvelope": {
+        "payloadDigest": "sha256:daa1e60ed44ebc73381266c525e5f7ecbd645e20ec18fa1becbdf4704190fd79",
+        "signedAtUtc": "2026-02-13T06:49:14Z",
+        "signature": "bD+L16KnMHvas/tPVA+lPlReQngl0RkzdYLTMALaB604lzrg//LsHmsYSJnDkDfVcN5NB6vYPGwF2mttChHDH5R8up7nYjwvRSgqdB3+PdaQChEOW3lxAavRQkimpV42GSveJ5Zr7eCzvuGQQyMQUxqvkR5FUDYm5yEsL2M6MigoOSpHL+dNf6pHWLWjiRmHcA8kGrH13zhulvug4QjjKsN0E6d6e4zlrycfX9186H6Zg8ar/LTJd465Szhr82XSFPkvRHs+mM2m8zGV34HAKAMV5watUUelThkeEv3rOwtJGyibQ8y0DSRfPDhTVpHxNKmEiCHekDd5pF2X4it5ig=="
+      },
+      "artifactRef": {
+        "path": "underwriter-confidence-packet-hybrid-vtol.json",
+        "sha256": "sha256:ba35888f14ecea9e8ae2ec9c2bb113f3fa90f6718f2a6ba429c973de278b79a8"
+      },
+      "inputs": {
+        "profile": "hybrid-vtol",
+        "policy": "eu-north-star",
+        "lifecycleStage": "active",
+        "objectKey": "underwriterConfidencePacket",
+        "objectType": "underwriter_confidence_packet",
+        "objectName": "Underwriter Confidence Packet",
+        "evidenceMapDigest": "sha256:93149e4a137180e1a542919a3d6d99a657c4a41332d8d538986efaa6b289d52f",
+        "attestationDigest": "sha256:ed6de18fb18d45104fbff22374f1ac55db3e1e6113e9116ec676928da3f2a7f9",
+        "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
+        "badgeId": "badge-hybrid-vtol-active",
+        "requiredTransparency": [
+          "rekor",
+          "mirror"
+        ]
+      }
+    },
+    "procurementBidPacket": {
+      "objectType": "procurement_bid_packet",
+      "objectName": "Procurement Bid Packet",
+      "policyPackId": "tasc-ga-procurement-objects",
+      "policyPackVersion": "0.3.0",
+      "inputHash": "sha256:d5e15cff89676231077ccd562eba80cd9e84a6d521fdfa704dcab9c72c6229d6",
+      "bundleDigest": "sha256:c32d49f6e35b0fb996c9c1d8bff0d9fab76d5241fd5990a9709849fc5ef15bf2",
+      "signer": {
+        "signerKeyId": "kid:procurement-bid-ta2",
+        "trustAnchorLevel": "TA2",
+        "keySource": "PKCS11",
+        "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+        "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+        "signatureAlgorithm": "rsa-sha256",
+        "signatureEncoding": "base64"
+      },
+      "validity": {
+        "notBeforeUtc": "2026-02-13T06:49:14Z",
+        "notAfterUtc": "2026-03-15T06:49:14Z"
+      },
+      "verifierInstructions": {
+        "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+        "requiredChecks": [
+          "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+          "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+          "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+          "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+          "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+          "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+          "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+        ]
+      },
+      "signatureEnvelope": {
+        "payloadDigest": "sha256:78bb2ce7e67ab0b5e434aed84bd0261b2a7ceb6e553b6cc863cf8ad4a6fe149c",
+        "signedAtUtc": "2026-02-13T06:49:14Z",
+        "signature": "DlvXdHrDnPD6jCb/nuxdPlJVGs10JKbjUXSaDscPC3YUzMa7psLmTyoY9mPqrxhwXOhCtQO6RqE4exsgCh+vgzvsFNXJBO9vfRkdE7WrlGgNBnyFxmdEhF/B74e7tlsiKpBIoZOYUrBcML8Ydt5B0eKpX79h6O+1KpGoi/bilarD1idxUMDB+izMjb7Ke4vTijWJ3n3gSCcVqeqIA5ErCPyRXdFUjr5DTrB51VZbWgeuMoBOeKZgaSGlWImTMmAh/mqB4zAU/4cOC0C5Fq/+1Qqw7sDICVZD4NgqRXaXgM6AxVOdTLobUblGGOpuxYkuV1R4OUNok1JigRLw16K/pw=="
+      },
+      "artifactRef": {
+        "path": "procurement-bid-packet-hybrid-vtol.json",
+        "sha256": "sha256:6cb6350c5a5453761bb6b0428ea94c8d68c6aaae575456c10f2c87f446e42f53"
+      },
+      "inputs": {
+        "profile": "hybrid-vtol",
+        "policy": "eu-north-star",
+        "lifecycleStage": "active",
+        "objectKey": "procurementBidPacket",
+        "objectType": "procurement_bid_packet",
+        "objectName": "Procurement Bid Packet",
+        "evidenceMapDigest": "sha256:93149e4a137180e1a542919a3d6d99a657c4a41332d8d538986efaa6b289d52f",
+        "attestationDigest": "sha256:ed6de18fb18d45104fbff22374f1ac55db3e1e6113e9116ec676928da3f2a7f9",
+        "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
+        "badgeId": "badge-hybrid-vtol-active",
+        "requiredTransparency": [
+          "rekor",
+          "mirror"
+        ]
+      }
+    }
+  }
 }

@@ -27,9 +27,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PKG_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 BUNDLE="$1"
 PROFILE="$2"
+BUNDLE_ABS="$(cd "$(dirname "$BUNDLE")" && pwd)/$(basename "$BUNDLE")"
+BUNDLE_DIR="$(cd "$(dirname "$BUNDLE_ABS")" && pwd)"
 
+# Deterministic handoff tarballs set mtime=0; refresh local snapshot mtime for
+# strict freshness gates that also validate file age.
+touch "$PKG_ROOT/policies/attestation/revocation-snapshot.json"
+find "$PKG_ROOT/sample" "$PKG_ROOT/policies" -type f \\( -name "*.pem" -o -name "revocation-snapshot.json" \\) -exec touch {} +
+
+cd "$BUNDLE_DIR"
 "$PKG_ROOT/bin/tasc-verify" verify \
-  --bundle "$BUNDLE" \
+  --bundle "$BUNDLE_ABS" \
   --profile "$PROFILE" \
   --policy eu-north-star \
   --require-ta TA2 \
@@ -72,6 +80,14 @@ def deterministic_tarball(source_dir: Path, output: Path) -> None:
                         archive.addfile(info, fileobj=handle)
 
 
+def first_existing(paths: list[Path]) -> Path:
+    for candidate in paths:
+        if candidate.exists() and candidate.is_file():
+            return candidate
+    joined = ", ".join(str(path) for path in paths)
+    raise SystemExit(f"none of the expected files exist: {joined}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", default=".")
@@ -110,11 +126,88 @@ def main() -> int:
     copy_tree(repo_root / "policies", stage / "policies")
     copy_tree(repo_root / "spec/tasc", stage / "spec/tasc")
 
-    sample_bundle = repo_root / f"conformance/fixtures/tasc/tasc-assurance-pack-{args.sample_profile}.json"
-    sample_report = repo_root / f"conformance/fixtures/tasc/tasc-conformance-{args.sample_profile}.json"
+    sample_bundle = first_existing(
+        [
+            repo_root / f"evidence/manifests/tasc-assurance-pack-{args.sample_profile}.json",
+            repo_root / f"conformance/fixtures/tasc/tasc-assurance-pack-{args.sample_profile}.json",
+        ]
+    )
+    sample_report = first_existing(
+        [
+            repo_root / f"evidence/manifests/tasc-conformance-{args.sample_profile}.json",
+            repo_root / f"conformance/fixtures/tasc/tasc-conformance-{args.sample_profile}.json",
+        ]
+    )
     (stage / "sample").mkdir(parents=True, exist_ok=True)
-    shutil.copy2(sample_bundle, stage / f"sample/tasc-assurance-pack-{args.sample_profile}.json")
-    shutil.copy2(sample_report, stage / f"sample/tasc-conformance-{args.sample_profile}.json")
+    staged_bundle = stage / f"sample/tasc-assurance-pack-{args.sample_profile}.json"
+    staged_report = stage / f"sample/tasc-conformance-{args.sample_profile}.json"
+    shutil.copy2(sample_bundle, staged_bundle)
+    shutil.copy2(sample_report, staged_report)
+
+    bundle_payload = json.loads(sample_bundle.read_text(encoding="utf-8"))
+    artifacts = bundle_payload.get("artifacts", [])
+    if isinstance(artifacts, list):
+        for entry in artifacts:
+            if not isinstance(entry, dict):
+                continue
+            rel_path = entry.get("path")
+            if not isinstance(rel_path, str) or not rel_path.strip():
+                continue
+            rel_path = rel_path.strip()
+            src = (sample_bundle.parent / rel_path).resolve()
+            if not src.exists():
+                fallback = (repo_root / rel_path).resolve()
+                if fallback.exists():
+                    src = fallback
+            if not src.exists() or src.is_dir():
+                continue
+            dst = (stage / "sample" / rel_path).resolve()
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
+
+    for rel_path in [
+        bundle_payload.get("signedOperationalLog", {}).get("signerCertificatePath")
+        if isinstance(bundle_payload.get("signedOperationalLog"), dict)
+        else None,
+        bundle_payload.get("signedOperationalLog", {}).get("certificateChainPath")
+        if isinstance(bundle_payload.get("signedOperationalLog"), dict)
+        else None,
+        bundle_payload.get("attestationEvidence", {}).get("signerCertificatePath")
+        if isinstance(bundle_payload.get("attestationEvidence"), dict)
+        else None,
+        bundle_payload.get("attestationEvidence", {}).get("certificateChainPath")
+        if isinstance(bundle_payload.get("attestationEvidence"), dict)
+        else None,
+    ]:
+        if not isinstance(rel_path, str) or not rel_path.strip():
+            continue
+        src = (repo_root / rel_path).resolve()
+        if not src.exists() or src.is_dir():
+            continue
+        dst = (stage / "sample" / rel_path).resolve()
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+
+    for key in [
+        "shipmentEligibilityCertificate",
+        "underwriterConfidencePacket",
+        "procurementBidPacket",
+        "recyclerIntakePassport",
+    ]:
+        obj = bundle_payload.get("procurementObjects", {}).get(key) if isinstance(bundle_payload.get("procurementObjects"), dict) else None
+        if not isinstance(obj, dict):
+            continue
+        artifact_ref = obj.get("artifactRef")
+        if not isinstance(artifact_ref, dict):
+            continue
+        rel_path = artifact_ref.get("path")
+        if not isinstance(rel_path, str) or not rel_path.strip():
+            continue
+        src = (sample_bundle.parent / rel_path).resolve()
+        if src.exists():
+            dst = (stage / "sample" / rel_path).resolve()
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
 
     metadata = {
         "handoffVersion": args.version,

@@ -55,6 +55,7 @@ cargo run --manifest-path tools/tasc-verify/Cargo.toml -- check-proof \
 - `--freshness-policy`
 - `--transparency-policy`
 - `--remediation-file`
+- `--legacy-compat` (read legacy `0.2` packs without enforcing GA `0.3` procurement-object checks)
 
 Use explicit absolute paths when invoking from external working directories.
 
@@ -89,6 +90,7 @@ Primary categories include:
 - retention and incident-window compliance checks,
 - replay completeness,
 - TA2 attestation checks,
+- signed procurement-object checks (required set, parity, hash/bundle binding, trust/signature, validity, recycler conditional),
 - dual transparency proof checks,
 - badge active/not-revoked checks.
 
@@ -103,7 +105,7 @@ Remediation mapping:
 2. Map each check to remediation guidance.
 3. Regenerate affected artifacts (do not hand-edit conformance output).
 4. Re-run `verify` and `offline_smoke`.
-5. Re-run `hashlock` and `releasepack` if manifests changed.
+5. If `hashlock.json` changes, regenerate assurance packs before `releasepack` so `lineage.hashlockDigest` stays aligned.
 
 ## 6. Determinism Expectations
 

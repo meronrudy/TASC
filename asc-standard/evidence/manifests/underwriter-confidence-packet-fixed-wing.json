@@ -1,0 +1,58 @@
+{
+  "objectType": "underwriter_confidence_packet",
+  "objectName": "Underwriter Confidence Packet",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:c29c2b8bc350aecc2417f560386fb99259c228f0fb978f3dbad47eadc742ee50",
+  "bundleDigest": "sha256:ed8a5ec8edc31a5774c7a3d26d336e9469862897794e6f062742024a69fdfe51",
+  "signer": {
+    "signerKeyId": "kid:underwriter-confidence-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-02-13T07:04:06Z",
+    "notAfterUtc": "2026-03-15T07:04:06Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:8d3ff53011c180d29963ddfab1009a99d2d447b89c8d93d746645a0f436a15e9",
+    "signedAtUtc": "2026-02-13T07:04:06Z",
+    "signature": "t3VqAp9seywbr9uDKWqNNFtgSlw++Zr4EDTpD08zUUm1s/7kDPWlJZPx73rEXkmMDkS+/Vb0pAmWUoTXqyx4si7HbYyCuYZG94KJ3Ujq3Q1aJY228Q4Gr9KH75WUZBBYyBrrqKZT2qsphBi590Doz29JLp4VEocovL8VCIlfXnhwrrzANYf9OxWV/9vkdVTnXusb3Xb7fIBRPKWeI8h6UBukmiSbQLCRNjVCvq6BX4zPqjuvI0gu+olT5SNVFFxlUd3YJCPTs1hJvaAY0aRJ16jf8OZFSipO9tm1T60Q0sPOrqdYBnhtlTNXkwJgzGb02bAsqyg37QT1b+HKzDY8LA=="
+  },
+  "artifactRef": {
+    "path": "underwriter-confidence-packet-fixed-wing.json",
+    "sha256": "sha256:ced6e27b6a06051c065e86acd1635c687699d811da0742e6b0a76e90a8442671"
+  },
+  "inputs": {
+    "profile": "fixed-wing",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "underwriterConfidencePacket",
+    "objectType": "underwriter_confidence_packet",
+    "objectName": "Underwriter Confidence Packet",
+    "evidenceMapDigest": "sha256:afb02294ece965fd2f65f1b4de4f8b58bca49beb06b046f46d464d422aa3ffbe",
+    "attestationDigest": "sha256:685a4ce607a5be19a7ffd691ba694637cbc6f5c98802f533f7412a2a3be7a16e",
+    "signedOperationalLogRoot": "sha256:d40503f489518c207e4c0e81e96dd1a4307e9f51abc687dfc9029c8abdc73172",
+    "badgeId": "badge-fixed-wing-active",
+    "requiredTransparency": [
+      "rekor",
+      "mirror"
+    ]
+  }
+}

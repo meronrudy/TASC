@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asc-standard.dev/schemas/incident-pack.schema.json",
+  "title": "TASC Incident Pack Template",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["templateId", "requiredArtifacts", "fullPackSlaDays"],
+  "properties": {
+    "templateId": {"type": "string", "const": "tasc-incident-pack-v0.1"},
+    "requiredArtifacts": {
+      "type": "array",
+      "minItems": 5,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "fullPackSlaDays": {"type": "integer", "minimum": 1}
+  }
+}

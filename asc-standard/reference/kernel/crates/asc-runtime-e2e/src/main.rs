@@ -208,16 +208,21 @@ fn parse_args() -> Result<(PathBuf, String, PathBuf, PathBuf)> {
     let mut out_dir = PathBuf::new();
     while let Some(arg) = args.next() {
         match arg.as_str() {
-            "--repo-root" => repo_root = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?),
+            "--repo-root" => {
+                repo_root = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?)
+            }
             "--profile" => profile = args.next().ok_or_else(|| anyhow!("missing value"))?,
             "--mission-input" => {
                 mission_input = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?)
             }
-            "--out-dir" => out_dir = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?),
+            "--out-dir" => {
+                out_dir = PathBuf::from(args.next().ok_or_else(|| anyhow!("missing value"))?)
+            }
             _ => bail!("unknown argument {}", arg),
         }
     }
-    if profile.is_empty() || mission_input.as_os_str().is_empty() || out_dir.as_os_str().is_empty() {
+    if profile.is_empty() || mission_input.as_os_str().is_empty() || out_dir.as_os_str().is_empty()
+    {
         bail!("usage: run-mission --profile <p> --mission-input <json> --out-dir <path> [--repo-root <path>]");
     }
     Ok((repo_root, profile, mission_input, out_dir))
@@ -286,8 +291,14 @@ fn main() -> Result<()> {
     }
 
     let signed_log = render_signed_log(&runtime, &mission.mission_id, &profile, &timestamp_utc);
-    let signed_log_path = out_dir.join(format!("signed-operational-log-{}.json", mission.mission_id));
-    fs::write(&signed_log_path, serde_json::to_string_pretty(&signed_log)? + "\n")?;
+    let signed_log_path = out_dir.join(format!(
+        "signed-operational-log-{}.json",
+        mission.mission_id
+    ));
+    fs::write(
+        &signed_log_path,
+        serde_json::to_string_pretty(&signed_log)? + "\n",
+    )?;
 
     let refs = EvidenceRefs {
         evidence_map_hash: sha_prefixed(profile.as_bytes()),
@@ -310,9 +321,16 @@ fn main() -> Result<()> {
         &timestamp_utc,
     );
     let initial_path = out_dir.join(format!("incident-initial-{}.json", mission.mission_id));
-    fs::write(&initial_path, serde_json::to_string_pretty(&initial)? + "\n")?;
+    fs::write(
+        &initial_path,
+        serde_json::to_string_pretty(&initial)? + "\n",
+    )?;
 
-    let pack = build_incident_pack(&initial, &sha_prefixed(b"corrective-action-plan"), &timestamp_utc);
+    let pack = build_incident_pack(
+        &initial,
+        &sha_prefixed(b"corrective-action-plan"),
+        &timestamp_utc,
+    );
     let pack_path = out_dir.join(format!("incident-pack-{}.json", mission.mission_id));
     fs::write(&pack_path, serde_json::to_string_pretty(&pack)? + "\n")?;
 
@@ -331,7 +349,10 @@ fn main() -> Result<()> {
         }
     });
     let summary_path = out_dir.join(format!("mission-summary-{}.json", mission.mission_id));
-    fs::write(&summary_path, serde_json::to_string_pretty(&summary)? + "\n")?;
+    fs::write(
+        &summary_path,
+        serde_json::to_string_pretty(&summary)? + "\n",
+    )?;
 
     let trace = json!({
         "schemaVersion": "0.1",

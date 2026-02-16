@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asc-standard.dev/schemas/signed-operational-log.schema.json",
+  "title": "TASC Signed Operational Log",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "algorithm", "signerKeyId", "signature", "root", "events"],
+  "properties": {
+    "schemaVersion": {"type": "string", "pattern": "^0\\.(1|2)$"},
+    "algorithm": {"type": "string", "const": "sha256-chain-v1"},
+    "signerKeyId": {"type": "string", "minLength": 1},
+    "signature": {"type": "string", "minLength": 8},
+    "signatureAlgorithm": {"type": "string", "enum": ["legacy-digest-v1", "rsa-sha256"]},
+    "signatureEncoding": {"type": "string", "enum": ["legacy", "base64"]},
+    "signingTimeUtc": {"type": "string", "format": "date-time"},
+    "signerCertificatePath": {"type": "string", "minLength": 1},
+    "certificateChainPath": {"type": "string", "minLength": 1},
+    "trustRootsDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "keySource": {"type": "string", "enum": ["FILE", "PKCS11"]},
+    "root": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["seq", "tickMs", "eventType", "payloadDigest", "prevHash", "hash"],
+        "properties": {
+          "seq": {"type": "integer", "minimum": 0},
+          "tickMs": {"type": "integer", "minimum": 0},
+          "eventType": {"type": "string", "minLength": 1},
+          "payloadDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+          "prevHash": {"type": "string", "pattern": "^(?:sha256:[a-f0-9]{64})?$"},
+          "hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"schemaVersion": {"const": "0.2"}}
+      },
+      "then": {
+        "required": [
+          "signatureAlgorithm",
+          "signatureEncoding",
+          "signingTimeUtc",
+          "signerCertificatePath",
+          "certificateChainPath",
+          "trustRootsDigest",
+          "keySource"
+        ]
+      }
+    }
+  ]
+}

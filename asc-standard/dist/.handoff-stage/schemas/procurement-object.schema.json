@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asc-standard.dev/schemas/procurement-object.schema.json",
+  "title": "TASC Signed Procurement Object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "objectType",
+    "objectName",
+    "policyPackId",
+    "policyPackVersion",
+    "inputHash",
+    "bundleDigest",
+    "signer",
+    "validity",
+    "verifierInstructions",
+    "signatureEnvelope",
+    "artifactRef",
+    "inputs"
+  ],
+  "properties": {
+    "objectType": {
+      "type": "string",
+      "enum": [
+        "shipment_eligibility_certificate",
+        "underwriter_confidence_packet",
+        "procurement_bid_packet",
+        "recycler_intake_passport"
+      ]
+    },
+    "objectName": {"type": "string", "minLength": 1},
+    "policyPackId": {"type": "string", "minLength": 1},
+    "policyPackVersion": {"type": "string", "minLength": 1},
+    "inputHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "bundleDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "signer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signerKeyId",
+        "trustAnchorLevel",
+        "keySource",
+        "signerCertificatePath",
+        "certificateChainPath",
+        "signatureAlgorithm",
+        "signatureEncoding"
+      ],
+      "properties": {
+        "signerKeyId": {"type": "string", "minLength": 1},
+        "trustAnchorLevel": {"type": "string", "enum": ["TA0", "TA1", "TA2"]},
+        "keySource": {"type": "string", "enum": ["FILE", "PKCS11"]},
+        "signerCertificatePath": {"type": "string", "minLength": 1},
+        "certificateChainPath": {"type": "string", "minLength": 1},
+        "signatureAlgorithm": {"type": "string", "enum": ["rsa-sha256"]},
+        "signatureEncoding": {"type": "string", "enum": ["base64"]}
+      }
+    },
+    "validity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["notBeforeUtc", "notAfterUtc"],
+      "properties": {
+        "notBeforeUtc": {"type": "string", "format": "date-time"},
+        "notAfterUtc": {"type": "string", "format": "date-time"}
+      }
+    },
+    "verifierInstructions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "requiredChecks"],
+      "properties": {
+        "command": {"type": "string", "minLength": 1},
+        "requiredChecks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^CHK_[A-Z0-9_]+$"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "signatureEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payloadDigest", "signedAtUtc", "signature"],
+      "properties": {
+        "payloadDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "signedAtUtc": {"type": "string", "format": "date-time"},
+        "signature": {"type": "string", "minLength": 8}
+      }
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    },
+    "inputs": {
+      "type": "object"
+    }
+  }
+}

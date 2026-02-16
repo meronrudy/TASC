@@ -11,11 +11,13 @@ import shlex
 import subprocess
 import tarfile
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from functools import partial
 from pathlib import Path
 from typing import Callable
 from tempfile import NamedTemporaryFile
+
+import yaml
 
 from pkcs11_client import Pkcs11Client, compose_chain_file, load_profile
 
@@ -28,8 +30,19 @@ class SignerMaterial:
     sign_fn: Callable[[bytes], bytes]
 
 
+PROCUREMENT_ZERO_DIGEST = "sha256:" + ("0" * 64)
+
+
+def utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(microsecond=0)
+
+
+def utc_iso(value: datetime) -> str:
+    return value.isoformat().replace("+00:00", "Z")
+
+
 def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return utc_iso(utc_now())
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -47,6 +60,13 @@ def sha_prefixed_hex(text: str) -> str:
 def digest_of_obj(obj: object) -> str:
     encoded = json.dumps(obj, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return f"sha256:{sha256_bytes(encoded)}"
+
+
+def load_yaml(path: Path) -> dict:
+    payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    if not isinstance(payload, dict):
+        raise SystemExit(f"expected YAML mapping: {path}")
+    return payload
 
 
 def infer_git_commit(repo_root: Path) -> str:
@@ -330,8 +350,8 @@ def build_transparency_proof(
     log_index = int(live_payload.get("logIndex", 0) or 0)
     inclusion_path = live_payload.get("inclusionPath", []) or [sha_prefixed_hex(f"{log_id}:{entry_digest}:path0")]
     consistency_path = live_payload.get("consistencyPath", []) or []
-    checkpoint_text = str(live_payload.get("checkpoint", "")).strip()
-    if not checkpoint_text:
+    checkpoint_text = str(live_payload.get("checkpoint", ""))
+    if not checkpoint_text.strip():
         checkpoint_text = f"{log_id}\n{tree_size}\n{root_hash}\n"
     checkpoint_hash = str(live_payload.get("checkpointHash", "")).strip()
     if not checkpoint_hash:
@@ -381,11 +401,12 @@ def fetch_live_transparency_payloads(
     args: argparse.Namespace,
     repo_root: Path,
     out_dir: Path,
+    bundle_path: Path,
     bundle_digest: str,
     signer_material: SignerMaterial,
 ) -> dict:
     entry_signature = base64.b64encode(
-        signer_material.sign_fn(bundle_digest.encode("utf-8"))
+        signer_material.sign_fn(bundle_path.read_bytes())
     ).decode("ascii")
     temp_output = out_dir / f"transparency-live-{args.profile}.json"
     command = [
@@ -489,6 +510,287 @@ def build_runtime_replay_artifacts(
     }
 
 
+def procurement_object_specs() -> list[dict[str, str]]:
+    return [
+        {
+            "key": "shipmentEligibilityCertificate",
+            "objectType": "shipment_eligibility_certificate",
+            "objectName": "Shipment Eligibility Certificate",
+            "filename": "shipment-eligibility-certificate",
+        },
+        {
+            "key": "underwriterConfidencePacket",
+            "objectType": "underwriter_confidence_packet",
+            "objectName": "Underwriter Confidence Packet",
+            "filename": "underwriter-confidence-packet",
+        },
+        {
+            "key": "procurementBidPacket",
+            "objectType": "procurement_bid_packet",
+            "objectName": "Procurement Bid Packet",
+            "filename": "procurement-bid-packet",
+        },
+        {
+            "key": "recyclerIntakePassport",
+            "objectType": "recycler_intake_passport",
+            "objectName": "Recycler Intake Passport",
+            "filename": "recycler-intake-passport",
+        },
+    ]
+
+
+def recycler_required(lifecycle_stage: str) -> bool:
+    return lifecycle_stage in {"decommission", "recycle"}
+
+
+def procurement_artifact_digest(payload: dict) -> str:
+    normalized = json.loads(json.dumps(payload))
+    artifact_ref = normalized.get("artifactRef")
+    if isinstance(artifact_ref, dict):
+        artifact_ref["sha256"] = PROCUREMENT_ZERO_DIGEST
+    signature_envelope = normalized.get("signatureEnvelope")
+    if isinstance(signature_envelope, dict):
+        signature_envelope["payloadDigest"] = PROCUREMENT_ZERO_DIGEST
+        signature_envelope["signature"] = ""
+    return digest_of_obj(normalized)
+
+
+def procurement_signature_payload_value(payload: dict) -> dict:
+    signer = payload.get("signer", {})
+    validity = payload.get("validity", {})
+    verifier = payload.get("verifierInstructions", {})
+    artifact_ref = payload.get("artifactRef", {})
+    return {
+        "objectType": payload.get("objectType"),
+        "objectName": payload.get("objectName"),
+        "policyPackId": payload.get("policyPackId"),
+        "policyPackVersion": payload.get("policyPackVersion"),
+        "inputHash": payload.get("inputHash"),
+        "bundleDigest": payload.get("bundleDigest"),
+        "signer": {
+            "signerKeyId": signer.get("signerKeyId"),
+            "trustAnchorLevel": signer.get("trustAnchorLevel"),
+            "keySource": signer.get("keySource"),
+            "signerCertificatePath": signer.get("signerCertificatePath"),
+            "certificateChainPath": signer.get("certificateChainPath"),
+            "signatureAlgorithm": signer.get("signatureAlgorithm"),
+            "signatureEncoding": signer.get("signatureEncoding"),
+        },
+        "validity": {
+            "notBeforeUtc": validity.get("notBeforeUtc"),
+            "notAfterUtc": validity.get("notAfterUtc"),
+        },
+        "verifierInstructions": {
+            "command": verifier.get("command"),
+            "requiredChecks": verifier.get("requiredChecks"),
+        },
+        "artifactRef": {
+            "path": artifact_ref.get("path"),
+            "sha256": artifact_ref.get("sha256"),
+        },
+        "inputs": payload.get("inputs"),
+    }
+
+
+def resolve_procurement_signer(
+    object_key: str,
+    signer_profile: dict,
+    signer_material: SignerMaterial,
+    repo_root: Path,
+) -> dict:
+    defaults = signer_profile.get("default", {}) or {}
+    per_object = (signer_profile.get("objects", {}) or {}).get(object_key, {}) or {}
+
+    signer_key_id = str(per_object.get("signerKeyId") or f"kid:{object_key}")
+    trust_anchor_level = str(
+        per_object.get("trustAnchorLevel")
+        or defaults.get("trustAnchorLevel")
+        or ("TA2" if signer_material.key_source == "PKCS11" else "TA1")
+    )
+    key_source = str(
+        per_object.get("keySource") or defaults.get("keySource") or signer_material.key_source
+    ).upper()
+    signature_algorithm = str(
+        per_object.get("signatureAlgorithm")
+        or defaults.get("signatureAlgorithm")
+        or "rsa-sha256"
+    )
+    signature_encoding = str(
+        per_object.get("signatureEncoding")
+        or defaults.get("signatureEncoding")
+        or "base64"
+    )
+
+    cert_path_value = str(
+        per_object.get("signerCertificatePath")
+        or defaults.get("signerCertificatePath")
+        or relpath_or_abs(signer_material.signer_cert, repo_root)
+    )
+    chain_path_value = str(
+        per_object.get("certificateChainPath")
+        or defaults.get("certificateChainPath")
+        or relpath_or_abs(signer_material.signing_chain, repo_root)
+    )
+
+    return {
+        "signerKeyId": signer_key_id,
+        "trustAnchorLevel": trust_anchor_level,
+        "keySource": key_source,
+        "signerCertificatePath": cert_path_value,
+        "certificateChainPath": chain_path_value,
+        "signatureAlgorithm": signature_algorithm,
+        "signatureEncoding": signature_encoding,
+    }
+
+
+def build_procurement_object(
+    spec: dict,
+    profile: str,
+    policy: str,
+    lifecycle_stage: str,
+    bundle_digest: str,
+    policy_payload: dict,
+    signer_profile: dict,
+    signer_material: SignerMaterial,
+    repo_root: Path,
+    out_dir: Path,
+    validity_days: int,
+    evidence_map: dict,
+    attestation: dict,
+    signed_log: dict,
+    badge_entry: dict,
+    require_transparency: list[str],
+) -> tuple[dict, Path]:
+    object_key = spec["key"]
+    artifact_path = out_dir / f"{spec['filename']}-{profile}.json"
+    artifact_ref_path = relpath_from_output(artifact_path, out_dir, repo_root)
+
+    not_before = utc_now()
+    not_after = not_before + timedelta(days=max(1, validity_days))
+    inputs = {
+        "profile": profile,
+        "policy": policy,
+        "lifecycleStage": lifecycle_stage,
+        "objectKey": object_key,
+        "objectType": spec["objectType"],
+        "objectName": spec["objectName"],
+        "evidenceMapDigest": digest_of_obj(evidence_map),
+        "attestationDigest": digest_of_obj(attestation),
+        "signedOperationalLogRoot": signed_log.get("root"),
+        "badgeId": badge_entry.get("badgeId"),
+        "requiredTransparency": require_transparency,
+    }
+    signer = resolve_procurement_signer(object_key, signer_profile, signer_material, repo_root)
+    verifier_template = policy_payload.get("verifierInstructionsTemplate", {}) or {}
+    verifier_instructions = {
+        "command": str(
+            verifier_template.get(
+                "command",
+                "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+            )
+        ),
+        "requiredChecks": list(verifier_template.get("requiredChecks", [])),
+    }
+
+    payload = {
+        "objectType": spec["objectType"],
+        "objectName": spec["objectName"],
+        "policyPackId": str(policy_payload.get("policyPackId", "tasc-ga-procurement-objects")),
+        "policyPackVersion": str(policy_payload.get("policyPackVersion", "0.3.0")),
+        "inputHash": digest_of_obj(inputs),
+        "bundleDigest": bundle_digest,
+        "signer": signer,
+        "validity": {
+            "notBeforeUtc": utc_iso(not_before),
+            "notAfterUtc": utc_iso(not_after),
+        },
+        "verifierInstructions": verifier_instructions,
+        "signatureEnvelope": {
+            "payloadDigest": PROCUREMENT_ZERO_DIGEST,
+            "signedAtUtc": utc_now_iso(),
+            "signature": "",
+        },
+        "artifactRef": {
+            "path": artifact_ref_path,
+            "sha256": PROCUREMENT_ZERO_DIGEST,
+        },
+        "inputs": inputs,
+    }
+
+    artifact_digest = procurement_artifact_digest(payload)
+    payload["artifactRef"]["sha256"] = artifact_digest
+    payload_digest = digest_of_obj(procurement_signature_payload_value(payload))
+    payload["signatureEnvelope"]["payloadDigest"] = payload_digest
+    payload["signatureEnvelope"]["signature"] = base64.b64encode(
+        signer_material.sign_fn(payload_digest.encode("utf-8"))
+    ).decode("ascii")
+
+    ensure_json(artifact_path, payload)
+    return payload, artifact_path
+
+
+def build_procurement_objects(
+    profile: str,
+    policy: str,
+    lifecycle_stage: str,
+    bundle_digest: str,
+    policy_payload: dict,
+    signer_profile: dict,
+    signer_material: SignerMaterial,
+    repo_root: Path,
+    out_dir: Path,
+    packet_validity_days: int,
+    evidence_map: dict,
+    attestation: dict,
+    signed_log: dict,
+    badge_entry: dict,
+    require_transparency: list[str],
+) -> tuple[dict, list[Path]]:
+    required = {"shipmentEligibilityCertificate", "underwriterConfidencePacket", "procurementBidPacket"}
+    include_recycler = recycler_required(lifecycle_stage)
+    objects: dict[str, dict] = {}
+    paths: list[Path] = []
+    for spec in procurement_object_specs():
+        key = spec["key"]
+        if key not in required and not (include_recycler and key == "recyclerIntakePassport"):
+            continue
+        payload, path = build_procurement_object(
+            spec=spec,
+            profile=profile,
+            policy=policy,
+            lifecycle_stage=lifecycle_stage,
+            bundle_digest=bundle_digest,
+            policy_payload=policy_payload,
+            signer_profile=signer_profile,
+            signer_material=signer_material,
+            repo_root=repo_root,
+            out_dir=out_dir,
+            validity_days=packet_validity_days,
+            evidence_map=evidence_map,
+            attestation=attestation,
+            signed_log=signed_log,
+            badge_entry=badge_entry,
+            require_transparency=require_transparency,
+        )
+        objects[key] = payload
+        paths.append(path)
+    return objects, paths
+
+
+def build_artifacts_index(
+    artifact_paths: list[Path],
+    out_dir: Path,
+    repo_root: Path,
+) -> list[dict]:
+    return [
+        {
+            "path": relpath_from_output(path, out_dir, repo_root),
+            "sha256": f"sha256:{sha256_file(path)}",
+        }
+        for path in artifact_paths
+    ]
+
+
 def run_verifier(
     repo_root: Path,
     bundle_path: Path,
@@ -533,6 +835,18 @@ def main() -> int:
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--profile", default="uas-small")
     parser.add_argument("--policy", default="eu-north-star")
+    parser.add_argument("--assurance-pack-version", default="0.3")
+    parser.add_argument(
+        "--lifecycle-stage",
+        default="active",
+        choices=["active", "maintenance", "decommission", "recycle"],
+    )
+    parser.add_argument("--procurement-policy", default="policies/procurement/object-policy.yaml")
+    parser.add_argument(
+        "--procurement-signer-profile",
+        default="policies/procurement/object-signer-profile.yaml",
+    )
+    parser.add_argument("--packet-validity-days", type=int, default=30)
     parser.add_argument("--output", default="evidence/manifests/tasc-assurance-pack.json")
     parser.add_argument("--archive", default="evidence/manifests/tasc-assurance-pack.tgz")
     parser.add_argument("--badge-id", default=None)
@@ -573,10 +887,17 @@ def main() -> int:
     trust_roots = (repo_root / args.trust_roots).resolve()
     revocation_snapshot = (repo_root / args.revocation_snapshot).resolve()
     signer_material = resolve_signer_material(args, repo_root, out_dir)
+    procurement_policy = load_yaml((repo_root / args.procurement_policy).resolve())
+    procurement_signer_profile = load_yaml((repo_root / args.procurement_signer_profile).resolve())
+    required_transparency = [
+        part.strip() for part in args.require_transparency.split(",") if part.strip()
+    ]
     if args.require_ta == "TA2" and signer_material.key_source != "PKCS11":
         raise SystemExit("TA2 assurance packs require --signer-mode pkcs11")
     if args.require_ta == "TA2" and not args.publish_live:
         raise SystemExit("TA2 assurance packs require --publish-live for dual transparency proofs")
+    if args.assurance_pack_version not in {"0.2", "0.3"}:
+        raise SystemExit("--assurance-pack-version must be 0.2 or 0.3")
 
     badge_id = args.badge_id or f"badge-{args.profile}-active"
 
@@ -677,7 +998,7 @@ def main() -> int:
         "badgeId": badge_id,
         "badgeType": "TASC_AUDIT_GRADE",
         "systemDigest": sha_prefixed_hex(f"system:{args.profile}"),
-        "specVersion": "0.2.0",
+        "specVersion": f"{args.assurance_pack_version}.0",
         "conformanceReportDigest": "sha256:" + "0" * 64,
         "attestationDigest": digest_of_obj(attestation),
         "issuedAt": utc_now_iso(),
@@ -699,7 +1020,7 @@ def main() -> int:
             },
         },
         "tasc": {
-            "specVersion": "0.2.0",
+            "specVersion": f"{args.assurance_pack_version}.0",
             "profile": args.profile,
             "verifier": {"name": "tasc-verify", "version": "0.1.0"},
         },
@@ -785,29 +1106,23 @@ def main() -> int:
         revocation_snapshot,
     ]
 
-    artifacts = [
-        {
-            "path": relpath_from_output(path, out_dir, repo_root),
-            "sha256": f"sha256:{sha256_file(path)}",
-        }
-        for path in artifact_paths
-    ]
+    artifacts = build_artifacts_index(artifact_paths, out_dir, repo_root)
 
     assurance_pack = {
-        "assurancePackVersion": "0.2",
+        "assurancePackVersion": args.assurance_pack_version,
         "profile": args.profile,
         "policy": args.policy,
-        "specVersion": "0.2.0",
+        "specVersion": f"{args.assurance_pack_version}.0",
         "verifier": {"name": "tasc-verify", "version": "0.1.0"},
         "evidenceMap": evidence_map,
         "conformanceReport": {
             "tascVerifyVersion": "pending",
-            "specVersion": "0.2.0",
+            "specVersion": f"{args.assurance_pack_version}.0",
             "profile": args.profile,
             "policy": args.policy,
             "bundleDigest": "pending",
             "requireTa": args.require_ta,
-            "requireTransparency": [part.strip() for part in args.require_transparency.split(",") if part.strip()],
+            "requireTransparency": required_transparency,
             "result": "PENDING",
             "checks": [],
             "failedChecks": [],
@@ -847,22 +1162,83 @@ def main() -> int:
         "artifacts": artifacts,
     }
 
+    procurement_paths: list[Path] = []
+    if args.assurance_pack_version == "0.3":
+        assurance_pack["releaseContext"] = {"lifecycleStage": args.lifecycle_stage}
+        procurement_objects, procurement_paths = build_procurement_objects(
+            profile=args.profile,
+            policy=args.policy,
+            lifecycle_stage=args.lifecycle_stage,
+            bundle_digest=PROCUREMENT_ZERO_DIGEST,
+            policy_payload=procurement_policy,
+            signer_profile=procurement_signer_profile,
+            signer_material=signer_material,
+            repo_root=repo_root,
+            out_dir=out_dir,
+            packet_validity_days=args.packet_validity_days,
+            evidence_map=evidence_map,
+            attestation=attestation,
+            signed_log=signed_log,
+            badge_entry=badge_entry,
+            require_transparency=required_transparency,
+        )
+        assurance_pack["procurementObjects"] = procurement_objects
+        artifact_paths.extend(procurement_paths)
+        assurance_pack["artifacts"] = build_artifacts_index(artifact_paths, out_dir, repo_root)
+
     # First write bundle, then bind transparency proofs to real bundle digest.
     output.write_text(json.dumps(assurance_pack, indent=2) + "\n", encoding="utf-8")
     bundle_digest = f"sha256:{sha256_file(output)}"
     assurance_pack["lineage"]["assurancePackDigest"] = bundle_digest
+    if args.assurance_pack_version == "0.3":
+        procurement_objects, procurement_paths = build_procurement_objects(
+            profile=args.profile,
+            policy=args.policy,
+            lifecycle_stage=args.lifecycle_stage,
+            bundle_digest=bundle_digest,
+            policy_payload=procurement_policy,
+            signer_profile=procurement_signer_profile,
+            signer_material=signer_material,
+            repo_root=repo_root,
+            out_dir=out_dir,
+            packet_validity_days=args.packet_validity_days,
+            evidence_map=evidence_map,
+            attestation=attestation,
+            signed_log=signed_log,
+            badge_entry=badge_entry,
+            require_transparency=required_transparency,
+        )
+        assurance_pack["procurementObjects"] = procurement_objects
+        if procurement_paths:
+            artifact_paths = [path for path in artifact_paths if path not in procurement_paths]
+            artifact_paths.extend(procurement_paths)
+        assurance_pack["artifacts"] = build_artifacts_index(artifact_paths, out_dir, repo_root)
+    live_payloads_pre = (
+        fetch_live_transparency_payloads(
+            args=args,
+            repo_root=repo_root,
+            out_dir=out_dir,
+            bundle_path=output,
+            bundle_digest=bundle_digest,
+            signer_material=signer_material,
+        )
+        if args.publish_live
+        else {}
+    )
     assurance_pack["transparencyProofs"] = {
         "rekor": build_transparency_proof(
             "rekor",
             checkpoints,
             bundle_digest,
             signer_material,
+            live_payload=live_payloads_pre.get("rekor"),
         ),
         "mirror": build_transparency_proof(
             "mirror",
             checkpoints,
             bundle_digest,
             signer_material,
+            live_payload=live_payloads_pre.get("mirror"),
         ),
     }
     output.write_text(json.dumps(assurance_pack, indent=2) + "\n", encoding="utf-8")
@@ -888,11 +1264,35 @@ def main() -> int:
 
     final_digest = f"sha256:{sha256_file(output)}"
     assurance_pack["lineage"]["assurancePackDigest"] = final_digest
+    if args.assurance_pack_version == "0.3":
+        procurement_objects, procurement_paths = build_procurement_objects(
+            profile=args.profile,
+            policy=args.policy,
+            lifecycle_stage=args.lifecycle_stage,
+            bundle_digest=final_digest,
+            policy_payload=procurement_policy,
+            signer_profile=procurement_signer_profile,
+            signer_material=signer_material,
+            repo_root=repo_root,
+            out_dir=out_dir,
+            packet_validity_days=args.packet_validity_days,
+            evidence_map=evidence_map,
+            attestation=attestation,
+            signed_log=signed_log,
+            badge_entry=badge_entry,
+            require_transparency=required_transparency,
+        )
+        assurance_pack["procurementObjects"] = procurement_objects
+        if procurement_paths:
+            artifact_paths = [path for path in artifact_paths if path not in procurement_paths]
+            artifact_paths.extend(procurement_paths)
+        assurance_pack["artifacts"] = build_artifacts_index(artifact_paths, out_dir, repo_root)
     live_payloads = (
         fetch_live_transparency_payloads(
             args=args,
             repo_root=repo_root,
             out_dir=out_dir,
+            bundle_path=output,
             bundle_digest=final_digest,
             signer_material=signer_material,
         )

@@ -1,8 +1,21 @@
-# TASC MSA Language v0.1
+# TASC MSA Language v0.3
 
 ## Safety Assurance Artifacts
 
 Vendor shall deliver a TASC Assurance Pack for every release and safety-relevant configuration.
+
+Vendor shall also deliver named signed procurement objects (embedded in the assurance pack and as standalone artifacts):
+- Shipment Eligibility Certificate
+- Underwriter Confidence Packet
+- Procurement Bid Packet
+- Recycler Intake Passport (conditional for `decommission`/`recycle` lifecycle stages)
+
+Each named object must carry:
+- `policyPackId` / `policyPackVersion`
+- `inputHash` / `bundleDigest`
+- signer identity + `trustAnchorLevel`
+- validity interval
+- verifier instructions
 
 ## Version Pinning
 

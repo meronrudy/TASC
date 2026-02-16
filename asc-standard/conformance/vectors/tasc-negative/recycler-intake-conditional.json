@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_RECYCLER_INTAKE_CONDITIONAL",
+  "targetCheckId": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_RECYCLER_INTAKE_CONDITIONAL.",
+  "mutation": {
+    "operation": "remove_conditional_object",
+    "expectedResult": "FAIL"
+  }
+}

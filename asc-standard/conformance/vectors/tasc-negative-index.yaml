@@ -22,6 +22,24 @@ vectors:
   path: conformance/vectors/tasc-negative/schema-transparency-mirror.json
 - checkId: CHK_SCHEMA_BADGE_ENTRY
   path: conformance/vectors/tasc-negative/schema-badge-entry.json
+- checkId: CHK_SCHEMA_PROCUREMENT_OBJECTS
+  path: conformance/vectors/tasc-negative/schema-procurement-objects.json
+- checkId: CHK_PROCUREMENT_OBJECT_REQUIRED_SET
+  path: conformance/vectors/tasc-negative/procurement-object-required-set.json
+- checkId: CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY
+  path: conformance/vectors/tasc-negative/procurement-object-artifact-parity.json
+- checkId: CHK_PROCUREMENT_OBJECT_INPUT_HASH
+  path: conformance/vectors/tasc-negative/procurement-object-input-hash.json
+- checkId: CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING
+  path: conformance/vectors/tasc-negative/procurement-object-bundle-binding.json
+- checkId: CHK_PROCUREMENT_OBJECT_SIGNATURE
+  path: conformance/vectors/tasc-negative/procurement-object-signature.json
+- checkId: CHK_PROCUREMENT_OBJECT_TRUST_FLOOR
+  path: conformance/vectors/tasc-negative/procurement-object-trust-floor.json
+- checkId: CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW
+  path: conformance/vectors/tasc-negative/procurement-object-validity-window.json
+- checkId: CHK_RECYCLER_INTAKE_CONDITIONAL
+  path: conformance/vectors/tasc-negative/recycler-intake-conditional.json
 - checkId: CHK_PROFILE_MATCH
   path: conformance/vectors/tasc-negative/profile-match.json
 - checkId: CHK_POLICY_MATCH

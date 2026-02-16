@@ -1,0 +1,58 @@
+{
+  "objectType": "procurement_bid_packet",
+  "objectName": "Procurement Bid Packet",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:10940f89de757f1f962e0bdad3c3c6647756315ea4b35eda9bfc1ad10070fe2f",
+  "bundleDigest": "sha256:ed8a5ec8edc31a5774c7a3d26d336e9469862897794e6f062742024a69fdfe51",
+  "signer": {
+    "signerKeyId": "kid:procurement-bid-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-02-13T07:04:06Z",
+    "notAfterUtc": "2026-03-15T07:04:06Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:2f5e3756c64c57f29d9b9bb616e3dd395e35ce3709a34cf84b47fadabe48a974",
+    "signedAtUtc": "2026-02-13T07:04:06Z",
+    "signature": "f3C7FhqKW44BAsTqSyqU4mTlCrgv1rQAuwtMf+lcLb3lgD+9KawPNOiEA7ujEwVD6urA1uTRTmeS00XZapnD0ewravLhgCl5IlM/9V1dvjnqv1blT6wsIkA+EG5J6n3f7ft0EMqrWAuEjLwxfRSNGHZqKfPk05D4I5VVJhELix0AUOeKvvo0yQUGUeTYEmspC0jVMNUtF111sC3Xve5o6LsJiMLOuTLIq5/KzYV1nOw7lcR/+xlsVxn27590bwDNhkr9hwSjAbgixwkN/1DoVsMBnpZnHDQPxCK4SaRdoz0xIUoMC9XJiIPW7b1gRnErtGYCQu4L4OSRGAI5HJ0khQ=="
+  },
+  "artifactRef": {
+    "path": "procurement-bid-packet-fixed-wing.json",
+    "sha256": "sha256:46fbfc8bbff35320b3b479e243d473d0f5a0243368a70fb8f2abb9ddf37c96a8"
+  },
+  "inputs": {
+    "profile": "fixed-wing",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "procurementBidPacket",
+    "objectType": "procurement_bid_packet",
+    "objectName": "Procurement Bid Packet",
+    "evidenceMapDigest": "sha256:afb02294ece965fd2f65f1b4de4f8b58bca49beb06b046f46d464d422aa3ffbe",
+    "attestationDigest": "sha256:685a4ce607a5be19a7ffd691ba694637cbc6f5c98802f533f7412a2a3be7a16e",
+    "signedOperationalLogRoot": "sha256:d40503f489518c207e4c0e81e96dd1a4307e9f51abc687dfc9029c8abdc73172",
+    "badgeId": "badge-fixed-wing-active",
+    "requiredTransparency": [
+      "rekor",
+      "mirror"
+    ]
+  }
+}

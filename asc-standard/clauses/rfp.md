@@ -1,4 +1,4 @@
-# TASC RFP Clause Pack v0.1
+# TASC RFP Clause Pack v0.3
 
 ## SECTION [X]: TRUSTED AVIONICS SAFETY CONTRACT (TASC) ARTIFACTS (MANDATORY)
 
@@ -19,6 +19,18 @@ Offeror SHALL provide for each safety-relevant release:
 5. Trust-anchor attestation evidence (minimum TA2).
 6. Incident templates and retention policy declaration.
 7. Rekor and mirror transparency proofs.
+8. Shipment Eligibility Certificate (signed procurement object).
+9. Underwriter Confidence Packet (signed procurement object).
+10. Procurement Bid Packet (signed procurement object).
+11. Recycler Intake Passport (signed procurement object) when lifecycle stage is `decommission` or `recycle`.
+
+Each signed procurement object SHALL include:
+- `policyPackId` and `policyPackVersion`
+- `inputHash` and `bundleDigest`
+- signer identity and `trustAnchorLevel`
+- validity interval (`notBeforeUtc`, `notAfterUtc`)
+- verifier instructions (`command`, `requiredChecks`)
+- signature envelope and standalone artifact reference (`artifactRef.path`, `artifactRef.sha256`)
 
 ### 3. Verification and Acceptance Testing
 

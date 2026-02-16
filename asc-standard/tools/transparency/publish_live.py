@@ -151,6 +151,8 @@ def publish_rekor(
     consistency = (record.get("verification", {}) or {}).get("consistencyProof", {}) or {}
     log_index = int(record.get("logIndex", entry.get("logIndex", 0)))
     tree_size = int(inclusion.get("treeSize", log_index + 1))
+    if tree_size <= log_index:
+        tree_size = log_index + 1
     root_hash_hex = str(inclusion.get("rootHash", "")).strip().lower()
     if root_hash_hex and not root_hash_hex.startswith("sha256:"):
         root_hash = f"sha256:{root_hash_hex}"

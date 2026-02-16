@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+  "targetCheckId": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_PROCUREMENT_OBJECT_TRUST_FLOOR.",
+  "mutation": {
+    "operation": "lower_trust_floor",
+    "expectedResult": "FAIL"
+  }
+}

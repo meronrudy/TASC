@@ -1,0 +1,10 @@
+version: 0.1.0
+module: /usr/lib/softhsm/libsofthsm2.so
+slot: null
+token_label: tasc-soft-token
+key_label: tasc-ta2-key
+cert_label: tasc-ta2-cert
+pin_env: TASC_PKCS11_PIN
+mechanism: SHA256-RSA-PKCS
+intermediate_chain_path: policies/attestation/pki/ta2-chain.pem
+root_bundle_path: policies/attestation/pki/trust-roots.pem

@@ -37,7 +37,7 @@ For each impacted profile:
 4. refresh hashlock/releasepack manifests.
 
 ```bash
-python3 tools/assurancepack/assurancepack.py --repo-root . --profile <profile> --output <pack> --archive <archive> --badge-id <badge> --signer-mode pkcs11 --pkcs11-sign-cmd "..."
+python3 tools/assurancepack/assurancepack.py --repo-root . --profile <profile> --assurance-pack-version 0.3 --lifecycle-stage active --output <pack> --archive <archive> --badge-id <badge> --signer-mode pkcs11 --pkcs11-profile policies/attestation/pkcs11-profile.yaml --pkcs11-module "$PKCS11_MODULE" --pkcs11-token-label tasc-soft-token --pkcs11-key-label tasc-ta2-key --pkcs11-cert-label tasc-ta2-cert --pkcs11-pin-env TASC_PKCS11_PIN --pkcs11-mechanism SHA256-RSA-PKCS --publish-live --rekor-url https://rekor.sigstore.dev --mirror-url http://127.0.0.1:17777
 cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify --bundle <pack> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror
 python3 tools/tasc-verify/offline_smoke.py --repo-root . --profiles uas-small,fixed-wing,hybrid-vtol
 python3 tools/hashlock/hashlock.py --repo-root .

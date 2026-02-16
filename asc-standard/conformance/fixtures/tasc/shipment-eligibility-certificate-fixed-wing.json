@@ -1,0 +1,58 @@
+{
+  "objectType": "shipment_eligibility_certificate",
+  "objectName": "Shipment Eligibility Certificate",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:8f5058f373328969f499bb236d35bf215536e486becb8cc74783ba7bf9a9859a",
+  "bundleDigest": "sha256:343c46dfa673a3c69b0ed9d4b6ed423474dded0a64c6f69705d570fa757f7886",
+  "signer": {
+    "signerKeyId": "kid:shipment-eligibility-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-02-13T06:49:12Z",
+    "notAfterUtc": "2026-03-15T06:49:12Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:b24f062424281aa5c5c8c93d92b6b288da59bf51b72e8f5dbdca1456f3a7c995",
+    "signedAtUtc": "2026-02-13T06:49:12Z",
+    "signature": "llSfxgu7Pdy3ICtTlyrsGYE5taaWRa0O6BRlOlP/1sryy9oApzEbLUL9dO/H5G/PqHFMBghjdwBURDJ/7ctIVQFF0UBXwB4sDkWq+gXAaHM/EeJYYaMW5COTr7XBTcEonilygln8JepRRoVFMMjeGEb7tcKeLHrOaKmWZh0J+rQIriC5NKl07YGszFvrtwuZhZASd+XKyIN4lR4/I3FMDljL3xUBZQnU1jyX7coy0lst5vDL6ae42z7qq7cfhNGz4hrL6byaaogfF95JoQLyxg89iK5Bl8UkT/C3jx+b/nB0kBC3kqfMqlputfNSDzLmipFxNaaO6zpkjDwBiddTPQ=="
+  },
+  "artifactRef": {
+    "path": "shipment-eligibility-certificate-fixed-wing.json",
+    "sha256": "sha256:115d549646d553ce9deff2a0813bfa33bc03ab1147c1b3844c2a168797f0620c"
+  },
+  "inputs": {
+    "profile": "fixed-wing",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "shipmentEligibilityCertificate",
+    "objectType": "shipment_eligibility_certificate",
+    "objectName": "Shipment Eligibility Certificate",
+    "evidenceMapDigest": "sha256:a2aac5d17771978f90554e04c68c120adb7ad9bcb11fcd4e3340ea4267da2f75",
+    "attestationDigest": "sha256:25d21f589a035572b2416236e90125c435b037e2b2e13d0568a0654afdf33589",
+    "signedOperationalLogRoot": "sha256:d40503f489518c207e4c0e81e96dd1a4307e9f51abc687dfc9029c8abdc73172",
+    "badgeId": "badge-fixed-wing-active",
+    "requiredTransparency": [
+      "rekor",
+      "mirror"
+    ]
+  }
+}

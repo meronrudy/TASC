@@ -27,6 +27,11 @@ A release-grade TASC assurance pack includes:
 - `IncidentPack` template
 - `TransparencyProof` entries for `rekor` and `mirror`
 - `BadgeEntry`
+- signed procurement objects:
+  - Shipment Eligibility Certificate
+  - Underwriter Confidence Packet
+  - Procurement Bid Packet
+  - Recycler Intake Passport (conditional)
 
 Schemas are under `schemas/` and checks are in `spec/tasc/checks.yaml`.
 
@@ -38,6 +43,7 @@ GA verification requires:
 - attestation floor `TA2`,
 - both transparency proofs (`rekor`, `mirror`),
 - active/non-revoked badge,
+- procurement object section (`assurancePackVersion 0.3`) with signed standalone parity,
 - all required check IDs PASS.
 
 Canonical command:

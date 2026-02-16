@@ -1,0 +1,58 @@
+{
+  "objectType": "underwriter_confidence_packet",
+  "objectName": "Underwriter Confidence Packet",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:b89963270177dfe3e923a7186084612a839e88c2e1c8f4d34be47ac6b965f035",
+  "bundleDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
+  "signer": {
+    "signerKeyId": "kid:underwriter-confidence-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-02-13T07:04:09Z",
+    "notAfterUtc": "2026-03-15T07:04:09Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:a6fca81b3c3686519bbdddbfa0360fd261b80f45592711d7ad190a954713fc4c",
+    "signedAtUtc": "2026-02-13T07:04:09Z",
+    "signature": "qV2/EOdFurYF8d2yaw0Hmzw9/6+agcd3T73tNKVVug2VE/DIip1dmRfIAif4jrCm7qqaSgcb2Oij5h+k763eFGWoRwfelJuMrxyZCfaJntGTi+eCzJlNdYfeD90gDLaVEvSRYyyuxAIVbVOHGj6LmZ+uOCwGrOgqhDZ4PP+xPXuPAYL6QrfB6/cr3tOS9eoi6ZJmd5nMlrH6DxTekkafWZWNzt/S4vClSY+DQxIGQZc5WvyrbNvOyHfP8dZaKnw1cOsZy+yn7n+iXpGS/VTnFBU8Bfxar8LEajyd5hoJ9vT2VgoDejIO+JMHerzI19G/QrpQ3oSZB0IRu7vQzaq28w=="
+  },
+  "artifactRef": {
+    "path": "underwriter-confidence-packet-hybrid-vtol.json",
+    "sha256": "sha256:9d696b02879ddb1ac2593a8858406c6db47d7c48f68a43cf676bcfb5c8871771"
+  },
+  "inputs": {
+    "profile": "hybrid-vtol",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "underwriterConfidencePacket",
+    "objectType": "underwriter_confidence_packet",
+    "objectName": "Underwriter Confidence Packet",
+    "evidenceMapDigest": "sha256:77f108181c60a482b7e750a9c82d97cbae1bc0b7f674e4591ad1d5f0b0c241f6",
+    "attestationDigest": "sha256:765a89e5758e8a8bb0aad3b07fdb0e15b8d4d6b0dbf85589e8f7c323c6e2a5f0",
+    "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
+    "badgeId": "badge-hybrid-vtol-active",
+    "requiredTransparency": [
+      "rekor",
+      "mirror"
+    ]
+  }
+}

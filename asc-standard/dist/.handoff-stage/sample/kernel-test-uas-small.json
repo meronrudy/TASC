@@ -1,4 +1,5 @@
 {
   "suite": "asc-conformance-kernel",
+  "profile": "uas-small",
   "status": "pass"
 }

@@ -104,6 +104,110 @@ def mutate_for_check(bundle: dict[str, Any], check_id: str, variant: int) -> Non
             pop_path(bundle, "badgeEntry.badgeId")
         else:
             pop_path(bundle, "badgeEntry.badgeType")
+    elif check_id == "CHK_SCHEMA_PROCUREMENT_OBJECTS":
+        if v == 0:
+            bundle.pop("procurementObjects", None)
+        elif v == 1:
+            pop_path(bundle, "releaseContext.lifecycleStage")
+        else:
+            pop_path(bundle, "procurementObjects.shipmentEligibilityCertificate.objectType")
+    elif check_id == "CHK_PROCUREMENT_OBJECT_REQUIRED_SET":
+        if v == 0:
+            pop_path(bundle, "procurementObjects.procurementBidPacket")
+        elif v == 1:
+            pop_path(bundle, "procurementObjects.underwriterConfidencePacket")
+        else:
+            bundle.setdefault("releaseContext", {})["lifecycleStage"] = "decommission"
+            pop_path(bundle, "procurementObjects.recyclerIntakePassport")
+    elif check_id == "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY":
+        obj = (
+            bundle.get("procurementObjects", {}).get("procurementBidPacket")
+            if isinstance(bundle.get("procurementObjects"), dict)
+            else None
+        )
+        if isinstance(obj, dict):
+            artifact_ref = obj.get("artifactRef")
+            if isinstance(artifact_ref, dict):
+                if v == 0:
+                    artifact_ref["path"] = str(artifact_ref.get("path", "")) + ".missing"
+                elif v == 1:
+                    artifact_ref["sha256"] = "sha256:" + "f" * 64
+                else:
+                    obj["objectName"] = "Tampered Procurement Bid Packet"
+    elif check_id == "CHK_PROCUREMENT_OBJECT_INPUT_HASH":
+        obj = (
+            bundle.get("procurementObjects", {}).get("shipmentEligibilityCertificate")
+            if isinstance(bundle.get("procurementObjects"), dict)
+            else None
+        )
+        if isinstance(obj, dict):
+            if v == 0:
+                obj["inputHash"] = "sha256:" + "0" * 64
+            elif v == 1:
+                if isinstance(obj.get("inputs"), dict):
+                    obj["inputs"]["profile"] = "tampered-profile"
+            else:
+                if isinstance(obj.get("inputs"), dict):
+                    obj["inputs"]["requiredTransparency"] = ["mirror"]
+    elif check_id == "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING":
+        obj = (
+            bundle.get("procurementObjects", {}).get("underwriterConfidencePacket")
+            if isinstance(bundle.get("procurementObjects"), dict)
+            else None
+        )
+        if isinstance(obj, dict):
+            obj["bundleDigest"] = "sha256:" + ("1" if v == 0 else "2" if v == 1 else "3") * 64
+    elif check_id == "CHK_PROCUREMENT_OBJECT_SIGNATURE":
+        obj = (
+            bundle.get("procurementObjects", {}).get("procurementBidPacket")
+            if isinstance(bundle.get("procurementObjects"), dict)
+            else None
+        )
+        if isinstance(obj, dict):
+            envelope = obj.get("signatureEnvelope")
+            signer = obj.get("signer")
+            if isinstance(envelope, dict) and isinstance(signer, dict):
+                if v == 0:
+                    envelope["signature"] = "broken-signature"
+                elif v == 1:
+                    envelope["payloadDigest"] = "sha256:" + "4" * 64
+                else:
+                    signer["signatureAlgorithm"] = "ecdsa-sha256"
+    elif check_id == "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR":
+        obj = (
+            bundle.get("procurementObjects", {}).get("underwriterConfidencePacket")
+            if isinstance(bundle.get("procurementObjects"), dict)
+            else None
+        )
+        if isinstance(obj, dict) and isinstance(obj.get("signer"), dict):
+            if v == 0:
+                obj["signer"]["trustAnchorLevel"] = "TA1"
+            elif v == 1:
+                obj["signer"]["trustAnchorLevel"] = "TA0"
+            else:
+                obj["signer"]["keySource"] = "FILE"
+    elif check_id == "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW":
+        obj = (
+            bundle.get("procurementObjects", {}).get("shipmentEligibilityCertificate")
+            if isinstance(bundle.get("procurementObjects"), dict)
+            else None
+        )
+        if isinstance(obj, dict) and isinstance(obj.get("validity"), dict):
+            if v == 0:
+                obj["validity"]["notAfterUtc"] = "2020-01-01T00:00:00Z"
+            elif v == 1:
+                obj["validity"]["notBeforeUtc"] = "2099-01-01T00:00:00Z"
+            else:
+                obj["validity"]["notBeforeUtc"] = "2030-01-01T00:00:00Z"
+                obj["validity"]["notAfterUtc"] = "2029-01-01T00:00:00Z"
+    elif check_id == "CHK_RECYCLER_INTAKE_CONDITIONAL":
+        bundle.setdefault("releaseContext", {})["lifecycleStage"] = "decommission"
+        if v == 0:
+            pop_path(bundle, "procurementObjects.recyclerIntakePassport")
+        elif v == 1:
+            pop_path(bundle, "procurementObjects")
+        else:
+            pop_path(bundle, "releaseContext.lifecycleStage")
     elif check_id == "CHK_PROFILE_MATCH":
         bundle["profile"] = f"wrong-profile-{v}"
     elif check_id == "CHK_POLICY_MATCH":

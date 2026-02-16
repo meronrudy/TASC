@@ -6,7 +6,7 @@
   "ticks": 25,
   "time_step_ms": 16,
   "expected_final_verdict": "Override",
-  "expected_tip_hash": "a14e3764d7cc56af0c72d4d4f19aa6569d236ba69bab04e62cf130da2a6640f5",
+  "expected_tip_hash": "57d81e4895396b2496a8604cd94c9f3b8fc33d1ffc1624c3a38c69cb5a360c8e",
   "drift": {
     "seed_offset": 1,
     "require_tip_hash_change": true,

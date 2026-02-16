@@ -1,0 +1,51 @@
+version: 0.1.0
+policyPackId: tasc-ga-procurement-objects
+policyPackVersion: 0.3.0
+requiredFields:
+  - objectType
+  - objectName
+  - policyPackId
+  - policyPackVersion
+  - inputHash
+  - bundleDigest
+  - signer
+  - validity
+  - verifierInstructions
+  - signatureEnvelope
+  - artifactRef
+  - inputs
+objects:
+  shipmentEligibilityCertificate:
+    objectType: shipment_eligibility_certificate
+    objectName: Shipment Eligibility Certificate
+    required: true
+  underwriterConfidencePacket:
+    objectType: underwriter_confidence_packet
+    objectName: Underwriter Confidence Packet
+    required: true
+  procurementBidPacket:
+    objectType: procurement_bid_packet
+    objectName: Procurement Bid Packet
+    required: true
+  recyclerIntakePassport:
+    objectType: recycler_intake_passport
+    objectName: Recycler Intake Passport
+    required: conditional
+    requiredWhenLifecycleStage:
+      - decommission
+      - recycle
+signatureRules:
+  algorithm: rsa-sha256
+  encoding: base64
+  trustFloor: TA2
+  bindToBundleDigest: true
+  bindToInputHash: true
+validityRules:
+  requireInterval: true
+  notBeforeField: validity.notBeforeUtc
+  notAfterField: validity.notAfterUtc
+  enforceAtVerificationTime: true
+artifactParity:
+  embeddedAndStandaloneMustMatch: true
+  standalonePathField: artifactRef.path
+  standaloneDigestField: artifactRef.sha256

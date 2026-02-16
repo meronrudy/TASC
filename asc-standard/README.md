@@ -52,11 +52,22 @@ cargo test --manifest-path reference/kernel/Cargo.toml --workspace
 python3 tools/assurancepack/assurancepack.py \
   --repo-root . \
   --profile uas-small \
+  --assurance-pack-version 0.3 \
+  --lifecycle-stage active \
   --output evidence/manifests/tasc-assurance-pack-uas-small.json \
   --archive evidence/manifests/tasc-assurance-pack-uas-small.tgz \
   --badge-id badge-uas-small-active \
   --signer-mode pkcs11 \
-  --pkcs11-sign-cmd "openssl dgst -sha256 -sign policies/attestation/pki/ta2-signer.key.pem -out {output} {input}"
+  --pkcs11-profile policies/attestation/pkcs11-profile.yaml \
+  --pkcs11-module "$PKCS11_MODULE" \
+  --pkcs11-token-label tasc-soft-token \
+  --pkcs11-key-label tasc-ta2-key \
+  --pkcs11-cert-label tasc-ta2-cert \
+  --pkcs11-pin-env TASC_PKCS11_PIN \
+  --pkcs11-mechanism SHA256-RSA-PKCS \
+  --publish-live \
+  --rekor-url https://rekor.sigstore.dev \
+  --mirror-url http://127.0.0.1:17777
 
 cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify \
   --bundle evidence/manifests/tasc-assurance-pack-uas-small.json \
@@ -87,11 +98,22 @@ for p in uas-small fixed-wing hybrid-vtol; do
   python3 tools/assurancepack/assurancepack.py \
     --repo-root . \
     --profile "$p" \
+    --assurance-pack-version 0.3 \
+    --lifecycle-stage active \
     --output "evidence/manifests/tasc-assurance-pack-${p}.json" \
     --archive "evidence/manifests/tasc-assurance-pack-${p}.tgz" \
     --badge-id "badge-${p}-active" \
     --signer-mode pkcs11 \
-    --pkcs11-sign-cmd "openssl dgst -sha256 -sign policies/attestation/pki/ta2-signer.key.pem -out {output} {input}"
+    --pkcs11-profile policies/attestation/pkcs11-profile.yaml \
+    --pkcs11-module "$PKCS11_MODULE" \
+    --pkcs11-token-label tasc-soft-token \
+    --pkcs11-key-label tasc-ta2-key \
+    --pkcs11-cert-label tasc-ta2-cert \
+    --pkcs11-pin-env TASC_PKCS11_PIN \
+    --pkcs11-mechanism SHA256-RSA-PKCS \
+    --publish-live \
+    --rekor-url https://rekor.sigstore.dev \
+    --mirror-url http://127.0.0.1:17777
 done
 
 # 4) Verify each pack via Rust verifier

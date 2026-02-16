@@ -1,0 +1,30 @@
+version: 0.1.0
+default:
+  mode: pkcs11
+  trustAnchorLevel: TA2
+  keySource: PKCS11
+  signerCertificatePath: policies/attestation/pki/ta2-signer.cert.pem
+  certificateChainPath: policies/attestation/pki/ta2-chain.pem
+  signatureAlgorithm: rsa-sha256
+  signatureEncoding: base64
+objects:
+  shipmentEligibilityCertificate:
+    signerKeyId: kid:shipment-eligibility-ta2
+    pkcs11:
+      keyLabel: tasc-ta2-key
+      certLabel: tasc-ta2-cert
+  underwriterConfidencePacket:
+    signerKeyId: kid:underwriter-confidence-ta2
+    pkcs11:
+      keyLabel: tasc-ta2-key
+      certLabel: tasc-ta2-cert
+  procurementBidPacket:
+    signerKeyId: kid:procurement-bid-ta2
+    pkcs11:
+      keyLabel: tasc-ta2-key
+      certLabel: tasc-ta2-cert
+  recyclerIntakePassport:
+    signerKeyId: kid:recycler-intake-ta2
+    pkcs11:
+      keyLabel: tasc-ta2-key
+      certLabel: tasc-ta2-cert

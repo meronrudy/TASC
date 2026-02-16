@@ -1,0 +1,24 @@
+{
+  "evidenceRefs": {
+    "attestationHash": "sha256:23b4130b487476f872dd2cbc3e4fde6073eea931aa5c0f2f29adeb0197fb78cc",
+    "evidenceMapHash": "sha256:ff16e0863f0e148256e423074aeb7556b2eaefcf839c445dc9f1d7d5593323ff",
+    "replayRecipeHash": "sha256:e69ef45f4b04118bdb6e2ce9df2c481bd330125a8bc47042a61545c77aac0c6d",
+    "signedLogSegmentHash": "sha256:fdaadd45a17979a98be31828fa8b8545c46be42392df4ef925f569ccd6fcb86e"
+  },
+  "interlockDecision": {
+    "allowed": true,
+    "latched": false,
+    "reason": "authorized"
+  },
+  "narrative": "Mission completed without safety intervention.",
+  "profile": "hybrid-vtol",
+  "reportingWindowsDays": {
+    "fatal": 10,
+    "standard": 15,
+    "widespread": 2
+  },
+  "severity": "S0",
+  "systemId": "sys:hybrid-vtol:hybrid-vtol-ga-smoke",
+  "templateId": "tasc-incident-initial-v0.1",
+  "timestampUtc": "2026-02-13T06:49:13Z"
+}

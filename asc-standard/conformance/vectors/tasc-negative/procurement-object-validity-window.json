@@ -1,0 +1,10 @@
+{
+  "id": "NEG-CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+  "targetCheckId": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+  "type": "negative",
+  "description": "Intentional failure vector for CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW.",
+  "mutation": {
+    "operation": "expire_validity_window",
+    "expectedResult": "FAIL"
+  }
+}

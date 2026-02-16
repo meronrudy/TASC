@@ -31,14 +31,23 @@ cargo run --manifest-path reference/kernel/Cargo.toml -p asc-conformance-kernel 
 ### Step 3: Build Assurance Packs
 
 ```bash
+python3 tools/releasepack/canonicalize.py --repo-root . --manifest-dir evidence/manifests --allowlist evidence/canonical-artifacts.yaml --output evidence/manifests/canonicalize-report.json
+python3 tools/hashlock/hashlock.py --repo-root .
+
 for p in uas-small fixed-wing hybrid-vtol; do
   python3 tools/assurancepack/assurancepack.py \
     --repo-root . --profile "$p" \
+    --assurance-pack-version 0.3 \
+    --lifecycle-stage active \
+    --packet-validity-days 30 \
     --output "evidence/manifests/tasc-assurance-pack-${p}.json" \
     --archive "evidence/manifests/tasc-assurance-pack-${p}.tgz" \
     --badge-id "badge-${p}-active" \
     --signer-mode pkcs11 \
-    --pkcs11-sign-cmd "openssl dgst -sha256 -sign policies/attestation/pki/ta2-signer.key.pem -out {output} {input}"
+    --pkcs11-profile policies/attestation/pkcs11-profile.yaml \
+    --publish-live \
+    --rekor-url https://rekor.sigstore.dev \
+    --mirror-url http://127.0.0.1:17777
 done
 ```
 
@@ -48,12 +57,13 @@ done
 for p in uas-small fixed-wing hybrid-vtol; do
   cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify \
     --bundle "evidence/manifests/tasc-assurance-pack-${p}.json" \
-    --profile "$p" --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror \
-    --output "evidence/manifests/tasc-conformance-${p}.json"
+    --profile "$p" --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror
 done
 
 python3 tools/tasc-verify/offline_smoke.py --repo-root . --profiles uas-small,fixed-wing,hybrid-vtol
 ```
+
+`assurancepack.py` already emits `evidence/manifests/tasc-conformance-<profile>.json`. Do not overwrite those files with a second `verify --output` write between assurance build and release packaging.
 
 ### Step 5: Policy and Provenance Gates
 
@@ -61,7 +71,6 @@ python3 tools/tasc-verify/offline_smoke.py --repo-root . --profiles uas-small,fi
 python3 tools/data_policy/version_impact_gate.py --repo-root . --output evidence/manifests/data-version-impact.json
 python3 tools/governance/policy_gate.py --repo-root . --output evidence/manifests/governance-policy-gate.json
 python3 tools/tracecheck/tracecheck.py --repo-root .
-python3 tools/hashlock/hashlock.py --repo-root .
 python3 tools/releasepack/releasepack.py --repo-root .
 ```
 

@@ -1,4 +1,4 @@
-# TASC Underwriting Intake Template v0.1
+# TASC Underwriting Intake Template v0.3
 
 ## A. Account and Operations
 
@@ -13,6 +13,10 @@
 - Assurance Pack hash:
 - EvidenceMap hash:
 - Conformance report hash and verifier version:
+- Underwriter Confidence Packet artifact path + hash:
+- Underwriter Confidence Packet `policyPackId` / version:
+- Underwriter Confidence Packet signer + trust-anchor level:
+- Underwriter Confidence Packet validity interval:
 - Attestation level (must be TA2):
 - Transparency proofs (rekor + mirror):
 - Replay recipe hash:

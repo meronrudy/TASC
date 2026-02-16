@@ -1,0 +1,58 @@
+{
+  "objectType": "procurement_bid_packet",
+  "objectName": "Procurement Bid Packet",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:0e7c50a9dacc9c25283efe8584df64a7e3941e98c4376fe6cce4b3ff6971128b",
+  "bundleDigest": "sha256:c586ac9aa5d1ed5e64ae94865b6aff09f636f5b06593eba94ee67080cef80993",
+  "signer": {
+    "signerKeyId": "kid:procurement-bid-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-02-13T06:49:08Z",
+    "notAfterUtc": "2026-03-15T06:49:08Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:52e317d2add20808109fbf6331996a6caa4d0e4ed7286200cdf45e569d013f5b",
+    "signedAtUtc": "2026-02-13T06:49:08Z",
+    "signature": "cX5aACaJ4lm1NIjTx87hNSxpPtpZ/00d+mwdcF0qIy4qUWKufgLaBwUka19Yd9Rp14ATutB3zJFCLj3UUvvSTvLgEADH//znoTQaEbFKALA7idGQ0MzuL6QHG+ZLR+XWIwCsbrgmu1DyT3PnpkDL7ATzAtw5PERMHO1LFrWH2L3BfZkQ7MNvSUiTyTBhT5nAJ3Ca+o1yO1NaixLbZHnx+PWhE5sVF1DSkI8Vo43n7V5RcjfLS0QWj/ASiqMXfxBRYeGD+DBbmUfwGG1tFt+4dgER0mBoBjyJnRTFRRx8H3lY0ngV9RLgTNobBsQZGx9lR18xmAVVUhUv8paEb7Ls+A=="
+  },
+  "artifactRef": {
+    "path": "procurement-bid-packet-uas-small.json",
+    "sha256": "sha256:d00498aa989e085c08049cf324884194ccbf858398574bbac26a60a83cc4fca3"
+  },
+  "inputs": {
+    "profile": "uas-small",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "procurementBidPacket",
+    "objectType": "procurement_bid_packet",
+    "objectName": "Procurement Bid Packet",
+    "evidenceMapDigest": "sha256:63f8f2612c9903790ed88e21ace175d094b4dbce787566d8787cbb40d16d13da",
+    "attestationDigest": "sha256:59166cf800545fa177368605cb9fe56f7406aa2e320d3f95c57766d2e4137ca0",
+    "signedOperationalLogRoot": "sha256:3511e71c0a4c216c1b529242a3fae3e458ccff9a54db5ac0338ecf4541326385",
+    "badgeId": "badge-uas-small-active",
+    "requiredTransparency": [
+      "rekor",
+      "mirror"
+    ]
+  }
+}

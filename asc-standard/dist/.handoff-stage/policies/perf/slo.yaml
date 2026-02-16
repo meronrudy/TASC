@@ -1,0 +1,10 @@
+version: 0.1.0
+slo:
+  verify_p95_seconds: 20
+  assurancepack_publish_p95_seconds: 30
+  replay_from_log_p95_seconds: 60
+  releasepack_p95_seconds: 30
+profiles:
+  - uas-small
+  - fixed-wing
+  - hybrid-vtol

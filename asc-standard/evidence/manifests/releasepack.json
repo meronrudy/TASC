@@ -1,45 +1,46 @@
 {
-  "package": "evidence/manifests/releasepack.tgz",
+  "conformanceReports": {
+    "fixed-wing": "evidence/manifests/tasc-conformance-fixed-wing.json",
+    "hybrid-vtol": "evidence/manifests/tasc-conformance-hybrid-vtol.json",
+    "uas-small": "evidence/manifests/tasc-conformance-uas-small.json"
+  },
+  "freshnessPolicy": "policies/provenance/freshness-policy.yaml",
   "included": [
-    "evidence/manifests/spec-hash.txt",
-    "evidence/manifests/tracecheck-report.json",
-    "evidence/manifests/replay-drift.json",
+    "evidence/manifests/canonicalize-report.json",
+    "evidence/manifests/class-a-gate.json",
     "evidence/manifests/data-version-impact.json",
     "evidence/manifests/governance-policy-gate.json",
     "evidence/manifests/hashlock.json",
-    "evidence/manifests/tasc-assurance-pack-uas-small.json",
+    "evidence/manifests/replay-drift.json",
+    "evidence/manifests/spec-hash.txt",
     "evidence/manifests/tasc-assurance-pack-fixed-wing.json",
     "evidence/manifests/tasc-assurance-pack-hybrid-vtol.json",
-    "evidence/manifests/tasc-conformance-uas-small.json",
+    "evidence/manifests/tasc-assurance-pack-uas-small.json",
     "evidence/manifests/tasc-conformance-fixed-wing.json",
-    "evidence/manifests/tasc-conformance-hybrid-vtol.json"
+    "evidence/manifests/tasc-conformance-hybrid-vtol.json",
+    "evidence/manifests/tasc-conformance-uas-small.json",
+    "evidence/manifests/tracecheck-report.json"
   ],
-  "conformanceReports": {
-    "uas-small": "evidence/manifests/tasc-conformance-uas-small.json",
-    "fixed-wing": "evidence/manifests/tasc-conformance-fixed-wing.json",
-    "hybrid-vtol": "evidence/manifests/tasc-conformance-hybrid-vtol.json"
-  },
   "lineageValidation": [
     {
-      "profile": "uas-small",
       "assurancePack": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-uas-small.json",
+      "assurancePackDigest": "sha256:13f990f23260aa54c6d33838c28f522a27765402851dceb23bcb2a016b73f675",
       "conformanceReport": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-conformance-uas-small.json",
-      "assurancePackDigest": "sha256:143e185f90f0f5d48c303673a2edbe91464eedb2db02f0eb94bae7c2a71b559f"
+      "profile": "uas-small"
     },
     {
-      "profile": "fixed-wing",
       "assurancePack": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-fixed-wing.json",
+      "assurancePackDigest": "sha256:ed8a5ec8edc31a5774c7a3d26d336e9469862897794e6f062742024a69fdfe51",
       "conformanceReport": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-conformance-fixed-wing.json",
-      "assurancePackDigest": "sha256:7aa40c0091a69cdc7331f135fa0e89b6af5cb82b217e1e2e0081b90688dde5ce"
+      "profile": "fixed-wing"
     },
     {
-      "profile": "hybrid-vtol",
       "assurancePack": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-hybrid-vtol.json",
+      "assurancePackDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
       "conformanceReport": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-conformance-hybrid-vtol.json",
-      "assurancePackDigest": "sha256:7aeb83a295b86314ba0269f15251d8b5195dbf505bbc4fa1b14966dfc4f01051"
+      "profile": "hybrid-vtol"
     }
   ],
-  "freshnessPolicy": "policies/provenance/freshness-policy.yaml",
-  "requiredCheckCount": 26,
-  "generatedAtUtc": "2026-02-11T18:48:05.888837+00:00"
+  "package": "evidence/manifests/releasepack.tgz",
+  "requiredCheckCount": 36
 }
