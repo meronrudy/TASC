@@ -3,7 +3,7 @@
     "attestationHash": "sha256:23b4130b487476f872dd2cbc3e4fde6073eea931aa5c0f2f29adeb0197fb78cc",
     "evidenceMapHash": "sha256:ff16e0863f0e148256e423074aeb7556b2eaefcf839c445dc9f1d7d5593323ff",
     "replayRecipeHash": "sha256:e69ef45f4b04118bdb6e2ce9df2c481bd330125a8bc47042a61545c77aac0c6d",
-    "signedLogSegmentHash": "sha256:274fc3dbef24fcd38f23a13b927681cae4b812b5f1e38214864ab1bb8312f384"
+    "signedLogSegmentHash": "sha256:f9bb9cfba85d8b5ac121c5b3da425cc8ce28b38925a1b978a717a8f1d4287ea2"
   },
   "interlockDecision": {
     "allowed": true,
@@ -20,5 +20,5 @@
   "severity": "S0",
   "systemId": "sys:hybrid-vtol:hybrid-vtol-ga-smoke",
   "templateId": "tasc-incident-initial-v0.1",
-  "timestampUtc": "2026-02-13T07:04:07Z"
+  "timestampUtc": "2026-02-16T14:44:32Z"
 }

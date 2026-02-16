@@ -3,8 +3,8 @@
   "objectName": "Underwriter Confidence Packet",
   "policyPackId": "tasc-ga-procurement-objects",
   "policyPackVersion": "0.3.0",
-  "inputHash": "sha256:c29c2b8bc350aecc2417f560386fb99259c228f0fb978f3dbad47eadc742ee50",
-  "bundleDigest": "sha256:ed8a5ec8edc31a5774c7a3d26d336e9469862897794e6f062742024a69fdfe51",
+  "inputHash": "sha256:4911af9386b47d9753903495ec8722be1eeff577f984b0d615ab3d7af1b8df3c",
+  "bundleDigest": "sha256:7ac36f8e062a562b8d0109effe1808a7a4106802261e5c28677c579a0676bce8",
   "signer": {
     "signerKeyId": "kid:underwriter-confidence-ta2",
     "trustAnchorLevel": "TA2",
@@ -15,8 +15,8 @@
     "signatureEncoding": "base64"
   },
   "validity": {
-    "notBeforeUtc": "2026-02-13T07:04:06Z",
-    "notAfterUtc": "2026-03-15T07:04:06Z"
+    "notBeforeUtc": "2026-02-16T14:44:31Z",
+    "notAfterUtc": "2026-03-18T14:44:31Z"
   },
   "verifierInstructions": {
     "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
@@ -31,13 +31,13 @@
     ]
   },
   "signatureEnvelope": {
-    "payloadDigest": "sha256:8d3ff53011c180d29963ddfab1009a99d2d447b89c8d93d746645a0f436a15e9",
-    "signedAtUtc": "2026-02-13T07:04:06Z",
-    "signature": "t3VqAp9seywbr9uDKWqNNFtgSlw++Zr4EDTpD08zUUm1s/7kDPWlJZPx73rEXkmMDkS+/Vb0pAmWUoTXqyx4si7HbYyCuYZG94KJ3Ujq3Q1aJY228Q4Gr9KH75WUZBBYyBrrqKZT2qsphBi590Doz29JLp4VEocovL8VCIlfXnhwrrzANYf9OxWV/9vkdVTnXusb3Xb7fIBRPKWeI8h6UBukmiSbQLCRNjVCvq6BX4zPqjuvI0gu+olT5SNVFFxlUd3YJCPTs1hJvaAY0aRJ16jf8OZFSipO9tm1T60Q0sPOrqdYBnhtlTNXkwJgzGb02bAsqyg37QT1b+HKzDY8LA=="
+    "payloadDigest": "sha256:e5e1c296a7e55ecd74ed43c928df9cfb9300ddcb7133e2501729c9769f5dd9f3",
+    "signedAtUtc": "2026-02-16T14:44:31Z",
+    "signature": "x6rMVenqOpBLr2sD/sQNTHRRmAP07/3uMt63R6J07XkLg/IMMKCfoyD2j/wF1M03N7ve+cWM2KofqS1feLsLbuWDpHyjhGssj2P3ajQDv2K8L7jofHzSrz3vkb5Smw16n6gNR7cD8vOFdjtYGm9JjCn7yPmFLa0nm68punzOG2NA56MC+bZyQb33WCofr8TmaLzCgEo7vGF7g9aDa5nChAemHp80FmIOZvA32w2bENc4ryGabuZstT3v09/EOXM6JUM7ou3m57UPNtmzwPRNZifbWlbLEtt8TrKdwIlWYgOp5dipc5q76Tl3I1LPmxFevD561ySXq6jKH2MoCwdbmQ=="
   },
   "artifactRef": {
     "path": "underwriter-confidence-packet-fixed-wing.json",
-    "sha256": "sha256:ced6e27b6a06051c065e86acd1635c687699d811da0742e6b0a76e90a8442671"
+    "sha256": "sha256:947680bece0ca3a77cc9aec9072b117d6c5cd68aa64287ba347d7aae4ab4782d"
   },
   "inputs": {
     "profile": "fixed-wing",
@@ -46,8 +46,8 @@
     "objectKey": "underwriterConfidencePacket",
     "objectType": "underwriter_confidence_packet",
     "objectName": "Underwriter Confidence Packet",
-    "evidenceMapDigest": "sha256:afb02294ece965fd2f65f1b4de4f8b58bca49beb06b046f46d464d422aa3ffbe",
-    "attestationDigest": "sha256:685a4ce607a5be19a7ffd691ba694637cbc6f5c98802f533f7412a2a3be7a16e",
+    "evidenceMapDigest": "sha256:402efe446e3c47b56b3d9dc25dddf5893514de7d38e9e5dd9aa776fc611f7ad6",
+    "attestationDigest": "sha256:bb9d72e0dd9d0db37bf194095fa1dbb0ea2dc58e19f42e6e3be53c14a8a5807a",
     "signedOperationalLogRoot": "sha256:d40503f489518c207e4c0e81e96dd1a4307e9f51abc687dfc9029c8abdc73172",
     "badgeId": "badge-fixed-wing-active",
     "requiredTransparency": [

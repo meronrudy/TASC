@@ -2,13 +2,13 @@
   "entries": [
     {
       "path": "evidence/manifests/canonicalize-report.json",
-      "sha256": "bbaae7bffcdc4a205ad30669523e5d8e432cf7c778569c75f5f624ffbd249b9c",
-      "sizeBytes": 5647
+      "sha256": "c8d284d643c82dfbfcc5d3394aadab7b922d8248b78ade78f25f8983c75836d6",
+      "sizeBytes": 5454
     },
     {
       "path": "evidence/manifests/class-a-gate.json",
-      "sha256": "ed93a56ef9bd627ad943937f6809c4989b4d71822de4a440edfe1e8d475ca75d",
-      "sizeBytes": 24739
+      "sha256": "25da72629c5bdc541be4c1bc100b4b5431de152479ba92af06dbe6954d0c2d84",
+      "sizeBytes": 26685
     },
     {
       "path": "evidence/manifests/data-version-impact.json",
@@ -22,33 +22,33 @@
     },
     {
       "path": "evidence/manifests/hashlock.json",
-      "sha256": "0a39661d5f2861dcec26cb15e2a80251d042a2fa589a1fd0d2211fb7f3032914",
-      "sizeBytes": 15674
+      "sha256": "cd1018d13646014fe6898069e70854e6cc0878fc4f2d93328482098ac84808ef",
+      "sizeBytes": 6805
     },
     {
       "path": "evidence/manifests/procurement-bid-packet-fixed-wing.json",
-      "sha256": "4408f20580e40aa49b538ea4dbff42c58d86a302987191729a2052ad8d75c773",
+      "sha256": "cfd7f78f1e9c4068a81dbe97929afadb426c5cc3e2438255c0029f942db35605",
       "sizeBytes": 2686
     },
     {
       "path": "evidence/manifests/procurement-bid-packet-hybrid-vtol.json",
-      "sha256": "3a3faf4b581dc4f066783caec19666c2d69613ca3e19b3bde0c7f3e37dec221a",
+      "sha256": "d27f3088d69d832c1edf284274118adf3ca5c67f94227c7d02f10fb752415e54",
       "sizeBytes": 2689
     },
     {
       "path": "evidence/manifests/procurement-bid-packet-uas-small.json",
-      "sha256": "fbcbca058ab43c7d40c6cd778ee2e7f8e05c13632da2b2d72c4325518b66cf0a",
+      "sha256": "105ac27d971e48871ee50adb905b2e9e41fc14568a8015eee16fb628bd66ec53",
       "sizeBytes": 2683
     },
     {
       "path": "evidence/manifests/releasepack.json",
-      "sha256": "f74dc183b69a715ee3cc674b113785d0d5fa06de0f73695f387b85b5341bebaa",
+      "sha256": "d4161dbbf869b87b0dbb0bbcaa2dedb013fa542839258b13ed29bd05a85ee0f6",
       "sizeBytes": 2418
     },
     {
       "path": "evidence/manifests/releasepack.tgz",
-      "sha256": "3d0e97c80951010b91b5f7f984269b91f81cfceed6f250113f2246bf7e894e21",
-      "sizeBytes": 45244
+      "sha256": "98fdaad7015945150cc339f0b3201a8cfe2c9777e6692b8adfcc6c4c4eb72eac",
+      "sizeBytes": 39257
     },
     {
       "path": "evidence/manifests/replay-drift.json",
@@ -72,17 +72,17 @@
     },
     {
       "path": "evidence/manifests/shipment-eligibility-certificate-fixed-wing.json",
-      "sha256": "f85129f30ba0a34c8d9eff7d2ae388616dfda32ed00671d80ca5de181fb403f1",
+      "sha256": "f9c4b26ce285e3a144f41d6da20649a7820986fb3a2d2d296fc7640ed86d7ed6",
       "sizeBytes": 2751
     },
     {
       "path": "evidence/manifests/shipment-eligibility-certificate-hybrid-vtol.json",
-      "sha256": "440b5e4cb9c65bdfae2f2910e136c86146b4e2577ff7db49683a3f82bf8616eb",
+      "sha256": "09dad53ba9b9f4fb415ab59f24a6f77e7886a84ed02e1dd89942796b855a162b",
       "sizeBytes": 2754
     },
     {
       "path": "evidence/manifests/shipment-eligibility-certificate-uas-small.json",
-      "sha256": "1f8ff253da96f604f77e588ad874d8ce6edf13a449f193a3bdd58110763eacfc",
+      "sha256": "540af850c0b7804a3b4acb3cc7818cb1f5d642b8065344fe0edbf5062c02880d",
       "sizeBytes": 2748
     },
     {
@@ -92,62 +92,62 @@
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-fixed-wing.json",
-      "sha256": "e2f6e209c0dfe3f374126241c4985e6d36db0f12be3b2ef2c4ea37a5d44ee1b9",
-      "sizeBytes": 37478
+      "sha256": "a2e9200b5adc9cd7d2f252f81027a36b2080379b0f09caeb042102ecf3aeaa16",
+      "sizeBytes": 37309
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-fixed-wing.tgz",
-      "sha256": "5e36158fd8256bca39d57f1f30e0a490a165f64dbf0c62899d8140e43b3696e4",
-      "sizeBytes": 35593
+      "sha256": "fac9286bdc5b407b4b6f21f059a6a2abc001e688872e353853593fb2144008ef",
+      "sizeBytes": 35517
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-fixed-wing.tgz.sig",
-      "sha256": "81c62a8f75d448e36289de0e3e4091569d342dc0f6d8cd66ebfa391598248e13",
+      "sha256": "5485b24a4b2e59d29a8cde93c67d9b6514e6581137a8f86ee07ae532543c9a30",
       "sizeBytes": 345
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-hybrid-vtol.json",
-      "sha256": "96861719d2bf3c7b74296f0654ad2605f7cd1c3654f2a8a7e4af931de4e40deb",
-      "sizeBytes": 37781
+      "sha256": "a134579072823ba8032f5f3dfdd06d2da6a62a80f77387aec6f1b1e02c0a392f",
+      "sizeBytes": 37446
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-hybrid-vtol.tgz",
-      "sha256": "dc9942cd839dcef8da7765efc7e1a74ae2bd4919f9151bddd03a53dfba465989",
-      "sizeBytes": 35753
+      "sha256": "6de49fbedef21c58a87d36871fa72a9fa0c6a9f55160ccdc03a58d157108f24a",
+      "sizeBytes": 35606
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-hybrid-vtol.tgz.sig",
-      "sha256": "80018a73152bfd4b82baf624020528871363b9a9e7a60bcefb11e821e2044c35",
+      "sha256": "21101c63fd0ed4b27357b37a682aac5f669f93d28186068072188de2d3cc922e",
       "sizeBytes": 345
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-uas-small.json",
-      "sha256": "465d83dd5ea97e0578e033c5d7f48a0953bbfcf8b4ada5cbaccf803c49c411e6",
-      "sizeBytes": 37507
+      "sha256": "4872d62542e8d0a3a0eb98fab0914fd465f9695910313ea8a49807b6df6bf08e",
+      "sizeBytes": 37172
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-uas-small.tgz",
-      "sha256": "443903728e6559da170c70a9799455cac31dbb2ebcc97fea0e3b8b4d137d25dc",
-      "sizeBytes": 35638
+      "sha256": "29e57927f2953a72f6d452b4bef72ac93acccfeaffce5d11ff527778723a1ae9",
+      "sizeBytes": 35479
     },
     {
       "path": "evidence/manifests/tasc-assurance-pack-uas-small.tgz.sig",
-      "sha256": "a11c5472e1682e825b5575e5f38ed8f0c0f94a1787789075a03f70b127b0f8d8",
+      "sha256": "44b9d98b25946bc1256eea637bd2c5daa29a23f4a1bd7297ff542eacab60a85a",
       "sizeBytes": 345
     },
     {
       "path": "evidence/manifests/tasc-conformance-fixed-wing.json",
-      "sha256": "8e3d4236cd8e6bcb47ec671b56aaeb7fc5cc1be7e7c832c59855dba8c055f835",
+      "sha256": "7e0107dd4e68ae987e0496a803ab86a48e5998f3e2f648a812c9cd0298c8e88f",
       "sizeBytes": 8664
     },
     {
       "path": "evidence/manifests/tasc-conformance-hybrid-vtol.json",
-      "sha256": "f332632069bf76c730cb965e0464898d3b71090cf2131d0210c3ab225bbf68a0",
+      "sha256": "81d879749ed99745239d9d3eb62787bb8ba99be6eea086f70295c6ef17f82011",
       "sizeBytes": 8668
     },
     {
       "path": "evidence/manifests/tasc-conformance-uas-small.json",
-      "sha256": "a62edabcc125dfcf55d4cf02ed89e0932fcbc43ce13fc8c69da5b89bf087e958",
+      "sha256": "9b316427ff2b583822e99cdea3364504e92f06e3e44aff0096d216d3175dbbc6",
       "sizeBytes": 8660
     },
     {
@@ -157,20 +157,20 @@
     },
     {
       "path": "evidence/manifests/underwriter-confidence-packet-fixed-wing.json",
-      "sha256": "f4f6660f771581bb81cf85658a55c2d98d5fcf0f2d4ab95d5411c2ed66d314c6",
+      "sha256": "69a2720014d8f63778fa4e645fa247642245be4fef67b80757bdb5319ce13b2f",
       "sizeBytes": 2735
     },
     {
       "path": "evidence/manifests/underwriter-confidence-packet-hybrid-vtol.json",
-      "sha256": "b6da5fc65d97a683b4ee990dfeab7fd11a167b5cb57f5d9e8ddb12d16aab813f",
+      "sha256": "5e491320a9bc47f497f1ca26db8b54c2375e1e1e30f8c7df0f62520d3b16cc37",
       "sizeBytes": 2738
     },
     {
       "path": "evidence/manifests/underwriter-confidence-packet-uas-small.json",
-      "sha256": "64ea26b01e51a1f5a2ce95b42ecaff796358b44b520316de7869535eda221b52",
+      "sha256": "8d8351f022e8cd4dc3f05c51f9f6931c53e23c25042906298f87e50a91a0ee9e",
       "sizeBytes": 2732
     }
   ],
-  "entriesDigest": "sha256:cf33a1508739eb6dbe6486c4513b871e86e36eb6d8c09f73a0605f0813ce70fb",
+  "entriesDigest": "sha256:8646364ce5dae3cbfb803e9eea71fc838b274f1f3bc6cfba8592e54fd40e32db",
   "hashlockVersion": "0.3.0"
 }

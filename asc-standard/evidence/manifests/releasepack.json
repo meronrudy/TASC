@@ -24,19 +24,19 @@
   "lineageValidation": [
     {
       "assurancePack": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-uas-small.json",
-      "assurancePackDigest": "sha256:13f990f23260aa54c6d33838c28f522a27765402851dceb23bcb2a016b73f675",
+      "assurancePackDigest": "sha256:7b38b17dfc98bcfb74cb9276c45d8755ba71ebc363b6a0908d075380e9943670",
       "conformanceReport": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-conformance-uas-small.json",
       "profile": "uas-small"
     },
     {
       "assurancePack": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-fixed-wing.json",
-      "assurancePackDigest": "sha256:ed8a5ec8edc31a5774c7a3d26d336e9469862897794e6f062742024a69fdfe51",
+      "assurancePackDigest": "sha256:7ac36f8e062a562b8d0109effe1808a7a4106802261e5c28677c579a0676bce8",
       "conformanceReport": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-conformance-fixed-wing.json",
       "profile": "fixed-wing"
     },
     {
       "assurancePack": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-assurance-pack-hybrid-vtol.json",
-      "assurancePackDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
+      "assurancePackDigest": "sha256:6afe7ca56f1d36ca282e6a7df20c27931abfb27bc6f45764fb754f8cf1fe1220",
       "conformanceReport": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/evidence/manifests/tasc-conformance-hybrid-vtol.json",
       "profile": "hybrid-vtol"
     }

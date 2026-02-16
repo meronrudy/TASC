@@ -12,3 +12,9 @@
   If a gate blocks production due to tooling regressions, ship a hotfix that restores verifier/tool parity without lowering TA2/transparency policy floors.
 - Linked evidence:
   `spec/tasc/checks.yaml`, `tools/tasc-verify/src/main.rs`, `tools/tasc-verify/offline_smoke.py`, `conformance/reports/*`, `evidence/manifests/*`
+
+## 2026-02-16 Close Sequence
+
+- Confirm traceability evidence links resolve to canonical/fixture-stable files.
+- Require strict TA2 + dual transparency pass before final package cut.
+- Disallow `hashlock.json` mutation between assurance-pack generation and `releasepack.py`.

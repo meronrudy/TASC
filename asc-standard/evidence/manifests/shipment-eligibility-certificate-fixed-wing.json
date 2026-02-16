@@ -3,8 +3,8 @@
   "objectName": "Shipment Eligibility Certificate",
   "policyPackId": "tasc-ga-procurement-objects",
   "policyPackVersion": "0.3.0",
-  "inputHash": "sha256:6a709e71d315528e18012a658787f67b127b513cadf1095e3748eaa99a9e1e49",
-  "bundleDigest": "sha256:ed8a5ec8edc31a5774c7a3d26d336e9469862897794e6f062742024a69fdfe51",
+  "inputHash": "sha256:f909ef04525c7f3ee6b8933c74ae7b0860718c2ec7da887c47b1c716693496a0",
+  "bundleDigest": "sha256:7ac36f8e062a562b8d0109effe1808a7a4106802261e5c28677c579a0676bce8",
   "signer": {
     "signerKeyId": "kid:shipment-eligibility-ta2",
     "trustAnchorLevel": "TA2",
@@ -15,8 +15,8 @@
     "signatureEncoding": "base64"
   },
   "validity": {
-    "notBeforeUtc": "2026-02-13T07:04:06Z",
-    "notAfterUtc": "2026-03-15T07:04:06Z"
+    "notBeforeUtc": "2026-02-16T14:44:31Z",
+    "notAfterUtc": "2026-03-18T14:44:31Z"
   },
   "verifierInstructions": {
     "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
@@ -31,13 +31,13 @@
     ]
   },
   "signatureEnvelope": {
-    "payloadDigest": "sha256:99f511d8a269b76367dcba36377e59148e5e7489182a8b7231615fc6f09b734a",
-    "signedAtUtc": "2026-02-13T07:04:06Z",
-    "signature": "AIW/M1vktUaFiJgRrhYTCEWJYf4XWy4AUNCAWKH3XiWe94W+8yDYZY37iCJnZeNshSioCgK5uqbYBkzLdNAAbBM/zI/LF394Csghs48lKuU4qrWdA4G41z80+UmGagAaC8UqpHKeUac2NQI6rrD9gGoayEJSMGLhBnw3HPU+oc3T9E2SvjPL90t1cMcO3XS97QY5ivI8lXIEuPy3uxG4yc65DxmTg7zlgakOo0rTXIRLmNJNx/2+68eUWhVWz8BJ1J4cXRaBM6nNjZrS5T+WaYsOvK6EjAbPzD7T500wy4c5oGfIwmLZLm2RTqlKbQbn5BxcXmH1Brw++SG/Mz8QtQ=="
+    "payloadDigest": "sha256:efd8c0c7c2373c7e64002aafa665c8876138438a1b6ddb9a19e2155d440e88cf",
+    "signedAtUtc": "2026-02-16T14:44:31Z",
+    "signature": "f+CCd7sA0v2rMjbAfnHxhU2QvT4YRI6s9YT8BVxM5e/24dtme/MVaWGbF94S8+orpbO4+3GqSb+zLxHhxlRlfztz5yknf3o3C//9ObulrZcliRRetkgeTo7q3iEeUFcoud6SNnr9B6flMTNToLXhke3TnR5+aD5gCrl68ySOsujcpoGcZuOHIWdm7SFn3UXVjr7COv8z0AKzPehx/AiQ21nGJWfdAkEDvP4VkcjDO28QjU9pFqs+3hkLNtGDjEXZWTYGohEpOmiMOHc03VM7cvwT9vahhdrLmyxSKKYokkYBBHUx+JZ4b7zFcm43Ti+Cw+zyFpicMprLtG3wSIL0/g=="
   },
   "artifactRef": {
     "path": "shipment-eligibility-certificate-fixed-wing.json",
-    "sha256": "sha256:2108a67b57018e540eed5edf6b13f3b366f9b069a9d552d11b3f28315105041d"
+    "sha256": "sha256:12b97a92f87f112e41925c074aa406e73bd5c369e17ec835e03130b700f57a58"
   },
   "inputs": {
     "profile": "fixed-wing",
@@ -46,8 +46,8 @@
     "objectKey": "shipmentEligibilityCertificate",
     "objectType": "shipment_eligibility_certificate",
     "objectName": "Shipment Eligibility Certificate",
-    "evidenceMapDigest": "sha256:afb02294ece965fd2f65f1b4de4f8b58bca49beb06b046f46d464d422aa3ffbe",
-    "attestationDigest": "sha256:685a4ce607a5be19a7ffd691ba694637cbc6f5c98802f533f7412a2a3be7a16e",
+    "evidenceMapDigest": "sha256:402efe446e3c47b56b3d9dc25dddf5893514de7d38e9e5dd9aa776fc611f7ad6",
+    "attestationDigest": "sha256:bb9d72e0dd9d0db37bf194095fa1dbb0ea2dc58e19f42e6e3be53c14a8a5807a",
     "signedOperationalLogRoot": "sha256:d40503f489518c207e4c0e81e96dd1a4307e9f51abc687dfc9029c8abdc73172",
     "badgeId": "badge-fixed-wing-active",
     "requiredTransparency": [

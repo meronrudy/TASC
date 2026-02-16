@@ -3,7 +3,7 @@
   "specVersion": "0.3.0",
   "profile": "uas-small",
   "policy": "eu-north-star",
-  "bundleDigest": "sha256:53ecaf653dcd970ae652ac98f5d18c5b279d7211077f86152d74317664f0bd4b",
+  "bundleDigest": "sha256:58c18bb395f66b642d119e91a6e0c4c9805ad0c5de9cf4295edef0ca10c4eea3",
   "requireTa": "TA2",
   "requireTransparency": [
     "rekor",

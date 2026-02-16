@@ -3,8 +3,8 @@
   "objectName": "Shipment Eligibility Certificate",
   "policyPackId": "tasc-ga-procurement-objects",
   "policyPackVersion": "0.3.0",
-  "inputHash": "sha256:9bb21ff3c305582630917a80e7b0500336838d9d6a4ee45fd6975247e06a24eb",
-  "bundleDigest": "sha256:13f990f23260aa54c6d33838c28f522a27765402851dceb23bcb2a016b73f675",
+  "inputHash": "sha256:d4d02d62305f6ceb3e21c9bceadc068fd86c63620d426c110f8c607b049bbd7a",
+  "bundleDigest": "sha256:7b38b17dfc98bcfb74cb9276c45d8755ba71ebc363b6a0908d075380e9943670",
   "signer": {
     "signerKeyId": "kid:shipment-eligibility-ta2",
     "trustAnchorLevel": "TA2",
@@ -15,8 +15,8 @@
     "signatureEncoding": "base64"
   },
   "validity": {
-    "notBeforeUtc": "2026-02-13T07:04:03Z",
-    "notAfterUtc": "2026-03-15T07:04:03Z"
+    "notBeforeUtc": "2026-02-16T14:44:26Z",
+    "notAfterUtc": "2026-03-18T14:44:26Z"
   },
   "verifierInstructions": {
     "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
@@ -31,13 +31,13 @@
     ]
   },
   "signatureEnvelope": {
-    "payloadDigest": "sha256:2a563fc5de8a6adc1774da39ec1ac5e66a8bd037ee3f1c3202a0f5ac680f0622",
-    "signedAtUtc": "2026-02-13T07:04:03Z",
-    "signature": "orWnIRKV5uWWFe7PqNs/wDe0BR9BBxVUcDRt/W2K4zOKnXlfpLRsplQCSQ9D/f8bfZ2I3yyAW90D1lTV6DJr2e9up7f9GAtrgAdalJS6aUXgyC8b9H/CYSvurG3Zx2UJDht4mEr/dHtjZ5JEw/BxsbJTIdgIpVdop540hnN7CkosSbh8htTna/b1JQjWa8s799Oa0ajG8P+LMHCIjy3slnRecJ/dvps8swWyGe2e1r+PIWZWc06ESmBEBXgIIh1Uj/2MhF/BMPmB5SjCDZrnSpFCLjs2CVAzTcpFZ2gBuh+lLGCGWRWD4QYYPQivg4/qLkeMyRD0YtsuV5MPc//g9Q=="
+    "payloadDigest": "sha256:489149a33846b853b3c262d03833045f7c2203e9376b182628b962e03e070611",
+    "signedAtUtc": "2026-02-16T14:44:26Z",
+    "signature": "ptAiBKpzG+bqLKcRXSlhF/UgvOGcqa77KhXAQa3qkjk8X1hDzuYEkQE/YJQjx0I9ddaNgnDq/U4J18Au0SIm3ufduMmTNpJWuH9tTiVBvAanAqc9XvcUcoWjaL7PKYjOPLWEkTFL2uFl6S3BHBJfWVweOQFxbLovIx+cVWbszOE8LCE6vEaQ6H8bGkY0PMDK4hG9hdP3z0fH8OrG5+STFW7sNw9MDaqHCdVJ1mwucg5hSGXF2h75V0gCOgoDb2hcWh0D6GinLXzEbq/dspEBSfOLmd4vMMeB5j0kgRnv+7Fm9y9fimuQ/vm/HPt+XJxF9A1nGBNTIvwQMb+12/vgZQ=="
   },
   "artifactRef": {
     "path": "shipment-eligibility-certificate-uas-small.json",
-    "sha256": "sha256:74929bc150b95b6f47bf11e75efbe0a54e798f762635b3bc760c4f69d25ac153"
+    "sha256": "sha256:0299b66ed67412ceb57d8975266c078e066204179f5d3fcc706b88fb995e11bf"
   },
   "inputs": {
     "profile": "uas-small",
@@ -46,8 +46,8 @@
     "objectKey": "shipmentEligibilityCertificate",
     "objectType": "shipment_eligibility_certificate",
     "objectName": "Shipment Eligibility Certificate",
-    "evidenceMapDigest": "sha256:5a5b4d06f89433382f28a545c3f6269d9021c643a5113612cfbd1dc439c6dcfc",
-    "attestationDigest": "sha256:a0bc27095f47e6520522d211ad0471d2667fd04bd37a2d6850b62c146116b0b3",
+    "evidenceMapDigest": "sha256:8a746ac899fda794a89fae22b0d35be7c3573d8810c537fe37e60036cf043b3d",
+    "attestationDigest": "sha256:d4cc2d9c2342036cc6f8362aacec6750d482df6cba9ab4152df5cce79eaf03a9",
     "signedOperationalLogRoot": "sha256:3511e71c0a4c216c1b529242a3fae3e458ccff9a54db5ac0338ecf4541326385",
     "badgeId": "badge-uas-small-active",
     "requiredTransparency": [

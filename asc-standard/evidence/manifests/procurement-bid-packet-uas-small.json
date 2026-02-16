@@ -3,8 +3,8 @@
   "objectName": "Procurement Bid Packet",
   "policyPackId": "tasc-ga-procurement-objects",
   "policyPackVersion": "0.3.0",
-  "inputHash": "sha256:ebfd285e010cd76133a9ac6c2a3a6e3c7a862f7cbf3434f37096758e33145eb7",
-  "bundleDigest": "sha256:13f990f23260aa54c6d33838c28f522a27765402851dceb23bcb2a016b73f675",
+  "inputHash": "sha256:c549e0b99a5e0fc2d429f9ff3355d8a567ced274a1b22ee5f808fccda7a29b11",
+  "bundleDigest": "sha256:7b38b17dfc98bcfb74cb9276c45d8755ba71ebc363b6a0908d075380e9943670",
   "signer": {
     "signerKeyId": "kid:procurement-bid-ta2",
     "trustAnchorLevel": "TA2",
@@ -15,8 +15,8 @@
     "signatureEncoding": "base64"
   },
   "validity": {
-    "notBeforeUtc": "2026-02-13T07:04:03Z",
-    "notAfterUtc": "2026-03-15T07:04:03Z"
+    "notBeforeUtc": "2026-02-16T14:44:27Z",
+    "notAfterUtc": "2026-03-18T14:44:27Z"
   },
   "verifierInstructions": {
     "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
@@ -31,13 +31,13 @@
     ]
   },
   "signatureEnvelope": {
-    "payloadDigest": "sha256:f00d28082a2e8d63dd50e9c0931763d58168db933f8c1d8f0ebde6ddb339bf80",
-    "signedAtUtc": "2026-02-13T07:04:03Z",
-    "signature": "cAnaRzj4c6dWJVbRp2uQmQuP06HM8tqZNuEXSUeTbbLGivFuijRx5tYMV2TE39CpgibzYVP1+DNVDpiL3YyT8Ahd2Rc77wfZ1AKJ6dCi305FhFgNrW/Cyep4pxq1tcXQm5QMJ63SQdNtBSdEffJkYBz1b1ZFyie8xS5ga9zUFIrnGXEUDLCfuo096IHR7ZfDgFHjYjYaU9au1S+nuGRlGlwoMWN3kfXjzJhwZJXHAZsoKUOoWkpNqHrpdzgK5R8VlG9bIU00IiQ5VNrLo35YX/o8mC9GfXAt7PgvZGKUOgEDWpcE42zOFrwHde0jsn3oWdUuWOMl2q+3fRrAfkK9sQ=="
+    "payloadDigest": "sha256:2ee4687525c60ee2d149e52c00024266b913c8857c97304278882b031c5f1168",
+    "signedAtUtc": "2026-02-16T14:44:27Z",
+    "signature": "iJIBl6C0UjKzdjcBDCUW2bjfpS35Tpj1YHbEs4ujq1o8BJlemNdnyCHx60atPDdnIJ82VYoTb0wbyF6SsSumZqqaJP+o8hif4J6q9iSm8ERfvGyExsoPCInMdVWhQ6Y8qh3Z/ZABQkPFH6zVvFsGI5uzueEX1MEyBxLmyGhiEOl7pCiLZOHAsZqxxNDHjkzQYsgneqa/7A5jlkRtXXPbC1PLBo+hn2NAmJhWf9PlMqy0X8HnCms4OCRy7p5xOP4q2UL/mWyn03kQ2IJOlpH89ZXbB1gxdXZeC8pjMwjKEzADAeg/OcP02YyVYLRGQPHYLjjTJhve9z7QR9JdtARHGA=="
   },
   "artifactRef": {
     "path": "procurement-bid-packet-uas-small.json",
-    "sha256": "sha256:dbf170eac3e7c50880c413818c01b7361bd820ec0bca4e0289a52705494f28f7"
+    "sha256": "sha256:a77577a3cdd3461f804b063420ad9faeff8420943b596f4a96002affe2f6055a"
   },
   "inputs": {
     "profile": "uas-small",
@@ -46,8 +46,8 @@
     "objectKey": "procurementBidPacket",
     "objectType": "procurement_bid_packet",
     "objectName": "Procurement Bid Packet",
-    "evidenceMapDigest": "sha256:5a5b4d06f89433382f28a545c3f6269d9021c643a5113612cfbd1dc439c6dcfc",
-    "attestationDigest": "sha256:a0bc27095f47e6520522d211ad0471d2667fd04bd37a2d6850b62c146116b0b3",
+    "evidenceMapDigest": "sha256:8a746ac899fda794a89fae22b0d35be7c3573d8810c537fe37e60036cf043b3d",
+    "attestationDigest": "sha256:d4cc2d9c2342036cc6f8362aacec6750d482df6cba9ab4152df5cce79eaf03a9",
     "signedOperationalLogRoot": "sha256:3511e71c0a4c216c1b529242a3fae3e458ccff9a54db5ac0338ecf4541326385",
     "badgeId": "badge-uas-small-active",
     "requiredTransparency": [

@@ -1,5 +1,0 @@
-{
-  "handoffVersion": "ga",
-  "sampleProfile": "uas-small",
-  "verifyCommand": "bin/verify-offline.sh sample/tasc-assurance-pack-<profile>.json <profile>"
-}

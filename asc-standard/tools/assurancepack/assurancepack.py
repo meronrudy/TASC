@@ -348,8 +348,15 @@ def build_transparency_proof(
     )
     tree_size = int(live_payload.get("treeSize", 1) or 1)
     log_index = int(live_payload.get("logIndex", 0) or 0)
-    inclusion_path = live_payload.get("inclusionPath", []) or [sha_prefixed_hex(f"{log_id}:{entry_digest}:path0")]
-    consistency_path = live_payload.get("consistencyPath", []) or []
+    if isinstance(live_payload.get("inclusionPath"), list):
+        # Preserve an intentionally empty live inclusion path (valid for treeSize=1).
+        inclusion_path = live_payload.get("inclusionPath")
+    else:
+        inclusion_path = [sha_prefixed_hex(f"{log_id}:{entry_digest}:path0")]
+    if isinstance(live_payload.get("consistencyPath"), list):
+        consistency_path = live_payload.get("consistencyPath")
+    else:
+        consistency_path = []
     checkpoint_text = str(live_payload.get("checkpoint", ""))
     if not checkpoint_text.strip():
         checkpoint_text = f"{log_id}\n{tree_size}\n{root_hash}\n"

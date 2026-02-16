@@ -12,7 +12,7 @@
     "system": {
       "systemId": "sys_urn:example:hybrid-vtol:alpha",
       "releaseId": "rel_2026-02-11_hybrid-vtol",
-      "gitCommit": "241fc027941c",
+      "gitCommit": "06e7be26b9dd",
       "build": {
         "buildSystem": "reproducible-build",
         "artifactDigest": "sha256:334ee940940093119b14dd6b8c5e438341df29531262676f752f54f76a66a625",
@@ -101,7 +101,7 @@
     },
     "attestation": {
       "level": "TA2",
-      "evidenceRef": "sha256:765a89e5758e8a8bb0aad3b07fdb0e15b8d4d6b0dbf85589e8f7c323c6e2a5f0"
+      "evidenceRef": "sha256:a6f16947770e575f998e3ef47d709e84ab28fff604402b8bd310654f1d74bb36"
     },
     "replay": {
       "recipeRef": "sha256:851586d4823a1b55748383035ace1f6358df131b252c7f029f84a2d588d1b88a",
@@ -130,7 +130,7 @@
     "specVersion": "0.3.0",
     "profile": "hybrid-vtol",
     "policy": "eu-north-star",
-    "bundleDigest": "sha256:a86d946d8152acddf73a695aa50ebc65900f92e7480d74259c35d45fddf6ec1c",
+    "bundleDigest": "sha256:b82581fd0db6f11ba2781da96a9b4da7cfe9576ad93c082588f1612fadb7ec79",
     "requireTa": "TA2",
     "requireTransparency": [
       "rekor",
@@ -328,7 +328,7 @@
     "signature": "1hszbI0Y9sm6qt/0Hq35QwglAmBZely+W/R3tybuFgVYpfcdlDX2RsOr/W4aOQvHMgKdi1xQR0fZKfnPgfaEO/X7J89M5MrPLIqFWk1maQQH6gahE/s22eVpyjaKdBkl6lhzaVfvZ6Q37qYTAtH2uxMR0wQJKILp6DJFQLi8iMZjoL4EUlHfF6sRp1kKNdYaB/8OYep6S3kQgYvpu9rivyBFTcOOjeNT/07To1qaGppYtFRGway4vOVSnENUcorSHUkBDfd+enjuOY1fCD5lUxA5wFxw4EdUTgeJ/+4ph+/N1YQOBhp3GWgpaCgL5mGu7VjzWB2yxlmHWmbomguezQ==",
     "signatureAlgorithm": "rsa-sha256",
     "signatureEncoding": "base64",
-    "signingTimeUtc": "2026-02-13T07:04:07Z",
+    "signingTimeUtc": "2026-02-16T14:44:32Z",
     "signerCertificatePath": "evidence/manifests/pkcs11-signer-cert-hybrid-vtol.pem",
     "certificateChainPath": "evidence/manifests/pkcs11-chain-hybrid-vtol.pem",
     "trustRootsDigest": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500",
@@ -383,11 +383,11 @@
     "chainDigest": "sha256:be89777bdef8f83fb48505eac2b9ed0d58ef5514f71b6f854b5d7525d4aeb4af",
     "evidenceSignature": "pM21QT55e88qXYw4tOiSMe0pZsXXGUt3o2mTuANfBmZKsgiGbHA+lSCBbn1ZevnuT8ji6NXc0h4XDHwrkkfPikQ8P6mvHY0d/h+YERKhSWKMguLeEQp1G57/4YeWJxz2dpWKu6woH/wJl6x+A3mE+mNtAbXYZmveqGwiXFzc2K/1RJ/LUMsrJzWaJ0P+D/AzPuQgAfwNAEPUhY0QHYJkgLOODwDKirT4YHhs7/B+oE3hy45UFhwYWjHAnSKgR7V5qbXY8JyXfjmwnQWFU9eP5n+SGM3P+qPCyccpFMQbBnx8BPDuaUy/sTWNEn6Jg9Zdbf+0VL50x/C2XDmq87YS6Q==",
     "evidenceSignatureAlgorithm": "rsa-sha256",
-    "signingTimeUtc": "2026-02-13T07:04:07Z",
+    "signingTimeUtc": "2026-02-16T14:44:32Z",
     "signerCertificatePath": "evidence/manifests/pkcs11-signer-cert-hybrid-vtol.pem",
     "certificateChainPath": "evidence/manifests/pkcs11-chain-hybrid-vtol.pem",
     "trustRootsDigest": "sha256:f6181af04c753df4b126eda060d194f3f48962784430c04bf7e549520ce69500",
-    "revocationSnapshotDigest": "sha256:a37e993c9bb432b08e5a8c71824b623acd48ef5a36e8521dbeac1bc8fba51f81",
+    "revocationSnapshotDigest": "sha256:a5d194afb470cfd54700c28630cc9f2a86d3d196e074c8fec118d5f2f1708e4e",
     "revocationSnapshotPath": "policies/attestation/revocation-snapshot.json",
     "keySource": "PKCS11",
     "nonce": "nonce-hybrid-vtol-ta2-verified",
@@ -447,36 +447,43 @@
       "proofVersion": "0.2",
       "logId": "rekor",
       "logUrl": "https://rekor.sigstore.dev",
-      "entryUuid": "108e9186e8c5677a5a60ee01997ccba95aa626517c11e9e5c69fb9ccf46ce6bc3850c81a78ecd436",
-      "logIndex": 947109011,
-      "treeSize": 947109012,
-      "rootHash": "sha256:706e1f85a5aa99cf07b0bb80d679364df6f890e6de7b8ec7ca8ab8d28503ca27",
-      "leafHash": "sha256:c30943d4721a9d44bca9c6608f00d9ddcf59ddd95aa9fea61a7f57d0303d2f67",
-      "checkpoint": "rekor.sigstore.dev - 1193050959916656506\n825204761\ncG4fhaWqmc8HsLuA1nk2Tfb4kObee47Hyoq40oUDyic=\n\n\u2014 rekor.sigstore.dev wNI9ajBFAiEArf5p1rjJE81Av9Mw30A0+qB5VwY0EPq/RcliQnNv8z0CIB/TI5zprmHy/yT4xe0aPcg/jbyuw8Rrtm6X5AebcRAz",
-      "checkpointHash": "sha256:536d699f8ca150d9445f5512d0d201360cc5c3a7b53243cba3fe27aa3a068259",
-      "entryDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
+      "entryUuid": "108e9186e8c5677a44850e04e833dea92fd1dfb254e15260ac4bf09fbe93c964f54389662bab582f",
+      "logIndex": 954989173,
+      "treeSize": 954989174,
+      "rootHash": "sha256:d850bdd30978ae694b04353f033231b38d77c02cd4f6da92dfb29a6c4e27beaf",
+      "leafHash": "sha256:2d2c126b4d77cb3ad2387dba9fc093bbf2f8dfac4a911f6cd25ecb77176afee4",
+      "checkpoint": "rekor.sigstore.dev - 1193050959916656506\n833084914\n2FC90wl4rmlLBDU/AzIxs413wCzU9tqS37KabE4nvq8=\n\n\u2014 rekor.sigstore.dev wNI9ajBFAiEA8wNkG6de6GmB57kmUijAutagx8zNDh8s2GMLqMsfhOcCIDBDzZ1SDh8dPggihpaV0o8moeJtz0Npo14MzS1H94Rt",
+      "checkpointHash": "sha256:46ae05a7b35bdc95086d22a4ba86d0e23278d68fa36e0b1a2690e993a16340db",
+      "entryDigest": "sha256:6afe7ca56f1d36ca282e6a7df20c27931abfb27bc6f45764fb754f8cf1fe1220",
       "inclusionPath": [
-        "sha256:0a5a025ea4e94dc04b6fd3bfa5460e95525eebbaf510fb755a21db48e7285c6c",
-        "sha256:cf34c44b3af61cec694f2bf10e54f517d9cfbfdb54462eb55cf9466cf1b0e1e9",
-        "sha256:89a6672485e1f8a25ac194172ae240300f85342b46aedd346e18d022b419118c",
-        "sha256:2a8d0623c90daa733ce76ad76ce53c0bb88bf658b38d1fb6910d0fa2c3603dac",
-        "sha256:dc201134372b41b88508a0798118bdbe82fdc079cd2595e52864015afaec5949",
-        "sha256:aa82d53abf59f80b6dc8cffdf2db2a377eec8ece704d1df8a35d2681f5c5b3cc",
-        "sha256:d65224b0af3a677cfb85a0fdeb472a128bbbd63f76e4365d03e23bd959d6c13d",
-        "sha256:d5911e49877e2997d0d3de6ff507a505bfe3709794ef41b34a1d7cd54c7c8072",
-        "sha256:8e5fddce6279cec47668ba428800e27a46579e434155b32d1d93e9321c1432e6",
-        "sha256:037ad3401961397f5e54ca5433140c991dd90ecd910bb6a173c2bea17a280e5b",
-        "sha256:ebb120a28a74863dab996d3907af53d0472a7f25fbeb3562f34bcdce1aea4b62",
-        "sha256:578a24daa5ae6c4db673ac02f0513146bae0296345b1b895a524467101615163",
+        "sha256:2596dfbb822f4e395de24c77e6ab189bb1aa60258975bd609f18452244dd5587",
+        "sha256:81c13e92480f5b7df7cc41b813ada77a0973fb0d82cef9665e14099ff07ffa11",
+        "sha256:b4cb6e9c51ae39097c16166c93f6c25a0d6a8a2c04cbff0353a0d22baaef53c7",
+        "sha256:1f98700da07a4b892a4284b8d156be821e4c6df1ab8569c8da37d0231dd55223",
+        "sha256:8779e785001adc9679798a1b8f375ba8639c33b0b7924ed3745d0ce9bfd562b9",
+        "sha256:f2f4eaf3cd4e15c228a458dab5aaaac60ccff862c4380a0c37dbdd1810069282",
+        "sha256:e1fe3c5bc27534b0c2278d881c7458f867b535670483066d3a97e39ed65b88a3",
+        "sha256:56963c883a42c527fc90859428d2a6c324b54162cd77c02489f6c8b4795a15b2",
+        "sha256:625900011ab95ea8d1b33138111aa294d0c4bafcff6bc9b6666b6f1e164bd3b1",
+        "sha256:f9d27750437805f2e59850ca8c7fddd03cd429c8516e92c88e00717627db6753",
+        "sha256:3f0c536a7c5f70a85ed9b5f9fe3573272f1228c1cee9bd83c0c4d400402540eb",
+        "sha256:4e2252ba36d472c936512df7199779da77b16d62659a04823a380ddcd297d712",
+        "sha256:ac0bd28d2fa24db49931f65e88261a8120d26b20318c95340efa087fd0dcc2f2",
+        "sha256:f324b05c772d8cd877a8cde715f9f70fd7b3e069b0a951f00b3e54d695e23120",
+        "sha256:d59783559c9e531f9c906202ffa162ca74225419457e71b28a5e504ef5219fdf",
+        "sha256:7b62da1c07d8e687aed5007ce2c85e3b20c52cf2e7fe4dcfad23855ce3ed6cd3",
+        "sha256:436a7eb039880eb21a87b15a8b30e0e61a3e2de6659b3b7836f4465cd71ab3d4",
+        "sha256:03234c803ecccdd1a2f840fb5e110dd1b8c3a0294a575c1c3fc2d567816b9041",
+        "sha256:04c6cd5abe41fe784b1f59519f7562f5791bc74d1e0858e515592405f8bfb505",
         "sha256:55727a97cd3e24d6b9c60affc9e860197ac17adcd8d2c75e1eb16dc7436c005c",
         "sha256:7cb02f138e8da82555f3a129076a4a9302651638c593b9ed5f7942f8f899b88a",
         "sha256:4f80ea583e36840b4dfaf5fc8ca096aa80b899e13825e908f4bc5818270fcb53"
       ],
       "consistencyPath": [],
-      "inclusionProofHash": "sha256:5079d917fd4405e69d4d376019b43161f5d20416b0396347934363a7ef69e53f",
-      "consistencyProofHash": "sha256:b4d864977ee0d18c0e37d557d69703cb284ebe9b83c349520556ef2689f34c3a",
-      "integratedTimeUtc": "2026-02-13T07:04:09Z",
-      "signature": "XPlBxHuN3N4QBmyN+Rhsa30AOGOZ2GmE1bc731iqs10knV5qtNVKaEYGw3xqPhGHKql+R1VZhhK1FyE0sIwLLuPEvwms0rGLqE5soMlsodxxr2F8PF3jFIukkz+negUE7/fF4FUCX5wac/g/jVJ1S7cCsw8dQ6IvC7yplc9FiNv9nI+UciLYzkBaUMs4UduEZ8zuvLFvvD3filmS9qetQeoLYC4Iua5ipA9T4cLCI1BHr9No4JW0mECa5xZtTnLdRkhufnk1aNGEMHHxny7Dpz5ON4Xjw2CFTQ3tLoOAWxvjTDyMoRQFJXEQmMd3xnA69XhGMFfoPeOD+qkAyx+Kbg==",
+      "inclusionProofHash": "sha256:c8857bafa7981cfd25ebad17fee30ed2472dd67d1b664d90f35b56fc6e2649a6",
+      "consistencyProofHash": "sha256:e5561bf4a7ca91054544f89a509378cea90a2cc1de29d3a5e8333cb6b1fcb277",
+      "integratedTimeUtc": "2026-02-16T14:44:34Z",
+      "signature": "Wqm8siwm0cqn6bL3D2jDub+0k2lVTREIelNXtWmJ2xi3qztVD5BWvDGeFXH87if8jSe6Jv/ERO53D4OSYSN9Qa9Rqusi0oBcJuHeafyvr6GzkU0H0JwzphL0fXj1kj+2lqd9o1TWmbf/0lNuJeV4mnXkioYE02IprblARt+P5jQcUh2QlIh0QIjW3TxJhVcFc9ukZJV/ZdYFeOQ4HXT4SVLe2fKlG3WMswlfojLJ0Gn3VTmKhh6at/Dq1wJhSZqIIpvDJH9tDtv1IVJ0aLd1sQ07MkZrF+wU5FibHjvDaeNctX/zMLFrDkGABiTOFsvuoXbl2r+kkyCZL0YOYY8Ftw==",
       "verifiedOffline": true,
       "source": "live"
     },
@@ -484,28 +491,24 @@
       "proofVersion": "0.2",
       "logId": "mirror",
       "logUrl": "http://127.0.0.1:17777",
-      "entryUuid": "501a9eca-d2ee-4bbf-b513-9ba2a51102ae",
-      "logIndex": 64,
-      "treeSize": 65,
-      "rootHash": "sha256:c1614030e000cc821430a335f08b506743bf92fb24e4df586a628875dece5637",
-      "leafHash": "sha256:63ca518d9216471e10862d4db789425160dc4a26669793d48cdb26a1a745416c",
-      "checkpoint": "mirror\n65\nsha256:c1614030e000cc821430a335f08b506743bf92fb24e4df586a628875dece5637\n",
-      "checkpointHash": "sha256:abbe5998723e91236986addeaa3429b2924d63c0934903010da16e235b3cffe5",
-      "entryDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
+      "entryUuid": "5d8ca44f-94f9-46c4-a1d3-e9b5cab83efa",
+      "logIndex": 5,
+      "treeSize": 6,
+      "rootHash": "sha256:310be32eb05808b2fab750fbbc2a44f44d23b9458390ed3b69c9668129e146c3",
+      "leafHash": "sha256:5584ff468d39d813cb8e2c430d613d4123d5d343a6d816ed182691d55d17335b",
+      "checkpoint": "mirror\n6\nsha256:310be32eb05808b2fab750fbbc2a44f44d23b9458390ed3b69c9668129e146c3\n",
+      "checkpointHash": "sha256:611d138eee2c4ae1f4663cf1190e74f4cda94db3540e6fb27ff7db8055d2ce3f",
+      "entryDigest": "sha256:6afe7ca56f1d36ca282e6a7df20c27931abfb27bc6f45764fb754f8cf1fe1220",
       "inclusionPath": [
-        "sha256:63ca518d9216471e10862d4db789425160dc4a26669793d48cdb26a1a745416c",
-        "sha256:c67f98d987c49e9ae180d67db382960efd5504e82ac88153add1a3f1216c73b8",
-        "sha256:57116b33d304b58e5957cc65a8f4da5a0f4468e0523adbd6123c7dd2555d6616",
-        "sha256:4201282ab0cd85fe58e8f208ac5d6fdab4c62fbcf3f0b90fc236fafc63f203d2",
-        "sha256:7cb70c3851d0bc8639a4794c600fdcf6b6f1e320931279585393236b98e14252",
-        "sha256:e75cfa42fc1558373e61f41daa51cf7a9db5e7d184951f07d20d2533c11c7318",
-        "sha256:2e31ac1ddb44c9dd1a5ad7f4106d846c62cc05183a7472cb0b4534da59c9833e"
+        "sha256:6d4f116e142d0ca50ef3039c903f9fed7ce83e593bf2807b881cc80a255e8c2b",
+        "sha256:872bfa4c8d370db90ce78848fee4b7d6fb45a18924bd83362f199f02f4b0ad41",
+        "sha256:c880e5c07bb6a073c0eb83501d71ff8f407fbf666f678b28aee075b6795b8100"
       ],
       "consistencyPath": [],
-      "inclusionProofHash": "sha256:f9968d61ff2f0c667e285a7cb27a45425b560666641febaf57cae79227e8d04b",
-      "consistencyProofHash": "sha256:1a090c85ebdfea3fd52e7769977e4d7274bd64a96f82cffb06cfe22b637ac35c",
-      "integratedTimeUtc": "2026-02-13T07:04:10Z",
-      "signature": "LSuC+wcWI/ycSp812rL7eucpNz8A1dsOGzfHNZ8PFN4bs80ImTZTws0C1yyGjtnValKQiLdvKVDorfe41yABXcIfp0Vp+mXtb4ZTEdBcvPITkbgbhw4ZbF662ZZ7SWLB3nggeBvy9DdxKiT65m+uZxQUYjOumObuICmWBnp+w9j5X/Q0FR4aBMG+m3QROuqTmwL9CuNjNGgHvB0wQhgcz9CSVh+iNqnXrfL3OVtTS9H/PpD3Yxw7T1RtPDKlvGoO5LOW+76nLfyzkHWRd893wGEoouNz/hMehJwEWFy02yk7MjoTwmg4f2GqcMkd3ssQCeQMUqT3IBLaIjUc21WFMA==",
+      "inclusionProofHash": "sha256:d2f0d41c4c3059bebed95171152aa40eddaf19b7369023658735bdc465f2dfc2",
+      "consistencyProofHash": "sha256:7762020921f8d8265985d141dd22418edfebfe861e4404877a0219576374b49b",
+      "integratedTimeUtc": "2026-02-16T14:44:35Z",
+      "signature": "gSQ7W+P/B3sLJ/1cgUOleSoOUO2CwczWTLDMpQC2P4T+9E9EePsiXo9GEYc9VEIv2Qscr8sUW0uUHXLMDAvVlA003GFfTRIPmL+uw8KxtqbgLKv5RZG5ZoK8LwlhnFiQmJGAz4VLOO+EmcKbb4MV08Ppq22vGWdCRUlO/bAP7GtTp6GZEC7lXfyXtNhoFlgDWhOPQFZCr83a0NvCuzRDXQb8hx9NpkUbPZEyKINvZ5aNyBD03oH+BhA4+KR0YPkhwVzAZ50xr7ALsWPgedefWN+M9Pbbr/IWOPYVTqbCeyqSI+VfmqwnniKHcIR7ZyFL8axmVj2mi5Z42sSQWcF+bQ==",
       "verifiedOffline": true,
       "source": "live"
     }
@@ -515,9 +518,9 @@
     "badgeType": "TASC_AUDIT_GRADE",
     "systemDigest": "sha256:32891b9522e0b732db48f57eac8c010642d9a91db152e5dd7fd71280cdcbc74d",
     "specVersion": "0.3.0",
-    "conformanceReportDigest": "sha256:3d9c6b10873cebcdbb6fdfc58a5f5b748574eae894c5c7258e99ac4a20e5067d",
-    "attestationDigest": "sha256:765a89e5758e8a8bb0aad3b07fdb0e15b8d4d6b0dbf85589e8f7c323c6e2a5f0",
-    "issuedAt": "2026-02-13T07:04:07Z",
+    "conformanceReportDigest": "sha256:f8f2b829dcb1016ec97379a86595541fb607d7a9581e00daadd49823d2198daf",
+    "attestationDigest": "sha256:a6f16947770e575f998e3ef47d709e84ab28fff604402b8bd310654f1d74bb36",
+    "issuedAt": "2026-02-16T14:44:32Z",
     "expiresAt": "2027-02-11T00:00:00Z",
     "status": "active",
     "transparencyLogIds": [
@@ -526,12 +529,12 @@
     ]
   },
   "lineage": {
-    "gitCommit": "241fc027941c",
+    "gitCommit": "06e7be26b9dd",
     "specHash": "sha256:8d08dd68f4a4c1d666b2d1409c27fde292d70ad10594fc03f5eb6ff92c3651c0",
-    "conformanceReportDigest": "sha256:3d9c6b10873cebcdbb6fdfc58a5f5b748574eae894c5c7258e99ac4a20e5067d",
-    "assurancePackDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
-    "hashlockDigest": "sha256:c5fbe2cda04131687e801c15b370cbbbcc4587020483a050d39a363a8fa52a3a",
-    "generatedAtUtc": "2026-02-13T07:04:07Z"
+    "conformanceReportDigest": "sha256:f8f2b829dcb1016ec97379a86595541fb607d7a9581e00daadd49823d2198daf",
+    "assurancePackDigest": "sha256:6afe7ca56f1d36ca282e6a7df20c27931abfb27bc6f45764fb754f8cf1fe1220",
+    "hashlockDigest": "sha256:02af2c967a9b10a085195da6c4d2eb3fdf6cad4be73b250eb47b3ec55f026a17",
+    "generatedAtUtc": "2026-02-16T14:44:32Z"
   },
   "artifacts": [
     {
@@ -552,7 +555,7 @@
     },
     {
       "path": "signed-operational-log-hybrid-vtol.json",
-      "sha256": "sha256:1a3e435b56cc962d4344c93c9da09ecd64114db78a819015dab460bb3cf7329c"
+      "sha256": "sha256:4f80c8c791f56047ac235db5bc8a6142d97ba0e0a80be9ed9975d93f05addd9e"
     },
     {
       "path": "replay-recipe-hybrid-vtol.json",
@@ -560,7 +563,7 @@
     },
     {
       "path": "attestation-ta2-hybrid-vtol.json",
-      "sha256": "sha256:567cc0f10c1720c40f406fdb96a0ad597e19f52b0fc3b8f6302ffa5108c76a82"
+      "sha256": "sha256:218bd2262d9e3b0475c9b2542cc3c9fc28c5ebc1850cc1dcfd72c5fb8b4d80c6"
     },
     {
       "path": "runtime-e2e-hybrid-vtol/mission-input-hybrid-vtol-ga-smoke.json",
@@ -576,15 +579,15 @@
     },
     {
       "path": "runtime-e2e-hybrid-vtol/signed-operational-log-hybrid-vtol-ga-smoke.json",
-      "sha256": "sha256:68ddc41f0575a99220e3b312d4bd4b6943bb48224f315c922d0f7d7be3852895"
+      "sha256": "sha256:6db13a80797e00866f0c0f965cbbf4bc9f09aa3dd6e51276396aff981b625130"
     },
     {
       "path": "runtime-e2e-hybrid-vtol/incident-initial-hybrid-vtol-ga-smoke.json",
-      "sha256": "sha256:f9fa75848e396ee3721f161c5c449a2c1a9021d80c54ed5a0a86b294b111ac0a"
+      "sha256": "sha256:9616804574fdee564b5f0802a6ee111f6b3bbe9e3f13d4007cd61853c708e6f9"
     },
     {
       "path": "runtime-e2e-hybrid-vtol/incident-pack-hybrid-vtol-ga-smoke.json",
-      "sha256": "sha256:e6d5dfe1b3e1c770e936b4a3be4bcea375ce661a06378de4c0f12dada527cc6c"
+      "sha256": "sha256:a2fcc7d1da0b12e03e57f76611ad79834acc76c2a85917bac49bf23097af250b"
     },
     {
       "path": "runtime-e2e-hybrid-vtol/mission-summary-hybrid-vtol-ga-smoke.json",
@@ -604,19 +607,19 @@
     },
     {
       "path": "policies/attestation/revocation-snapshot.json",
-      "sha256": "sha256:a37e993c9bb432b08e5a8c71824b623acd48ef5a36e8521dbeac1bc8fba51f81"
+      "sha256": "sha256:a5d194afb470cfd54700c28630cc9f2a86d3d196e074c8fec118d5f2f1708e4e"
     },
     {
       "path": "shipment-eligibility-certificate-hybrid-vtol.json",
-      "sha256": "sha256:a5b3f075f0fceb7f38d3a8e61a24bb76facb8a04f25b456a906ccb8acee701a3"
+      "sha256": "sha256:95624438c02b5029f6d358a35d8e55d2abde7d04306b5629b19339800bf097af"
     },
     {
       "path": "underwriter-confidence-packet-hybrid-vtol.json",
-      "sha256": "sha256:f6672f2c1dd1453f641008e0617e579290abe3dcd6edacb96da0e0dd08b8e532"
+      "sha256": "sha256:daed5dde2c2f3e32a5f38e3018b7487d5745c66cea1b2f08c0cc7a231e435aae"
     },
     {
       "path": "procurement-bid-packet-hybrid-vtol.json",
-      "sha256": "sha256:319c6cab47e15ee819d9cb7237cce8d0651900ea2e9df485e7e8666c0a0e14cc"
+      "sha256": "sha256:5586ae1974538cfece732a8fc55ab158c5ab0983581a9e7755cefe544db884da"
     }
   ],
   "releaseContext": {
@@ -628,8 +631,8 @@
       "objectName": "Shipment Eligibility Certificate",
       "policyPackId": "tasc-ga-procurement-objects",
       "policyPackVersion": "0.3.0",
-      "inputHash": "sha256:7921f01860922d3efaa5ceb3e7def5bfb525c19268160c44d26bc8f2176148f4",
-      "bundleDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
+      "inputHash": "sha256:645c58720d427c06fdb7c07220ae8c970e9e10a3267880ba904708937afae43f",
+      "bundleDigest": "sha256:6afe7ca56f1d36ca282e6a7df20c27931abfb27bc6f45764fb754f8cf1fe1220",
       "signer": {
         "signerKeyId": "kid:shipment-eligibility-ta2",
         "trustAnchorLevel": "TA2",
@@ -640,8 +643,8 @@
         "signatureEncoding": "base64"
       },
       "validity": {
-        "notBeforeUtc": "2026-02-13T07:04:09Z",
-        "notAfterUtc": "2026-03-15T07:04:09Z"
+        "notBeforeUtc": "2026-02-16T14:44:34Z",
+        "notAfterUtc": "2026-03-18T14:44:34Z"
       },
       "verifierInstructions": {
         "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
@@ -656,13 +659,13 @@
         ]
       },
       "signatureEnvelope": {
-        "payloadDigest": "sha256:bb98fdc69fba2153e95336476b7052022c6770e4075f309023098d7b43cba525",
-        "signedAtUtc": "2026-02-13T07:04:09Z",
-        "signature": "mzUhnKpSXNdrYWWmHif6L1ku0xxdUgMeNjVEgXfhzte66S1ObpX3Fqgfk2WTb1sE4VYp4VgTeN+2MZaO8XtTDXvfM7XWkCXzggmub7cgq8zGpE8oV8CDzU28BcT1COx1gklqvDTrkpVKroZjeuDrKtt5wdA6323ZN8RqUbf3ToihFd/xDt/OEPhOzHSwxvfXa0keqNDFLido5pPyJ38X01QQFDbXNbEgK51V62+ndyAtJSMhZ66iZJ3DOheEHc5qD1YqF9bSLmr/HS/XCAt7/uFcELlzC5Hz7i4JLI4/5TuaoOme6LvK4LviUQ+5TkMwsKgOnbE7kZkHLvZEIamsCw=="
+        "payloadDigest": "sha256:92dd0d90d1ccab96edde20f5b3e2ff6a4c196b3e76259a26567d259a1246faba",
+        "signedAtUtc": "2026-02-16T14:44:34Z",
+        "signature": "JYXI1SuvDHgjbl51+R0yIPZnbrgegPVWE3SZ8YACmhCra3IFrq6gq7OMRMYXV2xr6WoUS4vrMuFOMQ818T5nKSjUTuOnz0DyFQl7rcN/Pw6gEGrrSL6b5mS3f70zZ+GATxOln2By/9CH2HD1XM/NGsaXrC1huzenCsrqsJHg4EVWYqZYwzEkc2m1HNohUr0UYzGQ6Bx8bBr5wnAzLHoIeZ9sI5TxbwArE4NvO2U62tRNCbjwY2bBqIRhaq3L9H/iVbOmmGN7xjzqHK+fqVDmBBG60Ngz6MmmcB96whvclR2vS0zv+eH1lBJNft+G/HA8gaIC/gQPGycZUuvM22jtCQ=="
       },
       "artifactRef": {
         "path": "shipment-eligibility-certificate-hybrid-vtol.json",
-        "sha256": "sha256:96c4d6876e914f82fe86bb35352a5c7df7be3ae6ac2c16c29ac11f4f9275ac32"
+        "sha256": "sha256:b5477d3bdfd7a7f9aed147e756a0bb1db33b9da1f31ad2659b40f7851aae9894"
       },
       "inputs": {
         "profile": "hybrid-vtol",
@@ -671,8 +674,8 @@
         "objectKey": "shipmentEligibilityCertificate",
         "objectType": "shipment_eligibility_certificate",
         "objectName": "Shipment Eligibility Certificate",
-        "evidenceMapDigest": "sha256:77f108181c60a482b7e750a9c82d97cbae1bc0b7f674e4591ad1d5f0b0c241f6",
-        "attestationDigest": "sha256:765a89e5758e8a8bb0aad3b07fdb0e15b8d4d6b0dbf85589e8f7c323c6e2a5f0",
+        "evidenceMapDigest": "sha256:310415d819f4622e99ed694ec68eec54c582d2623a29b486f1032ca9a4afe1ca",
+        "attestationDigest": "sha256:a6f16947770e575f998e3ef47d709e84ab28fff604402b8bd310654f1d74bb36",
         "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
         "badgeId": "badge-hybrid-vtol-active",
         "requiredTransparency": [
@@ -686,8 +689,8 @@
       "objectName": "Underwriter Confidence Packet",
       "policyPackId": "tasc-ga-procurement-objects",
       "policyPackVersion": "0.3.0",
-      "inputHash": "sha256:b89963270177dfe3e923a7186084612a839e88c2e1c8f4d34be47ac6b965f035",
-      "bundleDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
+      "inputHash": "sha256:e71609290271c431d070775a03db83e118f66e277094f5561a0bf91639ac8acb",
+      "bundleDigest": "sha256:6afe7ca56f1d36ca282e6a7df20c27931abfb27bc6f45764fb754f8cf1fe1220",
       "signer": {
         "signerKeyId": "kid:underwriter-confidence-ta2",
         "trustAnchorLevel": "TA2",
@@ -698,8 +701,8 @@
         "signatureEncoding": "base64"
       },
       "validity": {
-        "notBeforeUtc": "2026-02-13T07:04:09Z",
-        "notAfterUtc": "2026-03-15T07:04:09Z"
+        "notBeforeUtc": "2026-02-16T14:44:34Z",
+        "notAfterUtc": "2026-03-18T14:44:34Z"
       },
       "verifierInstructions": {
         "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
@@ -714,13 +717,13 @@
         ]
       },
       "signatureEnvelope": {
-        "payloadDigest": "sha256:a6fca81b3c3686519bbdddbfa0360fd261b80f45592711d7ad190a954713fc4c",
-        "signedAtUtc": "2026-02-13T07:04:09Z",
-        "signature": "qV2/EOdFurYF8d2yaw0Hmzw9/6+agcd3T73tNKVVug2VE/DIip1dmRfIAif4jrCm7qqaSgcb2Oij5h+k763eFGWoRwfelJuMrxyZCfaJntGTi+eCzJlNdYfeD90gDLaVEvSRYyyuxAIVbVOHGj6LmZ+uOCwGrOgqhDZ4PP+xPXuPAYL6QrfB6/cr3tOS9eoi6ZJmd5nMlrH6DxTekkafWZWNzt/S4vClSY+DQxIGQZc5WvyrbNvOyHfP8dZaKnw1cOsZy+yn7n+iXpGS/VTnFBU8Bfxar8LEajyd5hoJ9vT2VgoDejIO+JMHerzI19G/QrpQ3oSZB0IRu7vQzaq28w=="
+        "payloadDigest": "sha256:55f77f5b810762074a0a89ef49866b6b6b0c9d52d0fbf5025372bf74b67a9329",
+        "signedAtUtc": "2026-02-16T14:44:34Z",
+        "signature": "WaX/Ppga88g1/lSOw5NtmE9G0HvKzTlOf0Y6F1HxXLJp9cxypdynLZL808Z9P+HfpJVWcgMONA6VhxW3KY7ev7Fp92jE5TJZL8iWQWSg7NZJqxrb0ODJ9jnzS5qiGYz3XECnLSQU8xxy4cOYW6/uKzzmCFuivEoIzQEe67RS4WLO+n6sKpCXwelNlkKWXx3Ws/IF7iwHMdulgOinelMKCtiQHjeIGJQkoL5gc7xZRRYPg5CfAGliuJj9A17o5Kg2Jydw44yI5Gt58l6ZsG6ktcNYmjhzGjej0NHZIRWasK+WOH4zHZjhFPw4gt+5bPlSJUXNQKWs6B2xAvkMemvlXg=="
       },
       "artifactRef": {
         "path": "underwriter-confidence-packet-hybrid-vtol.json",
-        "sha256": "sha256:9d696b02879ddb1ac2593a8858406c6db47d7c48f68a43cf676bcfb5c8871771"
+        "sha256": "sha256:a7018bfd653209f86c12e6d0aff7d8d50c2a12dfa4e8c0b658a298e92f64d24d"
       },
       "inputs": {
         "profile": "hybrid-vtol",
@@ -729,8 +732,8 @@
         "objectKey": "underwriterConfidencePacket",
         "objectType": "underwriter_confidence_packet",
         "objectName": "Underwriter Confidence Packet",
-        "evidenceMapDigest": "sha256:77f108181c60a482b7e750a9c82d97cbae1bc0b7f674e4591ad1d5f0b0c241f6",
-        "attestationDigest": "sha256:765a89e5758e8a8bb0aad3b07fdb0e15b8d4d6b0dbf85589e8f7c323c6e2a5f0",
+        "evidenceMapDigest": "sha256:310415d819f4622e99ed694ec68eec54c582d2623a29b486f1032ca9a4afe1ca",
+        "attestationDigest": "sha256:a6f16947770e575f998e3ef47d709e84ab28fff604402b8bd310654f1d74bb36",
         "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
         "badgeId": "badge-hybrid-vtol-active",
         "requiredTransparency": [
@@ -744,8 +747,8 @@
       "objectName": "Procurement Bid Packet",
       "policyPackId": "tasc-ga-procurement-objects",
       "policyPackVersion": "0.3.0",
-      "inputHash": "sha256:13adf8b72b4142c43a8d8d268c467462fed5b1f71c673e794443f766a6909015",
-      "bundleDigest": "sha256:a067e57e243fb41fad549fb6f49524633c3d037fd966808270137ad10cfd9d74",
+      "inputHash": "sha256:15a33137530ac4cbd419c662af9731c79845ccb8aa51502bfbe2850fded9aa62",
+      "bundleDigest": "sha256:6afe7ca56f1d36ca282e6a7df20c27931abfb27bc6f45764fb754f8cf1fe1220",
       "signer": {
         "signerKeyId": "kid:procurement-bid-ta2",
         "trustAnchorLevel": "TA2",
@@ -756,8 +759,8 @@
         "signatureEncoding": "base64"
       },
       "validity": {
-        "notBeforeUtc": "2026-02-13T07:04:09Z",
-        "notAfterUtc": "2026-03-15T07:04:09Z"
+        "notBeforeUtc": "2026-02-16T14:44:34Z",
+        "notAfterUtc": "2026-03-18T14:44:34Z"
       },
       "verifierInstructions": {
         "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
@@ -772,13 +775,13 @@
         ]
       },
       "signatureEnvelope": {
-        "payloadDigest": "sha256:0ee5d60d8cb635c828d394e9fd55bb89f6e6db1409820d748bc219741bd928d6",
-        "signedAtUtc": "2026-02-13T07:04:09Z",
-        "signature": "IaTksuJcSGIgd625tT3FVW+uQt9OkaHtXfsS/itEmc6/t0P4qExwm8ppoYzYZhe5orQIcoTUYSg5QMNdiCC0mksyeTh1AusA3NlPSgNOxBo/tmuhOM3lGpiEQusJvw0MBeURfDAbFwz5O1jYw7E8SBPV5EymGpqmhH5N9ua7XAlB8uaUYpbmWcp3DqJ1Pym9ndSuR0HHFaPPOVGV//lmxPF8BqvK//V1azP6GK0bSIz2fT0F22EghVd5VvFjLWdm1FAKef8U/etRdkCwrajMbXEirSBkhaK32OLoHAP88KG4GqMt0r2OOkKDqQEj/oyKENzrqbegf0v38vMjY14d7g=="
+        "payloadDigest": "sha256:cb023ed6dd6bc94ec6ad3170166b77294f95efe541ec25d05b6829fb5ea175dd",
+        "signedAtUtc": "2026-02-16T14:44:34Z",
+        "signature": "EPT9PvRmSJ+ZoIyt0Im5XMDUdB4UY1kTg5KbkjujEl3r49WnXbLirYPN6fJqcbspEPqYs9JT86V9z55/EFDiq40kFUck7ePKESGI2icFZIbVDI1gMdKPvBJq1OXH1bWQxfmU4aEW+Zp1cVsJOnk1s6Mas5+krMo7QGvVMaoZvJ++8UhgmNE6RCrZq4vFbuasI2Z1lb9pbFGk8A+BlJEQnU0YZNYX4HbxobR2qAfkUzaQG0FXHPAzpyN3SNvOzIxRPqmUpIdRGoEn0NBWqstLWJ9z/fcjHWLFA5YyNV4nQ58gTEpi5JL30qnRUGkf4Gwug6TNrX26XiWU1wrgW7buqw=="
       },
       "artifactRef": {
         "path": "procurement-bid-packet-hybrid-vtol.json",
-        "sha256": "sha256:d7b4bcd1cce1d9cc54790f2537e1df89abc369abe2922e108ce9f96e95bd3b32"
+        "sha256": "sha256:9f8330690bf023845afec6c23ad052610638db241d74bd96e62de52a1750b9f9"
       },
       "inputs": {
         "profile": "hybrid-vtol",
@@ -787,8 +790,8 @@
         "objectKey": "procurementBidPacket",
         "objectType": "procurement_bid_packet",
         "objectName": "Procurement Bid Packet",
-        "evidenceMapDigest": "sha256:77f108181c60a482b7e750a9c82d97cbae1bc0b7f674e4591ad1d5f0b0c241f6",
-        "attestationDigest": "sha256:765a89e5758e8a8bb0aad3b07fdb0e15b8d4d6b0dbf85589e8f7c323c6e2a5f0",
+        "evidenceMapDigest": "sha256:310415d819f4622e99ed694ec68eec54c582d2623a29b486f1032ca9a4afe1ca",
+        "attestationDigest": "sha256:a6f16947770e575f998e3ef47d709e84ab28fff604402b8bd310654f1d74bb36",
         "signedOperationalLogRoot": "sha256:202c3ceaad6945c3338395de7cfd866155c1e2eebe50c0b87bdcc4cef4ac038d",
         "badgeId": "badge-hybrid-vtol-active",
         "requiredTransparency": [

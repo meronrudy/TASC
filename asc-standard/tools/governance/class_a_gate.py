@@ -27,10 +27,22 @@ def changed_files(repo_root: Path, base_ref: str | None) -> list[str]:
             return run(["git", "diff", "--name-only", f"{base_ref}...HEAD"], repo_root)
         except Exception:
             pass
+    changed: list[str] = []
     try:
-        return run(["git", "diff", "--name-only", "HEAD~1..HEAD"], repo_root)
+        changed.extend(run(["git", "diff", "--name-only", "HEAD~1..HEAD"], repo_root))
     except Exception:
-        return run(["git", "ls-files"], repo_root)
+        pass
+    try:
+        changed.extend(run(["git", "diff", "--name-only"], repo_root))
+    except Exception:
+        pass
+    try:
+        changed.extend(run(["git", "diff", "--name-only", "--cached"], repo_root))
+    except Exception:
+        pass
+    if changed:
+        return sorted(set(changed))
+    return run(["git", "ls-files"], repo_root)
 
 
 def matches_any(path: str, globs: list[str]) -> bool:

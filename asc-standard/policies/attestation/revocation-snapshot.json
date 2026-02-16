@@ -1,7 +1,7 @@
 {
   "version": "0.3.0",
-  "generatedAtUtc": "2026-02-13T07:00:46Z",
-  "nextUpdateUtc": "2026-02-14T07:00:46Z",
+  "generatedAtUtc": "2026-02-16T14:44:22Z",
+  "nextUpdateUtc": "2026-02-17T14:44:22Z",
   "revokedSerials": [],
   "observedCertificates": [
     {
@@ -20,12 +20,12 @@
       "certId": "ta2-signer",
       "certSerial": "6A816A690F4AE29B3AA1C7C18A80029B2EED9BB9",
       "status": "good",
-      "checkedAtUtc": "2026-02-13T07:00:46Z",
+      "checkedAtUtc": "2026-02-16T14:44:22Z",
       "detail": "static-policy"
     }
   ],
-  "snapshotId": "sha256:e0c239c1b17cfbc381a21ea7190f31901b42fd0e67d9000ec324fc7152d3665c",
-  "signature": "BupZu0rushFqswxGg6rRn+4gwHhhd2t5eOfsCEy9tAnra00W3CqIvlhfQ8apdaNMwAoRtIWfKhIREOcADdWKyusJV9xCT8UzO2M2YceV1Bgk3kmI3UtHsPAYX7uLgIMppZ3nlerCtl/rQjMFfhXjzTQCZeC2ILmAZqrh+9vNC4NQz/ZselutEpdb5RjVvIFDE8fLFd/MjBD8kGAJzmZg7Ug32G0VytHsfFOEbZNFxsEmCVhMWCNcOw56zpo5x20oW781r8oJBUKa9jomiOhN2PjrQJoPw/i3unlaaG8tGutnp10herjqjOIEeM7tqp5Oa3fYROaX+Ad+yn6jG7XWxQ==",
+  "snapshotId": "sha256:371c0619fb611c39a8afe114c28b49578790fbbcd3878e39a8454c3d574008c8",
+  "signature": "uiYBdnJCRhXIcM7IXbCtYcEAkoIUn53qYe8ygDEyg7/rF1DPDlhE+9jOg8E0qmDvLksn5ktP/A2PODOR04WsCyap7kgVzJw3TqUCbKkq6Mo+ZTe7lUD10Dq2YPYuJQ/I2W8sQpTRVzQmqFcBoRBZgpzeKbHd62CwEeDuVx/siIZt8DETIubZWNg3cdZ5XOngyuLC5F8JAjUfRmNIjlzcOYFxDfTmX7HT8eQRpgdyAkncv9fkvHED5HwkR28t0T+mfWInRuzQBrzRrLtGv2q4TiEebo6A8Rmo5ZHqTL73f7Txz8iMPkCr6VKB3pGGJMh1HRIsG7Gp8wQ902PUabA20w==",
   "signatureAlgorithm": "rsa-sha256",
   "signerCertPath": "policies/attestation/pki/ta2-signer.cert.pem"
 }

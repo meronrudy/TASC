@@ -25,10 +25,13 @@ verification_plan:
     - "offline_smoke.py all profiles"
     - "tasc-verify verify all profile fixture bundles"
     - "negative_vectors.py coverage gate"
+    - "releasepack deterministic repeat (json/hashlock/tgz no diff)"
   required_evidence:
     - "conformance/reports/tasc-offline-smoke*.json"
     - "conformance/reports/tasc-*.json"
     - "conformance/reports/tasc-negative-coverage*.json"
+    - "evidence/manifests/releasepack.json"
+    - "evidence/manifests/releasepack.tgz"
 rollback_plan: "Revert GA capability closure commits and restore prior validated verifier/tooling state while preserving audit evidence history."
 approvals:
   - "ASC Maintainer"

@@ -3,7 +3,7 @@
   "specVersion": "0.3.0",
   "profile": "fixed-wing",
   "policy": "eu-north-star",
-  "bundleDigest": "sha256:d0fece6705f4df2847334429f77a4af23b6b8b11b6c14d6e1975d228c8aae601",
+  "bundleDigest": "sha256:78657f6625c03a893b344e0d0289cac2d02f6e95193b853bb8bb9b219a4be225",
   "requireTa": "TA2",
   "requireTransparency": [
     "rekor",

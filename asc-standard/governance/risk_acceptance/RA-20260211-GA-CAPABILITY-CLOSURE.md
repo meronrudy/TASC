@@ -13,6 +13,7 @@
   - Maintain deterministic artifact canonicalization checks to catch churn/drift.
 - `residual_risk`: Medium during integration; low after all required gates pass across all profiles.
 - `expiry_or_review_date`: 2026-03-15
+- `2026-02-16_close_sequence_note`: Residual risk accepted for final packaging only when strict TA2 verification, offline smoke parity, and deterministic releasepack repeat checks all pass in a single run.
 - `approvals`:
   - ASC Maintainer
   - Safety/Assurance Reviewer

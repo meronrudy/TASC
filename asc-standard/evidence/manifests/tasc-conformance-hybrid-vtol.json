@@ -3,7 +3,7 @@
   "specVersion": "0.3.0",
   "profile": "hybrid-vtol",
   "policy": "eu-north-star",
-  "bundleDigest": "sha256:a86d946d8152acddf73a695aa50ebc65900f92e7480d74259c35d45fddf6ec1c",
+  "bundleDigest": "sha256:b82581fd0db6f11ba2781da96a9b4da7cfe9576ad93c082588f1612fadb7ec79",
   "requireTa": "TA2",
   "requireTransparency": [
     "rekor",

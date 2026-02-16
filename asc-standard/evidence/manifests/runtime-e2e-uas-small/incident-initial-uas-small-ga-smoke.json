@@ -3,7 +3,7 @@
     "attestationHash": "sha256:40462e151e4f7c36f36398ad4d7ff46ffafa3466dcbc7f8be352487b49cd75d8",
     "evidenceMapHash": "sha256:97d75c8c62854095a81480a89ed876d1eee2e20b9c8868732cecc50f8f99d188",
     "replayRecipeHash": "sha256:ce11a258ebc34f489f0360c6dc2a4428825f37add16fa45ed10f8a5e42e88f29",
-    "signedLogSegmentHash": "sha256:1a2c2d61014531e9c60731cb92045238068844951a0369204da06684135e682b"
+    "signedLogSegmentHash": "sha256:7c451ade4f200097142fecdacd0c0f14a1d70120c0319ef06ca258996d9edf62"
   },
   "interlockDecision": {
     "allowed": true,
@@ -20,5 +20,5 @@
   "severity": "S0",
   "systemId": "sys:uas-small:uas-small-ga-smoke",
   "templateId": "tasc-incident-initial-v0.1",
-  "timestampUtc": "2026-02-13T07:04:01Z"
+  "timestampUtc": "2026-02-16T14:44:24Z"
 }

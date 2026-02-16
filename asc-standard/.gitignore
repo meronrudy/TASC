@@ -2,12 +2,20 @@
 **/target/
 Cargo.lock
 .DS_Store
+**/__pycache__/
 
 # Generated conformance report outputs (CI/runtime artifacts)
 conformance/reports/*.json
+conformance/reports/perf-assurancepack-*.tgz
+conformance/reports/perf-assurancepack-*.tgz.sig
+conformance/reports/pkcs11-*.pem
+conformance/reports/spec-hash-*.txt
+conformance/reports/runtime-e2e-*/
 
 # Generated verifier side outputs for local fixture checks
 conformance/fixtures/tasc/*.verify.json
+conformance/mirror-log/
+dist/.handoff-stage/
 
 # Generated evidence intermediates (non-canonical; rebuilt by tooling)
 evidence/manifests/attestation-ta2-*.json
@@ -22,3 +30,4 @@ evidence/manifests/transparency-mirror-proof-*.json
 evidence/manifests/tasc-assurance-pack*.tgz
 evidence/manifests/tasc-assurance-pack*.tgz.sig
 evidence/manifests/tasc-assurance-pack.json
+evidence/manifests/class-a-gate-default.json

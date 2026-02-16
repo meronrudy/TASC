@@ -3,15 +3,7 @@
   "spec_to_test_links": 8,
   "test_to_evidence_links": 9,
   "missing_evidence_mappings": [],
-  "missing_evidence_files": [
-    "evidence/manifests/api-contract-check.json",
-    "evidence/manifests/kernel-test.json",
-    "evidence/manifests/replay-determinism.json",
-    "evidence/manifests/replay-determinism.json",
-    "evidence/manifests/temporal-guarantee.json"
-  ],
-  "status": "fail",
-  "problems": [
-    "missing evidence files: ['evidence/manifests/api-contract-check.json', 'evidence/manifests/kernel-test.json', 'evidence/manifests/replay-determinism.json', 'evidence/manifests/replay-determinism.json', 'evidence/manifests/temporal-guarantee.json']"
-  ]
+  "missing_evidence_files": [],
+  "status": "pass",
+  "problems": []
 }

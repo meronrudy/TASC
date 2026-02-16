@@ -40,14 +40,12 @@
     "evidence/manifests/underwriter-confidence-packet-uas-small.json"
   ],
   "removed": [
-    "evidence/manifests/api-contract-check.json",
     "evidence/manifests/attestation-ta2-fixed-wing.json",
     "evidence/manifests/attestation-ta2-hybrid-vtol.json",
     "evidence/manifests/attestation-ta2-uas-small.json",
     "evidence/manifests/kernel-test-fixed-wing.json",
     "evidence/manifests/kernel-test-hybrid-vtol.json",
     "evidence/manifests/kernel-test-uas-small.json",
-    "evidence/manifests/kernel-test.json",
     "evidence/manifests/offline-smoke.json",
     "evidence/manifests/pkcs11-chain-fixed-wing.pem",
     "evidence/manifests/pkcs11-chain-hybrid-vtol.pem",
@@ -58,7 +56,6 @@
     "evidence/manifests/replay-determinism-fixed-wing.json",
     "evidence/manifests/replay-determinism-hybrid-vtol.json",
     "evidence/manifests/replay-determinism-uas-small.json",
-    "evidence/manifests/replay-determinism.json",
     "evidence/manifests/replay-recipe-fixed-wing.json",
     "evidence/manifests/replay-recipe-hybrid-vtol.json",
     "evidence/manifests/replay-recipe-uas-small.json",
@@ -88,8 +85,7 @@
     "evidence/manifests/spec-hash-uas-small.txt",
     "evidence/manifests/temporal-guarantee-fixed-wing.json",
     "evidence/manifests/temporal-guarantee-hybrid-vtol.json",
-    "evidence/manifests/temporal-guarantee-uas-small.json",
-    "evidence/manifests/temporal-guarantee.json"
+    "evidence/manifests/temporal-guarantee-uas-small.json"
   ],
   "result": "PASS"
 }

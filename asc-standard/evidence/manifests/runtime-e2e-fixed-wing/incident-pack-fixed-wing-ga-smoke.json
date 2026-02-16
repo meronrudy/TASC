@@ -4,7 +4,7 @@
     "CorrectiveActionPlan": "sha256:35b0eacbd36d2a6ff6ff59b1bccfd5245ef35383c304d285b61dcb528563d96c",
     "EvidenceMap": "sha256:8236df8ef2a41b3f33e60367302fe5c55960552084da1c008886456d3ecfcfc8",
     "ReplayBundle": "sha256:56e741ffcfcecde22126c24334ca2b68d1df31410727a7186b7840b7979ad6c5",
-    "SignedOperationalLog": "sha256:d70690b629079df1a6bd370fd438121a563676b448ed16d672cefec117ffeba4"
+    "SignedOperationalLog": "sha256:8e16eae1bc32cc07eca3cfd5f4cc20a8fa3c18b611a8df7b88591c493197119b"
   },
   "fullPackSlaDays": 10,
   "initialRef": "sha256:8236df8ef2a41b3f33e60367302fe5c55960552084da1c008886456d3ecfcfc8",
@@ -17,5 +17,5 @@
     "CorrectiveActionPlan"
   ],
   "templateId": "tasc-incident-pack-v0.1",
-  "timestampUtc": "2026-02-13T07:04:04Z"
+  "timestampUtc": "2026-02-16T14:44:28Z"
 }
