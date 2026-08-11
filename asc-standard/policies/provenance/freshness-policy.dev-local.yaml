@@ -1,0 +1,17 @@
+version: 0.1.0
+default_timezone: UTC
+max_age_hours:
+  conformance_report: 8760
+  assurance_pack: 8760
+  transparency_proof: 8760
+  revocation_snapshot: 8760
+  hashlock_manifest: 8760
+  releasepack_manifest: 8760
+ordering:
+  - spec-hash
+  - conformance-report
+  - assurance-pack
+required_lineage:
+  - gitCommit
+  - specHash
+  - conformanceReportDigest

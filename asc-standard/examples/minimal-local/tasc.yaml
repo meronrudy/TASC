@@ -1,0 +1,14 @@
+profile_bundle: dev-local@1.0.0
+schema_version: 0.3.0
+api_version: 0.2.0
+contract_version: 1.0.0
+trust_mode: dev-local
+verify:
+  input_kind: report
+  input: expected-report.json
+  output: .tasc/last-report.json
+pack:
+  profile: uas-small
+  output_json: build/tasc-assurance-pack-dev.json
+  output_archive: build/tasc-assurance-pack-dev.tgz
+  badge_id: badge-dev-local-active

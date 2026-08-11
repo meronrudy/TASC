@@ -1,0 +1,321 @@
+version: 1
+user_agent: tasc-reddit-research/0.1
+http_timeout_seconds: 20
+sleep_seconds: 0.4
+default_limit: 8
+default_sort: relevance
+default_time: all
+default_max_comments: 10
+allowed_subreddits:
+  - embedded
+  - avionics
+  - aerospaceengineering
+min_post_score: 0
+min_comment_score: 0
+max_quote_chars: 320
+domain_terms:
+  - avionics
+  - aerospace
+  - flight software
+  - do-178
+  - do178
+  - do-254
+  - do254
+  - do-331
+  - do331
+  - arp4754
+  - arp4761
+  - rtca
+  - faa
+  - easa
+  - airworthiness
+developer_terms:
+  - software
+  - firmware
+  - code
+  - coding
+  - requirements
+  - traceability
+  - verification
+  - validation
+  - do-178
+  - do178
+  - do-254
+  - do254
+  - do-331
+  - do331
+  - misra
+  - testing
+  - debug
+  - debugging
+  - toolchain
+pain_terms:
+  - hard
+  - harder
+  - difficult
+  - difficulty
+  - pain
+  - painful
+  - frustrating
+  - frustration
+  - struggle
+  - struggling
+  - manual
+  - manually
+  - tedious
+  - slow
+  - slower
+  - confusion
+  - confusing
+  - expensive
+  - overhead
+  - burden
+  - paperwork
+  - document
+  - documentation
+  - traceability
+  - matrix
+  - spreadsheet
+  - qualify
+  - qualification
+  - legacy
+  - outdated
+  - debug
+  - debugging
+  - bottleneck
+  - nightmare
+  - can't
+  - cannot
+  - impossible
+themes:
+  - id: certification_overhead
+    label: Certification Overhead
+    ergonomics_surface: evidence generation, guided workflows, reusable templates
+    keywords:
+      - do-178
+      - do178
+      - do-254
+      - do254
+      - do-331
+      - do331
+      - certification
+      - certified
+      - compliance
+      - faa
+      - easa
+      - paperwork
+      - process
+      - overhead
+  - id: traceability_burden
+    label: Requirements And Traceability Burden
+    ergonomics_surface: requirement linkage, stable schemas, machine-readable reports
+    keywords:
+      - requirements
+      - traceability
+      - matrix
+      - spreadsheet
+      - document
+      - documentation
+      - artifacts
+      - evidence
+  - id: tooling_fragility
+    label: Toolchain Fragility
+    ergonomics_surface: doctor checks, wrapper-backed commands, environment diagnostics
+    keywords:
+      - tool
+      - tooling
+      - toolchain
+      - qualify
+      - qualification
+      - vendor
+      - license
+      - build
+      - setup
+      - environment
+  - id: legacy_constraints
+    label: Legacy And Change Constraints
+    ergonomics_surface: additive workflows, diff-safe outputs, migration guardrails
+    keywords:
+      - legacy
+      - outdated
+      - refactor
+      - change
+      - certified code
+      - frozen
+  - id: onboarding_gap
+    label: Onboarding And Domain Knowledge Gap
+    ergonomics_surface: 60-second first win, demo fixtures, guided examples
+    keywords:
+      - beginner
+      - learning
+      - learn
+      - onboarding
+      - how do i
+      - where do i start
+      - criticism
+      - experience
+  - id: debug_observability
+    label: Debugging And Observability Friction
+    ergonomics_surface: explainability, support bundles, deterministic failure output
+    keywords:
+      - debug
+      - debugging
+      - diagnose
+      - logs
+      - observability
+      - visibility
+      - reproduce
+  - id: hardware_dependency
+    label: Hardware And Lab Dependency
+    ergonomics_surface: offline-safe validation, simulation fixtures, sandboxed trust paths
+    keywords:
+      - hardware
+      - hsm
+      - bench
+      - lab
+      - flight hardware
+      - rig
+      - simulator
+seed_threads:
+  - url: https://www.reddit.com/r/embedded/comments/1b7h4ne/
+    title: How relevant are DO-178C and DO-331 today for embedded software engineers?
+    theme_hints:
+      - certification_overhead
+      - legacy_constraints
+      - onboarding_gap
+  - url: https://www.reddit.com/r/embedded/comments/1kybp5x/
+    title: How to Learn DO-178B/C and MISRA Guidelines? Any Good Certification Courses?
+    theme_hints:
+      - certification_overhead
+      - onboarding_gap
+      - debug_observability
+  - url: https://www.reddit.com/r/embedded/comments/1n5i2xj/
+    title: Where can I find info on FAA regulation? (Like DO-178C)
+    theme_hints:
+      - certification_overhead
+      - traceability_burden
+      - onboarding_gap
+  - url: https://www.reddit.com/r/embedded/comments/1lx5dwf/
+    title: What’s your process for requirements management and validation reporting?
+    theme_hints:
+      - traceability_burden
+      - tooling_fragility
+      - certification_overhead
+  - url: https://www.reddit.com/r/avionics/comments/eo3iid/
+    title: Looking for criticism about Avionics Software Development
+    theme_hints:
+      - onboarding_gap
+      - certification_overhead
+  - url: https://www.reddit.com/r/avionics/comments/1n7jizy/
+    title: Transitioning from Software Engineering to Aerospace Software – Seeking Guidance
+    theme_hints:
+      - onboarding_gap
+      - certification_overhead
+      - traceability_burden
+  - url: https://www.reddit.com/r/AerospaceEngineering/comments/1gqni38/
+    title: Config Management per DO-178/254 question
+    theme_hints:
+      - traceability_burden
+      - legacy_constraints
+      - certification_overhead
+  - url: https://www.reddit.com/r/AerospaceEngineering/comments/lil9w1/
+    title: How can I get an ARP 4754 and 4761 certifications?
+    theme_hints:
+      - certification_overhead
+      - onboarding_gap
+queries:
+  - id: embedded_do178
+    subreddit: embedded
+    query: DO-178
+    theme_hints:
+      - certification_overhead
+      - traceability_burden
+      - legacy_constraints
+  - id: embedded_avionics
+    subreddit: embedded
+    query: avionics software
+    theme_hints:
+      - tooling_fragility
+      - debug_observability
+      - onboarding_gap
+  - id: embedded_do331
+    subreddit: embedded
+    query: DO-331
+    theme_hints:
+      - certification_overhead
+      - legacy_constraints
+      - onboarding_gap
+  - id: embedded_arp4754
+    subreddit: embedded
+    query: ARP4754
+    theme_hints:
+      - certification_overhead
+      - traceability_burden
+      - onboarding_gap
+  - id: embedded_requirements_validation
+    subreddit: embedded
+    query: requirements validation reporting
+    theme_hints:
+      - traceability_burden
+      - tooling_fragility
+      - certification_overhead
+  - id: avionics_software
+    subreddit: avionics
+    query: avionics software development
+    theme_hints:
+      - onboarding_gap
+      - tooling_fragility
+      - legacy_constraints
+  - id: avionics_do178
+    subreddit: avionics
+    query: DO-178
+    theme_hints:
+      - certification_overhead
+      - traceability_burden
+      - onboarding_gap
+  - id: avionics_do254
+    subreddit: avionics
+    query: DO-254
+    theme_hints:
+      - certification_overhead
+      - legacy_constraints
+      - onboarding_gap
+  - id: avionics_flight_software
+    subreddit: avionics
+    query: flight software
+    theme_hints:
+      - onboarding_gap
+      - tooling_fragility
+      - certification_overhead
+  - id: aerospace_do178
+    subreddit: aerospaceengineering
+    query: DO-178
+    theme_hints:
+      - certification_overhead
+      - onboarding_gap
+  - id: aerospace_avionics_software
+    subreddit: aerospaceengineering
+    query: avionics software
+    theme_hints:
+      - onboarding_gap
+      - tooling_fragility
+      - certification_overhead
+  - id: aerospace_arp4754
+    subreddit: aerospaceengineering
+    query: ARP4754
+    theme_hints:
+      - certification_overhead
+      - onboarding_gap
+      - traceability_burden
+  - id: global_flight_software
+    query: flight software certification embedded
+    theme_hints:
+      - certification_overhead
+      - tooling_fragility
+      - hardware_dependency
+  - id: global_arp4754_certification
+    query: ARP4754 software certification
+    theme_hints:
+      - certification_overhead
+      - onboarding_gap
+      - traceability_burden

@@ -1,0 +1,52 @@
+name: examples-smoke
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Python deps
+        run: python3 -m pip install pyyaml
+      - name: Generate product docs
+        working-directory: TASC/asc-standard
+        run: python3 tools/adoption/generate_docs.py
+      - name: Verify generated docs are committed
+        working-directory: TASC/asc-standard
+        run: git diff --exit-code docs/generated
+      - name: Lockfile
+        working-directory: TASC/asc-standard
+        run: ./tasc lock
+      - name: CI preflight (doctor + lock + golden examples)
+        working-directory: TASC/asc-standard
+        run: ./tasc ci-preflight --format json --strict --output .tasc/ci-preflight-summary.json
+      - name: Upload preflight summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-preflight-summary
+          path: TASC/asc-standard/.tasc/ci-preflight-summary.json
+      - name: Verify lockfile is committed
+        working-directory: TASC/asc-standard
+        run: git diff --exit-code tasc.lock.yaml
+      - name: Verify minimal-local
+        working-directory: TASC/asc-standard
+        run: ./tasc verify examples/minimal-local --format json
+      - name: Golden check examples (explicit)
+        working-directory: TASC/asc-standard
+        run: |
+          ./tasc check-example examples/minimal-local
+          ./tasc check-example examples/minimal-signed
+          ./tasc check-example examples/minimal-replay
+      - name: Upgrade simulation
+        working-directory: TASC/asc-standard
+        run: ./tasc upgrade-simulate --to staging-signed@1.0.0 --format json
+      - name: Explain last report
+        working-directory: TASC/asc-standard
+        run: ./tasc explain last --format json

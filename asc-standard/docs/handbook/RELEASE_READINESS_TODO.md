@@ -45,8 +45,10 @@
 ## 9. Documentation and Onboarding
 - [x] Add full walkthrough: spec change -> generation -> conformance -> assurance pack -> verifier -> release bundle.
 - [x] Add troubleshooting matrix keyed by check ID with remediation actions.
+- [x] Add wrapper-first operational preflight (`doctor`, `check-lock`, `check-example`) to release docs/runbooks.
 
 ## 10. Repo Hygiene and Release Gates
 - [x] Add workflow-level hard gate for placeholder/starter/scaffold detection.
 - [x] Remove or justify all release-domain `.gitkeep` directories with scope notes or real artifacts.
 - [x] Configure branch protection outside repo to require `ci`, `conformance`, `kernel-ci`, and `release` checks.
+- [x] Add examples smoke workflow gate for lock enforcement and golden example checks.

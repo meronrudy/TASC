@@ -1,0 +1,26 @@
+name: reddit-research
+
+on:
+  workflow_dispatch:
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install Python deps
+        run: python3 -m pip install pyyaml certifi
+      - name: Generate Reddit research snapshot
+        working-directory: TASC/asc-standard
+        run: python3 tools/adoption/reddit_research.py
+      - name: Upload Reddit research artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: reddit-research
+          path: |
+            TASC/asc-standard/docs/generated/reddit-research/pain_points.csv
+            TASC/asc-standard/docs/generated/reddit-research/pain_points.json
+            TASC/asc-standard/docs/generated/reddit-research/SUMMARY.md

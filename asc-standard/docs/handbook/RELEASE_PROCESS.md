@@ -9,6 +9,19 @@ This document defines the end-to-end release flow for a single GA push.
 - Schema/check ID freeze policy is active for the GA train.
 - Trust/policy files are current and committed.
 
+### Operational Preflight (Wrapper Surface)
+
+Run these before the full release sequence:
+
+```bash
+./tasc doctor --operation verify --format json
+./tasc check-lock --format json
+./tasc check-example examples/minimal-local
+./tasc ci-preflight --format json --strict --output .tasc/ci-preflight-summary.json
+```
+
+This catches config drift and first-run regressions before expensive release gates.
+
 ## 2. Build and Validation Sequence
 
 ### Step 1: Spec and Code Consistency

@@ -1,0 +1,8 @@
+{
+  "mission_id": "uas-small-ga-smoke",
+  "profile": "uas-small",
+  "schema_version": "0.1",
+  "result": "PASS",
+  "drift_count": 0,
+  "drift": []
+}

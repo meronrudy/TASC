@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "badgeId": "badge-dev-local-active",
+      "badgeType": "TASC_DEVELOPMENT",
+      "systemDigest": "sha256:dev-local-bootstrap",
+      "specVersion": "0.3.0",
+      "conformanceReportDigest": "sha256:dev-local-bootstrap",
+      "attestationDigest": "sha256:dev-local-bootstrap",
+      "issuedAt": "2026-03-22T00:00:00Z",
+      "expiresAt": "2027-03-22T00:00:00Z",
+      "status": "active",
+      "transparencyLogIds": []
+    }
+  ]
+}

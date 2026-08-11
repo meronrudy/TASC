@@ -1,0 +1,467 @@
+{
+  "tascFailureSchemaVersion": "0.1.0",
+  "result": "FAIL",
+  "profileBundle": {
+    "id": "dev-local@1.0.0",
+    "version": "1.0.0"
+  },
+  "contractSurface": {
+    "schemaVersion": "0.3.0",
+    "apiVersion": "0.2.0",
+    "contractVersion": "1.0.0"
+  },
+  "trustMode": "dev-local",
+  "reportSource": {
+    "tascVerifyVersion": "0.1.0",
+    "profile": "uas-small",
+    "policy": "eu-north-star-dev"
+  },
+  "failures": [
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_ASSURANCEPACK",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_ASSURANCEPACK",
+      "remediationId": "CHK_SCHEMA_ASSURANCEPACK",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_assurancepack",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing assurance pack envelope fields: /assurancePackVersion, /profile, /policy, /specVersion, /evidenceMap, /conformanceReport, /signedOperationalLog, /replayRecipe, /attestationEvidence, /incidentInitialTemplate, /incidentPackTemplate, /transparencyProofs/rekor, /transparencyProofs/mirror, /badgeEntry, /artifacts | remediation: Ensure assurance pack contains all required top-level sections and valid JSON object structure.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_EVIDENCEMAP",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_EVIDENCEMAP",
+      "remediationId": "CHK_SCHEMA_EVIDENCEMAP",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_evidencemap",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing evidence map fields: /evidenceMap/evidenceMapVersion, /evidenceMap/system, /evidenceMap/tasc, /evidenceMap/topology, /evidenceMap/logs, /evidenceMap/replay, /evidenceMap/attestation, /evidenceMap/incident | remediation: Regenerate EvidenceMap from current topology and include required sub-sections.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_CONFORMANCE_REPORT",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_CONFORMANCE_REPORT",
+      "remediationId": "CHK_SCHEMA_CONFORMANCE_REPORT",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_conformance_report",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing conformance report fields: /conformanceReport/tascVerifyVersion, /conformanceReport/specVersion, /conformanceReport/result, /conformanceReport/checks | remediation: Re-run tasc-verify and embed the verifier-produced report without manual edits.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_SIGNED_LOG",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_SIGNED_LOG",
+      "remediationId": "CHK_SCHEMA_SIGNED_LOG",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_signed_log",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing signed operational log fields: /signedOperationalLog/schemaVersion, /signedOperationalLog/signerKeyId, /signedOperationalLog/signature, /signedOperationalLog/root, /signedOperationalLog/events | remediation: Emit signedOperationalLog with schemaVersion, signerKeyId, signature, root, and events.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_REPLAY_RECIPE",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_REPLAY_RECIPE",
+      "remediationId": "CHK_SCHEMA_REPLAY_RECIPE",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_replay_recipe",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing replay recipe fields: /replayRecipe/recipeVersion, /replayRecipe/seedsDigest, /replayRecipe/buildDigest, /replayRecipe/configDigest, /replayRecipe/environmentDigest, /replayRecipe/containerDigest | remediation: Include all replay digests and recipeVersion in replayRecipe.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_ATTESTATION",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_ATTESTATION",
+      "remediationId": "CHK_SCHEMA_ATTESTATION",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_attestation",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing attestation evidence fields: /attestationEvidence/level, /attestationEvidence/certificateProfile, /attestationEvidence/keyLifecycle/rotationDays, /attestationEvidence/claims/hsmBacked | remediation: Provide complete attestationEvidence payload matching schema requirements.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_INCIDENT_INITIAL",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_INCIDENT_INITIAL",
+      "remediationId": "CHK_SCHEMA_INCIDENT_INITIAL",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_incident_initial",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing incident initial template fields: /incidentInitialTemplate/templateId, /incidentInitialTemplate/reportingWindowsDays/standard, /incidentInitialTemplate/reportingWindowsDays/widespread, /incidentInitialTemplate/reportingWindowsDays/fatal | remediation: Include incidentInitialTemplate with required reporting windows fields.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_INCIDENT_PACK",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_INCIDENT_PACK",
+      "remediationId": "CHK_SCHEMA_INCIDENT_PACK",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_incident_pack",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing incident full pack template fields: /incidentPackTemplate/templateId, /incidentPackTemplate/requiredArtifacts, /incidentPackTemplate/fullPackSlaDays | remediation: Include incidentPackTemplate with requiredArtifacts and fullPackSlaDays.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_TRANSPARENCY_REKOR",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+      "remediationId": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_transparency_rekor",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing rekor transparency proof fields: /transparencyProofs/rekor/logId, /transparencyProofs/rekor/logUrl, /transparencyProofs/rekor/entryUuid, /transparencyProofs/rekor/logIndex, /transparencyProofs/rekor/treeSize, /transparencyProofs/rekor/rootHash, /transparencyProofs/rekor/leafHash, /transparencyProofs/rekor/checkpoint, /transparencyProofs/rekor/checkpointHash, /transparencyProofs/rekor/inclusionProofHash, /transparencyProofs/rekor/consistencyProofHash, /transparencyProofs/rekor/inclusionPath, /transparencyProofs/rekor/consistencyPath | remediation: Include transparencyProofs.rekor with required proof fields.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_TRANSPARENCY_MIRROR",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+      "remediationId": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_transparency_mirror",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing mirror transparency proof fields: /transparencyProofs/mirror/logId, /transparencyProofs/mirror/logUrl, /transparencyProofs/mirror/entryUuid, /transparencyProofs/mirror/logIndex, /transparencyProofs/mirror/treeSize, /transparencyProofs/mirror/rootHash, /transparencyProofs/mirror/leafHash, /transparencyProofs/mirror/checkpoint, /transparencyProofs/mirror/checkpointHash, /transparencyProofs/mirror/inclusionProofHash, /transparencyProofs/mirror/consistencyProofHash, /transparencyProofs/mirror/inclusionPath, /transparencyProofs/mirror/consistencyPath | remediation: Include transparencyProofs.mirror with required proof fields.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_BADGE_ENTRY",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_BADGE_ENTRY",
+      "remediationId": "CHK_SCHEMA_BADGE_ENTRY",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_badge_entry",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing badge entry fields: /badgeEntry/badgeId, /badgeEntry/status, /badgeEntry/badgeType | remediation: Include badgeEntry with badgeId, badgeType, and active status fields.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_SCHEMA_PROCUREMENT_OBJECTS",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+      "remediationId": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_schema_procurement_objects",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Add procurementObjects section with all required fields defined in schemas/procurement-object.schema.json.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "remediationId": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_procurement_object_required_set",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Include Shipment Eligibility Certificate, Underwriter Confidence Packet, Procurement Bid Packet, and conditionally Recycler Intake Passport.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "remediationId": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_procurement_object_artifact_parity",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Regenerate standalone procurement object artifacts and ensure artifactRef digests/paths match embedded copies.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "remediationId": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_procurement_object_input_hash",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Recompute inputHash from canonicalized inputs and update the signed payload.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "remediationId": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_procurement_object_bundle_binding",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Regenerate procurement objects after final bundle digest is known so bundleDigest fields are accurate.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "remediationId": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_procurement_object_signature",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Re-sign procurement object payloads with declared signer material and verify certificate paths exist.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "remediationId": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_procurement_object_trust_floor",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Ensure each procurement object signer declares TA2 and uses PKCS11-backed key source for GA policy.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+      "remediationId": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_procurement_object_validity_window",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Set notBeforeUtc/notAfterUtc to a valid active interval at verification time.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_RECYCLER_INTAKE_CONDITIONAL",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+      "remediationId": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_recycler_intake_conditional",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Provide Recycler Intake Passport when lifecycleStage is decommission or recycle; omit otherwise.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_PROFILE_MATCH",
+      "severity": "warning",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_PROFILE_MATCH",
+      "remediationId": "CHK_PROFILE_MATCH",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_profile_match",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "profile missing at /profile | remediation: Regenerate bundle with matching --profile and evidence profile metadata.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_POLICY_MATCH",
+      "severity": "warning",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_POLICY_MATCH",
+      "remediationId": "CHK_POLICY_MATCH",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_policy_match",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "policy missing at /policy | remediation: Set bundle policy to match verifier invocation policy.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+      "remediationId": "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_topology_interlock_mediation",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing topology nodes | remediation: Ensure every actuator path flows through interlock_gate.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+      "remediationId": "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_topology_authority_exclusivity",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing topology nodes | remediation: Ensure only safety_kernel sources authority edges into interlock_gate.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_TOPOLOGY_ASSERTION_REFS",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_TOPOLOGY_ASSERTION_REFS",
+      "remediationId": "CHK_TOPOLOGY_ASSERTION_REFS",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_topology_assertion_refs",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing conformanceAssertions | remediation: Populate A001/A002 assertions as proven with sha256 proofRef values.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_ARTIFACT_HASH_INTEGRITY",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_ARTIFACT_HASH_INTEGRITY",
+      "remediationId": "CHK_ARTIFACT_HASH_INTEGRITY",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_artifact_hash_integrity",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing artifacts list | remediation: Recompute artifact digests and ensure files exist beside bundle.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_LOG_HASH_CHAIN",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_LOG_HASH_CHAIN",
+      "remediationId": "CHK_LOG_HASH_CHAIN",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_log_hash_chain",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing signedOperationalLog | remediation: Rebuild event chain so prevHash/hash/root are internally consistent.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_LOG_SIGNATURE",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_LOG_SIGNATURE",
+      "remediationId": "CHK_LOG_SIGNATURE",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_log_signature",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing signedOperationalLog | remediation: Re-sign operational log root with declared signerKeyId.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_RETENTION_EU_MINIMUM",
+      "severity": "warning",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_RETENTION_EU_MINIMUM",
+      "remediationId": "CHK_RETENTION_EU_MINIMUM",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_retention_eu_minimum",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing retention minimum | remediation: Set evidenceMap.logs.retentionPolicy.minimumMonths to at least 6.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_REPLAY_COMPLETENESS",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_REPLAY_COMPLETENESS",
+      "remediationId": "CHK_REPLAY_COMPLETENESS",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_replay_completeness",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing replayRecipe | remediation: Populate seeds/build/config/environment/container digests and profile.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_REPLAY_OPERATIONAL_PARITY",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_REPLAY_OPERATIONAL_PARITY",
+      "remediationId": "CHK_REPLAY_OPERATIONAL_PARITY",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_replay_operational_parity",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing artifacts list | remediation: Re-run runtime mission + replay-from-log so verdict/reasons/tip-hash drift_count is zero.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_ATTESTATION_TA2",
+      "severity": "error",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_ATTESTATION_TA2",
+      "remediationId": "CHK_ATTESTATION_TA2",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_attestation_ta2",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing attestationEvidence | remediation: Provide TA2 attestation meeting trust policy and lifecycle constraints.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_INCIDENT_WINDOWS_EU",
+      "severity": "warning",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_INCIDENT_WINDOWS_EU",
+      "remediationId": "CHK_INCIDENT_WINDOWS_EU",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_incident_windows_eu",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "missing incidentInitialTemplate | remediation: Set incident windows to 15/2/10 and fullPackSlaDays <= 10.",
+      "exitCode": 3
+    },
+    {
+      "code": "VERIFY.CHECK.CHK_BADGE_ACTIVE_NOT_REVOKED",
+      "severity": "warning",
+      "path": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+      "ruleId": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+      "remediationId": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+      "help": {
+        "anchor": "docs/handbook/CHECK_REMEDIATION.md#chk_badge_active_not_revoked",
+        "docsPath": "docs/handbook/CHECK_REMEDIATION.md"
+      },
+      "message": "bundle badgeId missing | remediation: Use active badge entry present as active in badge registry.",
+      "exitCode": 3
+    }
+  ],
+  "summary": {
+    "failedChecks": 34,
+    "passedChecks": 2
+  }
+}

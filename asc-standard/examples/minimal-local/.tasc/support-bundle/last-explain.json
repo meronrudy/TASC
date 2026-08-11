@@ -1,0 +1,24 @@
+{
+  "tascFailureSchemaVersion": "0.1.0",
+  "result": "PASS",
+  "profileBundle": {
+    "id": "dev-local@1.0.0",
+    "version": "1.0.0"
+  },
+  "contractSurface": {
+    "schemaVersion": "0.3.0",
+    "apiVersion": "0.2.0",
+    "contractVersion": "1.0.0"
+  },
+  "trustMode": "dev-local",
+  "reportSource": {
+    "tascVerifyVersion": "0.1.0",
+    "profile": "uas-small",
+    "policy": "eu-north-star"
+  },
+  "failures": [],
+  "summary": {
+    "failedChecks": 0,
+    "passedChecks": 36
+  }
+}

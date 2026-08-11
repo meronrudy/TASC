@@ -1,0 +1,30 @@
+{
+  "steps": [
+    {
+      "name": "doctor",
+      "result": "PASS"
+    },
+    {
+      "name": "check-lock",
+      "result": "PASS"
+    }
+  ],
+  "examples": [
+    {
+      "path": "examples/minimal-local",
+      "result": "PASS",
+      "details": []
+    },
+    {
+      "path": "examples/minimal-signed",
+      "result": "PASS",
+      "details": []
+    },
+    {
+      "path": "examples/minimal-replay",
+      "result": "PASS",
+      "details": []
+    }
+  ],
+  "result": "PASS"
+}

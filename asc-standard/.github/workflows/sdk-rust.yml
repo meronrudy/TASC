@@ -1,0 +1,106 @@
+name: sdk-rust
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            TASC/asc-standard/sdk/target
+          key: sdk-rust-fmt-${{ runner.os }}-${{ hashFiles('TASC/asc-standard/sdk/Cargo.lock') }}
+      - name: Cargo fmt
+        working-directory: TASC/asc-standard/sdk
+        run: |
+          set -o pipefail
+          cargo fmt --check 2>&1 | tee /tmp/sdk-fmt.log
+      - name: Upload fmt log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-fmt-log
+          path: /tmp/sdk-fmt.log
+
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            TASC/asc-standard/sdk/target
+          key: sdk-rust-clippy-${{ runner.os }}-${{ hashFiles('TASC/asc-standard/sdk/Cargo.lock') }}
+      - name: Cargo clippy
+        working-directory: TASC/asc-standard/sdk
+        run: |
+          set -o pipefail
+          cargo clippy -- -D warnings 2>&1 | tee /tmp/sdk-clippy.log
+      - name: Upload clippy log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-clippy-log
+          path: /tmp/sdk-clippy.log
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            TASC/asc-standard/sdk/target
+          key: sdk-rust-test-${{ runner.os }}-${{ hashFiles('TASC/asc-standard/sdk/Cargo.lock') }}
+      - name: Cargo test
+        working-directory: TASC/asc-standard/sdk
+        run: |
+          set -o pipefail
+          cargo test 2>&1 | tee /tmp/sdk-test.log
+      - name: Upload test log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-test-log
+          path: /tmp/sdk-test.log
+
+  sdk-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            TASC/asc-standard/sdk/target
+          key: sdk-rust-demo-${{ runner.os }}-${{ hashFiles('TASC/asc-standard/sdk/Cargo.lock') }}
+      - name: SDK demo tests
+        working-directory: TASC/asc-standard/sdk
+        run: |
+          set -o pipefail
+          cargo test -p tasc-sdk --test demo 2>&1 | tee /tmp/sdk-demo.log
+      - name: Upload demo log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-demo-log
+          path: /tmp/sdk-demo.log

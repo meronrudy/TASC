@@ -1,0 +1,10 @@
+[package]
+name = "tasc-sdk-cli"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+clap = { workspace = true }
+tasc-sdk = { path = "../tasc-sdk" }
+tasc-sdk-types = { path = "../tasc-sdk-types" }

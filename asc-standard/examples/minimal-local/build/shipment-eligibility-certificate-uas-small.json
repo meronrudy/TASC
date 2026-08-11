@@ -1,0 +1,55 @@
+{
+  "objectType": "shipment_eligibility_certificate",
+  "objectName": "Shipment Eligibility Certificate",
+  "policyPackId": "tasc-ga-procurement-objects",
+  "policyPackVersion": "0.3.0",
+  "inputHash": "sha256:134344024efd5bfa8244b487fa0b25ab83ba2ed19e99b5de22d0ff6efdedc6e7",
+  "bundleDigest": "sha256:1a4ce7ca64f077cb13da999a643c965f132cf329b39f89b70305d812dd2ca494",
+  "signer": {
+    "signerKeyId": "kid:shipment-eligibility-ta2",
+    "trustAnchorLevel": "TA2",
+    "keySource": "PKCS11",
+    "signerCertificatePath": "policies/attestation/pki/ta2-signer.cert.pem",
+    "certificateChainPath": "policies/attestation/pki/ta2-chain.pem",
+    "signatureAlgorithm": "rsa-sha256",
+    "signatureEncoding": "base64"
+  },
+  "validity": {
+    "notBeforeUtc": "2026-03-22T06:33:12Z",
+    "notAfterUtc": "2026-04-21T06:33:12Z"
+  },
+  "verifierInstructions": {
+    "command": "tasc-verify verify --bundle <bundle> --profile <profile> --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror",
+    "requiredChecks": [
+      "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW"
+    ]
+  },
+  "signatureEnvelope": {
+    "payloadDigest": "sha256:b4b8f4f78b0fdaff62b52dc9d54993d99f8779ccd217f2ce1420657397230c1c",
+    "signedAtUtc": "2026-03-22T06:33:12Z",
+    "signature": "TPH6JvOAsWydaQ0WavkcHoDXJfSCCtXGx8+wCzDUsw879aaKZ0IU+sStEobrliAl11CivOCnkRJBEn0a/RcM25V2lShiVPFjc6cd/dhIayv6WTs8E/O4h4afLu1OWTaqY6zA6wFPEpVNfM/kbAy5/TjTnJudplmlCd6iTJDiigRMasfgzr2negYC7KgkElC2ItdshA33d7Lwsi2r/9PzwQ8ETuHR7j/o2ZEqucm67aZx20fLJMxCfvQhT8JGx3pk+AktKVpRK9BGGxdDdUe8EQ3BfxMzELsnJeDT50wkjH/+JdT65ZxQjXgM1HS2eNFzZvUqD004TEoPduglVlRD0w=="
+  },
+  "artifactRef": {
+    "path": "shipment-eligibility-certificate-uas-small.json",
+    "sha256": "sha256:5e905a58f7fa94c84ad996bbd442ecee8053f24649dac3c18ad8b2d93b0138ee"
+  },
+  "inputs": {
+    "profile": "uas-small",
+    "policy": "eu-north-star",
+    "lifecycleStage": "active",
+    "objectKey": "shipmentEligibilityCertificate",
+    "objectType": "shipment_eligibility_certificate",
+    "objectName": "Shipment Eligibility Certificate",
+    "evidenceMapDigest": "sha256:6b823c6715fd6b49ad7dcfea0643e4fceaefa07ae0c0c1f940f79635e8727e61",
+    "attestationDigest": "sha256:edf1d8c6807ef2a62d84350e2f2fe5a4cc7975a81eb07a06f5bd9803aaaf385d",
+    "signedOperationalLogRoot": "sha256:3511e71c0a4c216c1b529242a3fae3e458ccff9a54db5ac0338ecf4541326385",
+    "badgeId": "badge-dev-local-active",
+    "requiredTransparency": []
+  }
+}

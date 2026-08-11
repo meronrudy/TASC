@@ -1,0 +1,228 @@
+{
+  "tascVerifyVersion": "0.1.0",
+  "specVersion": "unknown",
+  "profile": "uas-small",
+  "policy": "eu-north-star-dev",
+  "bundleDigest": "sha256:b27048e5754bddefaf083b0270a22a9bcdc4a3b571b79ca59a818a0a194b77f2",
+  "requireTa": "TA2",
+  "requireTransparency": [],
+  "result": "FAIL",
+  "checks": [
+    {
+      "id": "CHK_SCHEMA_ASSURANCEPACK",
+      "result": "FAIL",
+      "message": "missing assurance pack envelope fields: /assurancePackVersion, /profile, /policy, /specVersion, /evidenceMap, /conformanceReport, /signedOperationalLog, /replayRecipe, /attestationEvidence, /incidentInitialTemplate, /incidentPackTemplate, /transparencyProofs/rekor, /transparencyProofs/mirror, /badgeEntry, /artifacts | remediation: Ensure assurance pack contains all required top-level sections and valid JSON object structure."
+    },
+    {
+      "id": "CHK_SCHEMA_EVIDENCEMAP",
+      "result": "FAIL",
+      "message": "missing evidence map fields: /evidenceMap/evidenceMapVersion, /evidenceMap/system, /evidenceMap/tasc, /evidenceMap/topology, /evidenceMap/logs, /evidenceMap/replay, /evidenceMap/attestation, /evidenceMap/incident | remediation: Regenerate EvidenceMap from current topology and include required sub-sections."
+    },
+    {
+      "id": "CHK_SCHEMA_CONFORMANCE_REPORT",
+      "result": "FAIL",
+      "message": "missing conformance report fields: /conformanceReport/tascVerifyVersion, /conformanceReport/specVersion, /conformanceReport/result, /conformanceReport/checks | remediation: Re-run tasc-verify and embed the verifier-produced report without manual edits."
+    },
+    {
+      "id": "CHK_SCHEMA_SIGNED_LOG",
+      "result": "FAIL",
+      "message": "missing signed operational log fields: /signedOperationalLog/schemaVersion, /signedOperationalLog/signerKeyId, /signedOperationalLog/signature, /signedOperationalLog/root, /signedOperationalLog/events | remediation: Emit signedOperationalLog with schemaVersion, signerKeyId, signature, root, and events."
+    },
+    {
+      "id": "CHK_SCHEMA_REPLAY_RECIPE",
+      "result": "FAIL",
+      "message": "missing replay recipe fields: /replayRecipe/recipeVersion, /replayRecipe/seedsDigest, /replayRecipe/buildDigest, /replayRecipe/configDigest, /replayRecipe/environmentDigest, /replayRecipe/containerDigest | remediation: Include all replay digests and recipeVersion in replayRecipe."
+    },
+    {
+      "id": "CHK_SCHEMA_ATTESTATION",
+      "result": "FAIL",
+      "message": "missing attestation evidence fields: /attestationEvidence/level, /attestationEvidence/certificateProfile, /attestationEvidence/keyLifecycle/rotationDays, /attestationEvidence/claims/hsmBacked | remediation: Provide complete attestationEvidence payload matching schema requirements."
+    },
+    {
+      "id": "CHK_SCHEMA_INCIDENT_INITIAL",
+      "result": "FAIL",
+      "message": "missing incident initial template fields: /incidentInitialTemplate/templateId, /incidentInitialTemplate/reportingWindowsDays/standard, /incidentInitialTemplate/reportingWindowsDays/widespread, /incidentInitialTemplate/reportingWindowsDays/fatal | remediation: Include incidentInitialTemplate with required reporting windows fields."
+    },
+    {
+      "id": "CHK_SCHEMA_INCIDENT_PACK",
+      "result": "FAIL",
+      "message": "missing incident full pack template fields: /incidentPackTemplate/templateId, /incidentPackTemplate/requiredArtifacts, /incidentPackTemplate/fullPackSlaDays | remediation: Include incidentPackTemplate with requiredArtifacts and fullPackSlaDays."
+    },
+    {
+      "id": "CHK_SCHEMA_TRANSPARENCY_REKOR",
+      "result": "FAIL",
+      "message": "missing rekor transparency proof fields: /transparencyProofs/rekor/logId, /transparencyProofs/rekor/logUrl, /transparencyProofs/rekor/entryUuid, /transparencyProofs/rekor/logIndex, /transparencyProofs/rekor/treeSize, /transparencyProofs/rekor/rootHash, /transparencyProofs/rekor/leafHash, /transparencyProofs/rekor/checkpoint, /transparencyProofs/rekor/checkpointHash, /transparencyProofs/rekor/inclusionProofHash, /transparencyProofs/rekor/consistencyProofHash, /transparencyProofs/rekor/inclusionPath, /transparencyProofs/rekor/consistencyPath | remediation: Include transparencyProofs.rekor with required proof fields."
+    },
+    {
+      "id": "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+      "result": "FAIL",
+      "message": "missing mirror transparency proof fields: /transparencyProofs/mirror/logId, /transparencyProofs/mirror/logUrl, /transparencyProofs/mirror/entryUuid, /transparencyProofs/mirror/logIndex, /transparencyProofs/mirror/treeSize, /transparencyProofs/mirror/rootHash, /transparencyProofs/mirror/leafHash, /transparencyProofs/mirror/checkpoint, /transparencyProofs/mirror/checkpointHash, /transparencyProofs/mirror/inclusionProofHash, /transparencyProofs/mirror/consistencyProofHash, /transparencyProofs/mirror/inclusionPath, /transparencyProofs/mirror/consistencyPath | remediation: Include transparencyProofs.mirror with required proof fields."
+    },
+    {
+      "id": "CHK_SCHEMA_BADGE_ENTRY",
+      "result": "FAIL",
+      "message": "missing badge entry fields: /badgeEntry/badgeId, /badgeEntry/status, /badgeEntry/badgeType | remediation: Include badgeEntry with badgeId, badgeType, and active status fields."
+    },
+    {
+      "id": "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Add procurementObjects section with all required fields defined in schemas/procurement-object.schema.json."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Include Shipment Eligibility Certificate, Underwriter Confidence Packet, Procurement Bid Packet, and conditionally Recycler Intake Passport."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Regenerate standalone procurement object artifacts and ensure artifactRef digests/paths match embedded copies."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Recompute inputHash from canonicalized inputs and update the signed payload."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Regenerate procurement objects after final bundle digest is known so bundleDigest fields are accurate."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Re-sign procurement object payloads with declared signer material and verify certificate paths exist."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Ensure each procurement object signer declares TA2 and uses PKCS11-backed key source for GA policy."
+    },
+    {
+      "id": "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Set notBeforeUtc/notAfterUtc to a valid active interval at verification time."
+    },
+    {
+      "id": "CHK_RECYCLER_INTAKE_CONDITIONAL",
+      "result": "FAIL",
+      "message": "unsupported assurancePackVersion  for procurement-object checks (expected 0.3) | remediation: Provide Recycler Intake Passport when lifecycleStage is decommission or recycle; omit otherwise."
+    },
+    {
+      "id": "CHK_PROFILE_MATCH",
+      "result": "FAIL",
+      "message": "profile missing at /profile | remediation: Regenerate bundle with matching --profile and evidence profile metadata."
+    },
+    {
+      "id": "CHK_POLICY_MATCH",
+      "result": "FAIL",
+      "message": "policy missing at /policy | remediation: Set bundle policy to match verifier invocation policy."
+    },
+    {
+      "id": "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+      "result": "FAIL",
+      "message": "missing topology nodes | remediation: Ensure every actuator path flows through interlock_gate."
+    },
+    {
+      "id": "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+      "result": "FAIL",
+      "message": "missing topology nodes | remediation: Ensure only safety_kernel sources authority edges into interlock_gate."
+    },
+    {
+      "id": "CHK_TOPOLOGY_ASSERTION_REFS",
+      "result": "FAIL",
+      "message": "missing conformanceAssertions | remediation: Populate A001/A002 assertions as proven with sha256 proofRef values."
+    },
+    {
+      "id": "CHK_ARTIFACT_HASH_INTEGRITY",
+      "result": "FAIL",
+      "message": "missing artifacts list | remediation: Recompute artifact digests and ensure files exist beside bundle."
+    },
+    {
+      "id": "CHK_LOG_HASH_CHAIN",
+      "result": "FAIL",
+      "message": "missing signedOperationalLog | remediation: Rebuild event chain so prevHash/hash/root are internally consistent."
+    },
+    {
+      "id": "CHK_LOG_SIGNATURE",
+      "result": "FAIL",
+      "message": "missing signedOperationalLog | remediation: Re-sign operational log root with declared signerKeyId."
+    },
+    {
+      "id": "CHK_RETENTION_EU_MINIMUM",
+      "result": "FAIL",
+      "message": "missing retention minimum | remediation: Set evidenceMap.logs.retentionPolicy.minimumMonths to at least 6."
+    },
+    {
+      "id": "CHK_REPLAY_COMPLETENESS",
+      "result": "FAIL",
+      "message": "missing replayRecipe | remediation: Populate seeds/build/config/environment/container digests and profile."
+    },
+    {
+      "id": "CHK_REPLAY_OPERATIONAL_PARITY",
+      "result": "FAIL",
+      "message": "missing artifacts list | remediation: Re-run runtime mission + replay-from-log so verdict/reasons/tip-hash drift_count is zero."
+    },
+    {
+      "id": "CHK_ATTESTATION_TA2",
+      "result": "FAIL",
+      "message": "missing attestationEvidence | remediation: Provide TA2 attestation meeting trust policy and lifecycle constraints."
+    },
+    {
+      "id": "CHK_INCIDENT_WINDOWS_EU",
+      "result": "FAIL",
+      "message": "missing incidentInitialTemplate | remediation: Set incident windows to 15/2/10 and fullPackSlaDays <= 10."
+    },
+    {
+      "id": "CHK_TRANSPARENCY_REKOR_PROOF",
+      "result": "PASS",
+      "message": "rekor not required by invocation | remediation: Regenerate Rekor proof against trusted checkpoint and signature rules."
+    },
+    {
+      "id": "CHK_TRANSPARENCY_MIRROR_PROOF",
+      "result": "PASS",
+      "message": "mirror not required by invocation | remediation: Regenerate mirror proof against trusted checkpoint and signature rules."
+    },
+    {
+      "id": "CHK_BADGE_ACTIVE_NOT_REVOKED",
+      "result": "FAIL",
+      "message": "bundle badgeId missing | remediation: Use active badge entry present as active in badge registry."
+    }
+  ],
+  "failedChecks": [
+    "CHK_SCHEMA_ASSURANCEPACK",
+    "CHK_SCHEMA_EVIDENCEMAP",
+    "CHK_SCHEMA_CONFORMANCE_REPORT",
+    "CHK_SCHEMA_SIGNED_LOG",
+    "CHK_SCHEMA_REPLAY_RECIPE",
+    "CHK_SCHEMA_ATTESTATION",
+    "CHK_SCHEMA_INCIDENT_INITIAL",
+    "CHK_SCHEMA_INCIDENT_PACK",
+    "CHK_SCHEMA_TRANSPARENCY_REKOR",
+    "CHK_SCHEMA_TRANSPARENCY_MIRROR",
+    "CHK_SCHEMA_BADGE_ENTRY",
+    "CHK_SCHEMA_PROCUREMENT_OBJECTS",
+    "CHK_PROCUREMENT_OBJECT_REQUIRED_SET",
+    "CHK_PROCUREMENT_OBJECT_ARTIFACT_PARITY",
+    "CHK_PROCUREMENT_OBJECT_INPUT_HASH",
+    "CHK_PROCUREMENT_OBJECT_BUNDLE_BINDING",
+    "CHK_PROCUREMENT_OBJECT_SIGNATURE",
+    "CHK_PROCUREMENT_OBJECT_TRUST_FLOOR",
+    "CHK_PROCUREMENT_OBJECT_VALIDITY_WINDOW",
+    "CHK_RECYCLER_INTAKE_CONDITIONAL",
+    "CHK_PROFILE_MATCH",
+    "CHK_POLICY_MATCH",
+    "CHK_TOPOLOGY_INTERLOCK_MEDIATION",
+    "CHK_TOPOLOGY_AUTHORITY_EXCLUSIVITY",
+    "CHK_TOPOLOGY_ASSERTION_REFS",
+    "CHK_ARTIFACT_HASH_INTEGRITY",
+    "CHK_LOG_HASH_CHAIN",
+    "CHK_LOG_SIGNATURE",
+    "CHK_RETENTION_EU_MINIMUM",
+    "CHK_REPLAY_COMPLETENESS",
+    "CHK_REPLAY_OPERATIONAL_PARITY",
+    "CHK_ATTESTATION_TA2",
+    "CHK_INCIDENT_WINDOWS_EU",
+    "CHK_BADGE_ACTIVE_NOT_REVOKED"
+  ]
+}

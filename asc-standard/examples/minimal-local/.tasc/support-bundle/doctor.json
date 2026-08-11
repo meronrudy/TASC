@@ -1,0 +1,63 @@
+{
+  "tascDoctorVersion": "0.1.0",
+  "workspaceRoot": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/examples/minimal-local",
+  "configPath": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/examples/minimal-local/tasc.yaml",
+  "profileBundleId": "dev-local@1.0.0",
+  "trustMode": "dev-local",
+  "operation": "support-bundle",
+  "result": "PASS",
+  "networkRequired": false,
+  "checks": [
+    {
+      "check": "tool:python3",
+      "status": "PASS",
+      "message": "python3 found"
+    },
+    {
+      "check": "profile-bundle",
+      "status": "PASS",
+      "message": "resolved profile bundle dev-local@1.0.0"
+    },
+    {
+      "check": "trust-mode",
+      "status": "PASS",
+      "message": "workspace mode is dev-local"
+    },
+    {
+      "check": "lockfile",
+      "status": "WARN",
+      "message": "tasc.lock.yaml is missing"
+    },
+    {
+      "check": "network",
+      "status": "PASS",
+      "message": "support-bundle does not require network services for dev-local@1.0.0"
+    },
+    {
+      "check": "trust-asset:repo-demo-key",
+      "status": "PASS",
+      "message": "demo-only asset at policies/attestation/pki/ta2-signer.key.pem"
+    },
+    {
+      "check": "trust-asset:repo-demo-cert",
+      "status": "PASS",
+      "message": "demo-only asset at policies/attestation/pki/ta2-signer.cert.pem"
+    }
+  ],
+  "origins": {
+    "profile_bundle": "examples/minimal-local/tasc.yaml",
+    "schema_version": "examples/minimal-local/tasc.yaml",
+    "api_version": "examples/minimal-local/tasc.yaml",
+    "contract_version": "examples/minimal-local/tasc.yaml",
+    "trust_mode": "profile-bundles/dev-local@1.0.0.yaml",
+    "pack_format_version": "built-in default",
+    "verify.input_kind": "examples/minimal-local/tasc.yaml",
+    "verify.input": "examples/minimal-local/tasc.yaml",
+    "verify.output": "examples/minimal-local/tasc.yaml",
+    "pack.profile": "examples/minimal-local/tasc.yaml",
+    "pack.output_json": "examples/minimal-local/tasc.yaml",
+    "pack.output_archive": "examples/minimal-local/tasc.yaml",
+    "pack.badge_id": "examples/minimal-local/tasc.yaml",
+    "report.format": "built-in default"
+  }
+}

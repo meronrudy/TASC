@@ -1,0 +1,5 @@
+lockfile_version: 0.1.0
+profile_bundle: dev-local@1.0.0
+schema_version: 0.3.0
+api_version: 0.2.0
+contract_version: 1.0.0

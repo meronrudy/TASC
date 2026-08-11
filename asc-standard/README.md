@@ -1,174 +1,106 @@
-# ASC Standard Monorepo
+# TASC Product Surface
 
-ASC Standard is a spec-first reference implementation for a safety kernel (`ASC`) plus an additive audit-grade assurance layer (`TASC`).
+TASC is now presented as a product entry surface, not a repo tour.
 
-The repository is designed for two simultaneous outcomes:
+The first-run path is:
 
-1. Deterministic, enforceable runtime safety behavior.
-2. Procurement/underwriting-ready evidence artifacts that can be independently verified offline.
+`doctor` -> `init` -> `verify` -> `pack` -> `explain`
 
-## Release Baseline (GA)
+The governing promise is:
 
-- Core naming: `ASC` remains unchanged.
-- Assurance naming: `TASC` remains additive.
-- Required profiles: `uas-small`, `fixed-wing`, `hybrid-vtol`.
-- Required policy: `eu-north-star`.
-- Required trust floor: `TA2`.
-- Required transparency proofs: `rekor`, `mirror`.
-- Required verifier posture: hard fail on any failed required check.
+`same input + same profile bundle + same versioned contract surface = same verdict + same report shape`
 
-Full gate contract is documented in `RELEASE_CRITERIA.md`.
-
-## Repository Layout
-
-- `spec/`: normative ASC and TASC requirements.
-- `schemas/`: machine-verifiable contracts (assurance pack, evidence map, logs, replay, attestation, incidents, transparency, badge).
-- `reference/kernel/`: Rust ASC kernel crates and replay drift validator.
-- `reference/adapters`, `reference/interlock`, `reference/supervisor`: runnable reference surface outside kernel.
-- `tools/specgen`: spec-to-generated Rust constants/types and spec hash generation.
-- `tools/assurancepack`: assurance bundle builder and signer integration.
-- `tools/tasc-verify`: verifier CLI (`verify`, `report`, `check-proof`).
-- `tools/hashlock`, `tools/releasepack`, `tools/tracecheck`: provenance and packaging controls.
-- `policies/`: attestation, transparency, freshness, badge policy and registry.
-- `conformance/`: suites, vectors, fixtures, and generated reports.
-- `evidence/manifests/`: canonical generated evidence and release packaging outputs.
-- `docs/`: handbook, tutorials, and runbooks.
-
-## Prerequisites
+## Start Here
 
 Run all commands from `asc-standard/`.
 
-- Rust toolchain with `cargo`.
-- Python 3.
-- `openssl` (used for signature and chain validation).
-- `jq` (optional but useful for inspecting JSON outputs).
-
-## Quickstart (Single Profile)
-
 ```bash
-cargo run --manifest-path tools/specgen/Cargo.toml -- --profile uas-small --repo-root .
-cargo test --manifest-path reference/kernel/Cargo.toml --workspace
-
-python3 tools/assurancepack/assurancepack.py \
-  --repo-root . \
-  --profile uas-small \
-  --assurance-pack-version 0.3 \
-  --lifecycle-stage active \
-  --output evidence/manifests/tasc-assurance-pack-uas-small.json \
-  --archive evidence/manifests/tasc-assurance-pack-uas-small.tgz \
-  --badge-id badge-uas-small-active \
-  --signer-mode pkcs11 \
-  --pkcs11-profile policies/attestation/pkcs11-profile.yaml \
-  --pkcs11-module "$PKCS11_MODULE" \
-  --pkcs11-token-label tasc-soft-token \
-  --pkcs11-key-label tasc-ta2-key \
-  --pkcs11-cert-label tasc-ta2-cert \
-  --pkcs11-pin-env TASC_PKCS11_PIN \
-  --pkcs11-mechanism SHA256-RSA-PKCS \
-  --publish-live \
-  --rekor-url https://rekor.sigstore.dev \
-  --mirror-url http://127.0.0.1:17777
-
-cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify \
-  --bundle evidence/manifests/tasc-assurance-pack-uas-small.json \
-  --profile uas-small \
-  --policy eu-north-star \
-  --require-ta TA2 \
-  --require-transparency rekor,mirror \
-  --output evidence/manifests/tasc-conformance-uas-small.json
+./tasc doctor --operation verify
+./tasc init demo
+./tasc verify examples/minimal-local
+./tasc explain last
 ```
 
-## Full Release Pipeline (All Profiles)
+`./tasc pack` is wired in, but it still depends on the underlying assurance-pack toolchain and current trust artifacts being fresh.
 
-```bash
-# 1) Spec generation and hash pinning
-for p in uas-small fixed-wing hybrid-vtol; do
-  cargo run --manifest-path tools/specgen/Cargo.toml -- --profile "$p" --repo-root .
-done
+If you only read one thing first, read this README and then choose one lane below.
 
-# 2) Kernel + conformance replay determinism
-cargo test --manifest-path reference/kernel/Cargo.toml --workspace
-cargo run --manifest-path reference/kernel/Cargo.toml -p asc-conformance-kernel --bin replay-drift-validator -- \
-  --repo-root . \
-  --profiles uas-small,fixed-wing,hybrid-vtol \
-  --output conformance/reports/replay-drift.json
+## Audience Lanes
 
-# 3) Build assurance packs for all profiles
-for p in uas-small fixed-wing hybrid-vtol; do
-  python3 tools/assurancepack/assurancepack.py \
-    --repo-root . \
-    --profile "$p" \
-    --assurance-pack-version 0.3 \
-    --lifecycle-stage active \
-    --output "evidence/manifests/tasc-assurance-pack-${p}.json" \
-    --archive "evidence/manifests/tasc-assurance-pack-${p}.tgz" \
-    --badge-id "badge-${p}-active" \
-    --signer-mode pkcs11 \
-    --pkcs11-profile policies/attestation/pkcs11-profile.yaml \
-    --pkcs11-module "$PKCS11_MODULE" \
-    --pkcs11-token-label tasc-soft-token \
-    --pkcs11-key-label tasc-ta2-key \
-    --pkcs11-cert-label tasc-ta2-cert \
-    --pkcs11-pin-env TASC_PKCS11_PIN \
-    --pkcs11-mechanism SHA256-RSA-PKCS \
-    --publish-live \
-    --rekor-url https://rekor.sigstore.dev \
-    --mirror-url http://127.0.0.1:17777
-done
+- Integrator: `start/integrator.md`
+- Implementer: `start/implementer.md`
+- Operator: `start/operator.md`
+- Auditor: `start/auditor.md`
 
-# 4) Verify each pack via Rust verifier
-for p in uas-small fixed-wing hybrid-vtol; do
-  cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify \
-    --bundle "evidence/manifests/tasc-assurance-pack-${p}.json" \
-    --profile "$p" \
-    --policy eu-north-star \
-    --require-ta TA2 \
-    --require-transparency rekor,mirror \
-    --output "evidence/manifests/tasc-conformance-${p}.json"
-done
+## Happy Path
 
-# 5) Verify same check IDs without Rust compilation
-python3 tools/tasc-verify/offline_smoke.py --repo-root . --profiles uas-small,fixed-wing,hybrid-vtol
+- `./tasc doctor`
+  Checks toolchain, trust mode, config origins, and whether the current operation requires networked services.
+- `./tasc init demo`
+  Copies a minimal example workspace.
+- `./tasc verify <path>`
+  Verifies a bundle or normalizes an existing verifier report into the stable failure contract.
+- `./tasc pack <path>`
+  Wraps the assurance-pack path behind trust-mode defaults.
+- `./tasc explain last`
+  Emits grouped, stable failure records in human, JSON, or SARIF form.
+- `./tasc lock`
+  Captures pinned profile and contract-surface versions for CI.
+- `./tasc check-lock`
+  Fails if pinned lock values drift from `tasc.yaml`.
+- `./tasc check-example <path>`
+  Verifies an example and compares normalized output to `expected-report.json`.
+- `./tasc ci-preflight`
+  Runs doctor, lock drift checks, and golden example checks in one gate.
+  Use `--strict` to fail on doctor warnings and `--output <json>` to emit a CI artifact.
 
-# 6) Policy gates + provenance packaging
-python3 tools/data_policy/version_impact_gate.py --repo-root . --output evidence/manifests/data-version-impact.json
-python3 tools/governance/policy_gate.py --repo-root . --output evidence/manifests/governance-policy-gate.json
-python3 tools/tracecheck/tracecheck.py --repo-root .
-python3 tools/hashlock/hashlock.py --repo-root .
-python3 tools/releasepack/releasepack.py --repo-root .
-```
+## Contracts
 
-## CI Gates
+- Workspace config: `tasc.yaml`
+- Lockfile: `tasc.lock.yaml`
+- Profile bundles: `profile-bundles/*.yaml`
+- Stable failure schema: `docs/handbook/FAILURE_SCHEMA.md`
+- Support bundles: `docs/handbook/SUPPORT_BUNDLES.md`
+- Plugin/extension contract: `docs/handbook/PLUGIN_CONTRACT.md`
+- Upgrade and rollback policy: `docs/handbook/UPGRADE_AND_ROLLBACK.md`
+- Generated product docs: `docs/generated/`
 
-Mandatory workflows:
+## Public Integration Surface
 
-- `ci`
-- `conformance`
-- `kernel-ci`
-- `release`
+Treat these two files as the external boundary:
 
-These workflows hard fail on:
+- `spec/interfaces/api.openapi.yaml`
+- `reference/contracts/interfaces.v1.yaml`
 
-- failed kernel/conformance/replay checks,
-- failed TASC checks,
-- missing required check coverage,
-- policy/freshness/provenance gate failures,
-- placeholder/starter scaffolding in release-bound assets.
+Everything else is either reference implementation, internal tooling, or governance/evidence machinery.
 
-## Documentation Index
+## Minimal Examples
 
-- Handbook entrypoint: `docs/handbook/README.md`
-- Architecture guide: `docs/handbook/ARCHITECTURE.md`
-- TASC integration details: `docs/handbook/TASC_LAYER.md`
-- Verifier reference: `docs/handbook/VERIFIER_REFERENCE.md`
-- Release process: `docs/handbook/RELEASE_PROCESS.md`
-- Check remediation: `docs/handbook/CHECK_REMEDIATION.md`
+- `examples/minimal-local`
+- `examples/minimal-signed`
+- `examples/minimal-replay`
+
+These examples are CI-backed product invariants for the current install surface.
+
+## What Not To Read Yet
+
+Do not start with:
+
+- `docs/runbooks/`
+- `governance/`
+- `safety-case/`
+- `conformance/vectors/`
+- `evidence/manifests/`
+
+Those areas matter later, but they are not the first-run UX.
+
+## Existing Deep Docs
+
+- Handbook: `docs/handbook/README.md`
 - Tutorials: `docs/tutorials/README.md`
-- Runbooks: `docs/runbooks/`
+- Runbooks: `docs/runbooks/README.md`
 - Release criteria: `RELEASE_CRITERIA.md`
 
-## Support Surfaces
+## CI Workflows
 
-- Contract clauses: `clauses/rfp.md`, `clauses/msa.md`, `clauses/sow.md`
-- Operator/underwriting templates: `templates/`
-- Safety-case mappings: `safety-case/`
+- `sdk-rust`: Rust SDK fmt/clippy/test/demo checks (`.github/workflows/sdk-rust.yml`).

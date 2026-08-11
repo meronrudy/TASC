@@ -1,0 +1,14 @@
+profile_bundle: staging-signed@1.0.0
+schema_version: 0.3.0
+api_version: 0.2.0
+contract_version: 1.0.0
+trust_mode: staging-signed
+verify:
+  input_kind: report
+  input: expected-report.json
+  output: .tasc/last-report.json
+pack:
+  profile: fixed-wing
+  output_json: build/tasc-assurance-pack-staging.json
+  output_archive: build/tasc-assurance-pack-staging.tgz
+  badge_id: badge-fixed-wing-active

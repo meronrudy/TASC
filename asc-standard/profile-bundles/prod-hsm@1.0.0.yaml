@@ -1,0 +1,33 @@
+bundle_id: prod-hsm@1.0.0
+version: 1.0.0
+trust_mode: prod-hsm
+compatibility:
+  schema_version: 0.3.0
+  api_version: 0.2.0
+  contract_version: 1.0.0
+capabilities:
+  offline_safe: false
+  network_optional: false
+  hsm_required: true
+network_required: true
+policy_bundle:
+  id: eu-north-star-prod
+verifier:
+  require_ta: TA2
+  require_transparency:
+    - rekor
+    - mirror
+  checks_file: spec/tasc/checks.yaml
+  trusted_checkpoints: policies/transparency/trusted-log-checkpoints.json
+  badge_registry: policies/badge-registry.json
+  attestation_trust_policy: policies/attestation/trust-policy.json
+  trust_roots: policies/attestation/pki/trust-roots.pem
+  revocation_snapshot: policies/attestation/revocation-snapshot.json
+  freshness_policy: policies/provenance/freshness-policy.yaml
+  transparency_policy: policies/transparency/verification-policy.yaml
+  remediation_file: spec/tasc/remediation.yaml
+  legacy_compat: false
+trust_assets:
+  - id: repo-demo-key
+    path: policies/attestation/pki/ta2-signer.key.pem
+    classification: demo-only

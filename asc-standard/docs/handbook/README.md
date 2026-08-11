@@ -1,120 +1,64 @@
 # ASC Handbook
 
-This handbook is the source-of-truth operations guide for engineering, assurance, governance, and release execution.
+This handbook is now downstream of the product entry surface in `README.md`.
 
-All commands assume working directory `asc-standard/`.
+Use the handbook when you already know your lane and need the deeper operating model.
 
-## 1. What This System Produces
+## Start With Product Docs
 
-ASC Standard produces two coupled outputs:
+- Product landing page: `README.md`
+- Integrator lane: `start/integrator.md`
+- Implementer lane: `start/implementer.md`
+- Operator lane: `start/operator.md`
+- Auditor lane: `start/auditor.md`
 
-1. Runtime safety behavior from the ASC kernel and surrounding authority boundaries.
-2. A deterministic, machine-verifiable TASC assurance object (`AssurancePack`) suitable for procurement, underwriting, and audit workflows.
+## Operational Contracts
 
-The assurance object is accepted only if `tasc-verify` reports full PASS on required checks under GA policy constraints.
+- Workspace config: `docs/handbook/CONFIG_CONTRACT.md`
+- Rust SDK contract: `docs/handbook/SDK_CONTRACT.md`
+- Failure schema and exit codes: `docs/handbook/FAILURE_SCHEMA.md`
+- Support bundles and redaction: `docs/handbook/SUPPORT_BUNDLES.md`
+- Plugin and extension contract: `docs/handbook/PLUGIN_CONTRACT.md`
+- Upgrade and rollback: `docs/handbook/UPGRADE_AND_ROLLBACK.md`
 
-## 2. Operating Model (Spec to Release)
-
-1. Update normative specs in `spec/asc/` and profile definitions in `spec/profiles/`.
-2. Run `tools/specgen` to regenerate derived Rust artifacts and refresh `evidence/manifests/spec-hash.txt`.
-3. Run kernel tests and replay determinism checks.
-4. Build TASC assurance packs.
-5. Verify packs with Rust verifier and offline smoke.
-6. Run data/governance policy gates.
-7. Build provenance artifacts (`tracecheck`, `hashlock`, `releasepack`).
-8. Ensure all CI gates pass and required branch protections are active.
-
-## 3. Command Reference (Canonical)
-
-```bash
-# Spec generation
-cargo run --manifest-path tools/specgen/Cargo.toml -- --profile uas-small --repo-root .
-
-# Kernel + replay determinism
-cargo test --manifest-path reference/kernel/Cargo.toml --workspace
-cargo run --manifest-path reference/kernel/Cargo.toml -p asc-conformance-kernel --bin replay-drift-validator -- \
-  --repo-root . --profiles uas-small,fixed-wing,hybrid-vtol --output conformance/reports/replay-drift.json
-
-# Assurance pack generation
-python3 tools/assurancepack/assurancepack.py \
-  --repo-root . --profile uas-small \
-  --assurance-pack-version 0.3 \
-  --lifecycle-stage active \
-  --output evidence/manifests/tasc-assurance-pack-uas-small.json \
-  --archive evidence/manifests/tasc-assurance-pack-uas-small.tgz \
-  --badge-id badge-uas-small-active \
-  --signer-mode pkcs11 \
-  --pkcs11-profile policies/attestation/pkcs11-profile.yaml \
-  --pkcs11-module "$PKCS11_MODULE" \
-  --pkcs11-token-label tasc-soft-token \
-  --pkcs11-key-label tasc-ta2-key \
-  --pkcs11-cert-label tasc-ta2-cert \
-  --pkcs11-pin-env TASC_PKCS11_PIN \
-  --pkcs11-mechanism SHA256-RSA-PKCS \
-  --publish-live \
-  --rekor-url https://rekor.sigstore.dev \
-  --mirror-url http://127.0.0.1:17777
-
-# Rust verifier
-cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify \
-  --bundle evidence/manifests/tasc-assurance-pack-uas-small.json \
-  --profile uas-small --policy eu-north-star \
-  --require-ta TA2 --require-transparency rekor,mirror \
-  --output evidence/manifests/tasc-conformance-uas-small.json
-
-# Offline smoke verifier (no Rust compile)
-python3 tools/tasc-verify/offline_smoke.py --repo-root . --profiles uas-small,fixed-wing,hybrid-vtol
-
-# Policy/provenance gates
-python3 tools/data_policy/version_impact_gate.py --repo-root . --output evidence/manifests/data-version-impact.json
-python3 tools/governance/policy_gate.py --repo-root . --output evidence/manifests/governance-policy-gate.json
-python3 tools/tracecheck/tracecheck.py --repo-root .
-python3 tools/hashlock/hashlock.py --repo-root .
-python3 tools/releasepack/releasepack.py --repo-root .
-```
-
-## 4. Hard GA Defaults
-
-- Required profiles: `uas-small`, `fixed-wing`, `hybrid-vtol`
-- Required policy: `eu-north-star`
-- Required attestation floor: `TA2`
-- Required transparency proofs: `rekor`, `mirror`
-- Required badge state: active/not revoked
-- Required retention baseline: >= 6 months
-- Required incident windows baseline: 15/2/10 days (standard/widespread/fatal)
-
-See `RELEASE_CRITERIA.md` for sign-off and gate ownership.
-
-## 5. Evidence Contracts
-
-Primary acceptance objects:
-
-- `evidence/manifests/tasc-assurance-pack-<profile>.json`
-- `evidence/manifests/tasc-conformance-<profile>.json`
-- `conformance/reports/tasc-offline-smoke.json`
-- `evidence/manifests/hashlock.json`
-- `evidence/manifests/releasepack.json`
-- `evidence/manifests/releasepack.tgz`
-
-If any required check fails, the bundle is rejected.
-
-## 6. Reference Components Outside Kernel
-
-Runnable components and tests:
-
-- Adapter: `reference/adapters/runtime.py`
-- Interlock: `reference/interlock/runtime.py`
-- Supervisor: `reference/supervisor/runtime.py`
-- Integration tests: `python3 -m unittest reference.tests.test_reference_surface`
-
-These components model authority mediation, default-closed interlock behavior, and incident-pack orchestration.
-
-## 7. Where To Go Next
+## Existing Deep References
 
 - Architecture and boundaries: `docs/handbook/ARCHITECTURE.md`
-- TASC policy and migration details: `docs/handbook/TASC_LAYER.md`
-- Verifier commands and check behavior: `docs/handbook/VERIFIER_REFERENCE.md`
-- Release execution flow: `docs/handbook/RELEASE_PROCESS.md`
-- Check-by-check remediation guidance: `docs/handbook/CHECK_REMEDIATION.md`
-- End-to-end tutorials: `docs/tutorials/README.md`
-- Operational runbooks: `docs/runbooks/`
+- TASC layer and migration details: `docs/handbook/TASC_LAYER.md`
+- Verifier reference: `docs/handbook/VERIFIER_REFERENCE.md`
+- Release process: `docs/handbook/RELEASE_PROCESS.md`
+- Release readiness backlog: `docs/handbook/RELEASE_READINESS_TODO.md`
+- Check remediation: `docs/handbook/CHECK_REMEDIATION.md`
+
+## Command Reference
+
+Product-facing:
+
+```bash
+./tasc doctor --operation verify
+./tasc init demo
+./tasc verify examples/minimal-local
+./tasc explain last
+./tasc support-bundle examples/minimal-local
+./tasc check-lock --format json
+./tasc check-example examples/minimal-local
+./tasc ci-preflight --format json --strict --output .tasc/ci-preflight-summary.json
+```
+
+Deep repo-facing:
+
+```bash
+cargo run --manifest-path tools/specgen/Cargo.toml -- --profile uas-small --repo-root .
+cargo test --manifest-path reference/kernel/Cargo.toml --workspace
+python3 tools/assurancepack/assurancepack.py --repo-root . --profile uas-small --output evidence/manifests/tasc-assurance-pack-uas-small.json --archive evidence/manifests/tasc-assurance-pack-uas-small.tgz
+cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify --bundle evidence/manifests/tasc-assurance-pack-uas-small.json --profile uas-small --policy eu-north-star --require-ta TA2 --require-transparency rekor,mirror --output evidence/manifests/tasc-conformance-uas-small.json
+```
+
+## What Not To Read Yet
+
+- `docs/runbooks/`
+- `governance/`
+- `safety-case/`
+- `conformance/`
+
+Read those only when your lane requires them.

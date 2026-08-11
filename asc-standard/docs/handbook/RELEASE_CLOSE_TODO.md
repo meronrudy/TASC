@@ -29,6 +29,10 @@ Branch: `ga-capability-closure`
   - `assurancepack.py` live publish (`rekor`,`mirror`)
   - `tasc-verify verify --require-ta TA2 --require-transparency rekor,mirror`
   - `offline_smoke.py` parity check
+- [x] Wrapper preflight and reproducibility checks.
+  - `./tasc doctor --operation verify --format json`
+  - `./tasc check-lock --format json`
+  - `./tasc check-example examples/minimal-local`
 
 ## 4. Deterministic Packaging Check
 

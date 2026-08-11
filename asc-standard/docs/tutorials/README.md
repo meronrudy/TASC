@@ -4,6 +4,24 @@ This tutorial set is intended for a new engineer to go from spec edit to release
 
 All commands assume working directory `asc-standard/`.
 
+## Tutorial 0: Wrapper Preflight (Recommended First Run)
+
+Goal: validate environment, pinning, and golden example behavior before deep toolchain work.
+
+```bash
+./tasc doctor --operation verify --format json
+./tasc lock
+./tasc check-lock --format json
+./tasc check-example examples/minimal-local
+./tasc ci-preflight --format json --strict --output .tasc/ci-preflight-summary.json
+```
+
+Expected result:
+
+- doctor returns PASS or actionable warnings,
+- lockfile exists and is in sync with config,
+- `minimal-local` matches `expected-report.json`.
+
 ## Tutorial 1: Spec Change -> Generated Artifacts
 
 Goal: make a safe spec change and regenerate deterministic artifacts.

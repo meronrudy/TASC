@@ -9,6 +9,15 @@ Use this runbook for final GA cut and signing.
 - `RELEASE_CRITERIA.md` owners are available for sign-off.
 - Host-side branch protections are enabled for required gates.
 
+Run wrapper preflight before deep regeneration:
+
+```bash
+./tasc doctor --operation verify --format json
+./tasc check-lock --format json
+./tasc check-example examples/minimal-local
+./tasc ci-preflight --format json
+```
+
 ## 2. Clean Regeneration
 
 Run complete deterministic regeneration and validation sequence from scratch:

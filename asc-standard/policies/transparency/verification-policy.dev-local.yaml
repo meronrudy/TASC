@@ -1,0 +1,15 @@
+version: 0.1.0
+required_logs: []
+offline_verification_required: false
+proof_fields_required:
+  - checkpointHash
+  - entryDigest
+  - inclusionProofHash
+  - consistencyProofHash
+  - signature
+  - integratedTimeUtc
+max_checkpoint_age_hours: 8760
+require_entry_digest_matches_bundle: true
+require_mirror_parity: false
+require_live_publication: false
+require_checkpoint_text: true

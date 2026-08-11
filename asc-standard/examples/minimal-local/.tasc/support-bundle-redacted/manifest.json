@@ -1,0 +1,11 @@
+{
+  "tascSupportBundleVersion": "0.1.0",
+  "workspaceRoot": "/Volumes/2.5SSDDD128/Run Orb Run/TASC/asc-standard/examples/minimal-local",
+  "files": [
+    "doctor.json",
+    "last-explain.json",
+    "last-report.json",
+    "profile-bundle.yaml",
+    "resolved-config.json"
+  ]
+}

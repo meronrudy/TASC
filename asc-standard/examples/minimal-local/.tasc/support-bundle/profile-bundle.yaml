@@ -1,0 +1,34 @@
+bundle_id: dev-local@1.0.0
+version: 1.0.0
+trust_mode: dev-local
+compatibility:
+  schema_version: 0.3.0
+  api_version: 0.2.0
+  contract_version: 1.0.0
+capabilities:
+  offline_safe: true
+  network_optional: true
+  hsm_required: false
+network_required: false
+policy_bundle:
+  id: eu-north-star-dev
+verifier:
+  require_ta: TA2
+  require_transparency: []
+  checks_file: spec/tasc/checks.yaml
+  trusted_checkpoints: policies/transparency/trusted-log-checkpoints.json
+  badge_registry: policies/badge-registry-dev.json
+  attestation_trust_policy: policies/attestation/trust-policy.json
+  trust_roots: policies/attestation/pki/trust-roots.pem
+  revocation_snapshot: policies/attestation/revocation-snapshot.json
+  freshness_policy: policies/provenance/freshness-policy.dev-local.yaml
+  transparency_policy: policies/transparency/verification-policy.dev-local.yaml
+  remediation_file: spec/tasc/remediation.yaml
+  legacy_compat: false
+trust_assets:
+  - id: repo-demo-key
+    path: policies/attestation/pki/ta2-signer.key.pem
+    classification: demo-only
+  - id: repo-demo-cert
+    path: policies/attestation/pki/ta2-signer.cert.pem
+    classification: demo-only

@@ -1,0 +1,18 @@
+{
+  "artifacts": {
+    "incidentInitial": "incident-initial-uas-small-ga-smoke.json",
+    "incidentPack": "incident-pack-uas-small-ga-smoke.json",
+    "signedOperationalLog": "signed-operational-log-uas-small-ga-smoke.json"
+  },
+  "finalTipHash": "057aaf7542605ff8210c39edd1a603232b6af9d0c129412b3a8a59aa25658d58",
+  "finalVerdict": "Override",
+  "interlock": {
+    "allowed": true,
+    "latched": false,
+    "reason": "authorized"
+  },
+  "missionId": "uas-small-ga-smoke",
+  "profile": "uas-small",
+  "ticks": 120,
+  "timeStepMs": 20
+}

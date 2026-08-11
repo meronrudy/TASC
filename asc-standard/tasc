@@ -1,0 +1,1163 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import copy
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tarfile
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+try:
+    import yaml
+except ImportError as exc:  # pragma: no cover
+    raise SystemExit("PyYAML is required to run ./tasc") from exc
+
+
+REPO_ROOT = Path(__file__).resolve().parent
+DEFAULT_CONFIG_PATH = REPO_ROOT / "tasc.yaml"
+PROFILE_BUNDLES_DIR = REPO_ROOT / "profile-bundles"
+STATE_DIRNAME = ".tasc"
+LAST_REPORT = "last-report.json"
+LAST_EXPLAIN = "last-explain.json"
+LAST_REPORT_POINTER = "last-report-path.txt"
+LOCKFILE_NAME = "tasc.lock.yaml"
+LOCK_FIELDS = ["profile_bundle", "schema_version", "api_version", "contract_version"]
+TOOLS_VERSION = {
+    "tasc": "0.1.0",
+    "failureSchema": "0.1.0",
+    "supportBundleSchema": "0.1.0",
+}
+SEVERITY_BY_CHECK = {
+    "CHK_SCHEMA_": "error",
+    "CHK_PROCUREMENT_": "error",
+    "CHK_TOPOLOGY_": "error",
+    "CHK_ARTIFACT_": "error",
+    "CHK_LOG_": "error",
+    "CHK_RETENTION_": "warning",
+    "CHK_REPLAY_": "error",
+    "CHK_ATTESTATION_": "error",
+    "CHK_INCIDENT_": "warning",
+    "CHK_TRANSPARENCY_": "error",
+    "CHK_BADGE_": "warning",
+    "CHK_POLICY_": "warning",
+    "CHK_PROFILE_": "warning",
+}
+EXIT_CODES = {
+    "ok": 0,
+    "doctor_warning": 2,
+    "verify_failed": 3,
+    "usage_error": 4,
+    "unsupported": 5,
+}
+
+
+@dataclass
+class ResolvedConfig:
+    workspace_root: Path
+    config_path: Path | None
+    config: dict[str, Any]
+    origins: dict[str, str]
+    profile_bundle: dict[str, Any]
+    profile_bundle_path: Path
+    lockfile_path: Path | None
+
+
+def load_yaml(path: Path) -> dict[str, Any]:
+    with path.open("r", encoding="utf-8") as handle:
+        data = yaml.safe_load(handle) or {}
+    if not isinstance(data, dict):
+        raise SystemExit(f"expected mapping in {path}")
+    return data
+
+
+def dump_yaml(data: dict[str, Any]) -> str:
+    return yaml.safe_dump(data, sort_keys=False)
+
+
+def ensure_state_dir(workspace_root: Path) -> Path:
+    state_dir = workspace_root / STATE_DIRNAME
+    state_dir.mkdir(exist_ok=True)
+    return state_dir
+
+
+def record_last_report(report_path: Path) -> None:
+    state_dir = ensure_state_dir(REPO_ROOT)
+    (state_dir / LAST_REPORT_POINTER).write_text(str(report_path.resolve()) + "\n", encoding="utf-8")
+
+
+def resolve_last_report_pointer() -> Path | None:
+    pointer = REPO_ROOT / STATE_DIRNAME / LAST_REPORT_POINTER
+    if not pointer.exists():
+        return None
+    value = pointer.read_text(encoding="utf-8").strip()
+    if not value:
+        return None
+    return Path(value)
+
+
+def repo_rel(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
+
+
+def find_workspace_root(start: Path) -> Path:
+    current = start.resolve()
+    for candidate in [current, *current.parents]:
+        if (candidate / "tasc.yaml").exists():
+            return candidate
+    return REPO_ROOT
+
+
+def flatten_config(mapping: dict[str, Any], prefix: str = "") -> dict[str, Any]:
+    flat: dict[str, Any] = {}
+    for key, value in mapping.items():
+        dotted = f"{prefix}.{key}" if prefix else key
+        if isinstance(value, dict):
+            flat.update(flatten_config(value, dotted))
+        else:
+            flat[dotted] = value
+    return flat
+
+
+def set_nested(mapping: dict[str, Any], dotted: str, value: Any) -> None:
+    parts = dotted.split(".")
+    current = mapping
+    for part in parts[:-1]:
+        current = current.setdefault(part, {})
+    current[parts[-1]] = value
+
+
+def merge_configs(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+    merged = copy.deepcopy(base)
+    for dotted, value in flatten_config(override).items():
+        set_nested(merged, dotted, value)
+    return merged
+
+
+def builtin_defaults() -> dict[str, Any]:
+    return {
+        "profile_bundle": "dev-local@1.0.0",
+        "schema_version": "0.3.0",
+        "api_version": "0.2.0",
+        "contract_version": "1.0.0",
+        "trust_mode": "dev-local",
+        "pack_format_version": "0.1.0",
+        "verify": {
+            "input_kind": "report",
+            "input": "conformance/fixtures/tasc/tasc-conformance-uas-small.json",
+            "output": ".tasc/last-report.json",
+        },
+        "pack": {
+            "profile": "uas-small",
+            "output_json": "evidence/manifests/tasc-assurance-pack-dev.json",
+            "output_archive": "evidence/manifests/tasc-assurance-pack-dev.tgz",
+            "badge_id": "badge-dev-local-active",
+        },
+        "report": {
+            "format": "human",
+        },
+    }
+
+
+def resolve_bundle_path(bundle_id: str) -> Path:
+    bundle_path = PROFILE_BUNDLES_DIR / f"{bundle_id}.yaml"
+    if not bundle_path.exists():
+        raise SystemExit(f"profile bundle not found: {bundle_id}")
+    return bundle_path
+
+
+def resolve_config(
+    workspace_hint: Path,
+    overrides: dict[str, Any] | None = None,
+    apply_lock: bool = True,
+) -> ResolvedConfig:
+    workspace_root = find_workspace_root(workspace_hint)
+    defaults = builtin_defaults()
+    origins: dict[str, str] = {key: "built-in default" for key in flatten_config(defaults)}
+    merged = copy.deepcopy(defaults)
+    config_path = workspace_root / "tasc.yaml"
+    if config_path.exists():
+        file_config = load_yaml(config_path)
+        merged = merge_configs(merged, file_config)
+        origins.update({key: repo_rel(config_path) for key in flatten_config(file_config)})
+    elif DEFAULT_CONFIG_PATH.exists() and workspace_root == REPO_ROOT:
+        file_config = load_yaml(DEFAULT_CONFIG_PATH)
+        merged = merge_configs(merged, file_config)
+        origins.update({key: repo_rel(DEFAULT_CONFIG_PATH) for key in flatten_config(file_config)})
+        config_path = DEFAULT_CONFIG_PATH
+    else:
+        config_path = None
+    explicit_overrides = flatten_config(overrides or {})
+    if overrides:
+        merged = merge_configs(merged, overrides)
+        origins.update({key: "explicit flag" for key in explicit_overrides})
+    lockfile_path = workspace_root / LOCKFILE_NAME
+    if apply_lock and lockfile_path.exists():
+        lock = load_yaml(lockfile_path)
+        lock_mapping = {field: lock.get(field) for field in LOCK_FIELDS}
+        for key, value in lock_mapping.items():
+            if value is None:
+                continue
+            if key in explicit_overrides:
+                continue
+            merged[key] = value
+            origins[key] = repo_rel(lockfile_path)
+    bundle_path = resolve_bundle_path(merged["profile_bundle"])
+    bundle = load_yaml(bundle_path)
+    if "trust_mode" not in explicit_overrides:
+        merged["trust_mode"] = bundle["trust_mode"]
+        origins["trust_mode"] = repo_rel(bundle_path)
+    return ResolvedConfig(
+        workspace_root=workspace_root,
+        config_path=config_path,
+        config=merged,
+        origins=origins,
+        profile_bundle=bundle,
+        profile_bundle_path=bundle_path,
+        lockfile_path=lockfile_path if lockfile_path.exists() else None,
+    )
+
+
+def command_exists(name: str) -> bool:
+    return shutil.which(name) is not None
+
+
+def run(
+    args: list[str],
+    cwd: Path,
+    capture: bool = False,
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        args,
+        cwd=str(cwd),
+        check=False,
+        text=True,
+        capture_output=capture,
+    )
+
+
+def doctor_payload(resolved: ResolvedConfig, operation: str) -> dict[str, Any]:
+    bundle = resolved.profile_bundle
+    required_tools = ["python3"]
+    if operation in {"verify", "pack", "doctor"}:
+        required_tools.append("cargo")
+    if operation == "pack":
+        required_tools.extend(["openssl"])
+    diagnostics = []
+    ok = True
+    for tool in required_tools:
+        present = command_exists(tool)
+        ok = ok and present
+        diagnostics.append(
+            {
+                "check": f"tool:{tool}",
+                "status": "PASS" if present else "FAIL",
+                "message": f"{tool} {'found' if present else 'missing'}",
+            }
+        )
+    bundle_ok = bundle.get("bundle_id") == resolved.config["profile_bundle"]
+    ok = ok and bundle_ok
+    diagnostics.append(
+        {
+            "check": "profile-bundle",
+            "status": "PASS" if bundle_ok else "FAIL",
+            "message": f"resolved profile bundle {bundle.get('bundle_id', 'unknown')}",
+        }
+    )
+    mode = resolved.config["trust_mode"]
+    diagnostics.append(
+        {
+            "check": "trust-mode",
+            "status": "PASS",
+            "message": f"workspace mode is {mode}",
+        }
+    )
+    lock_state = "present" if resolved.lockfile_path else "missing"
+    diagnostics.append(
+        {
+            "check": "lockfile",
+            "status": "PASS" if resolved.lockfile_path else "WARN",
+            "message": f"{LOCKFILE_NAME} is {lock_state}",
+        }
+    )
+    network_required = bool(bundle.get("network_required", False))
+    diagnostics.append(
+        {
+            "check": "network",
+            "status": "PASS",
+            "message": f"{operation} {'requires' if network_required else 'does not require'} network services for {bundle.get('bundle_id')}",
+        }
+    )
+    for asset in bundle.get("trust_assets", []):
+        path = REPO_ROOT / asset["path"]
+        status = "PASS" if path.exists() else "FAIL"
+        if mode == "prod-hsm" and asset.get("classification") == "demo-only":
+            status = "FAIL"
+            ok = False
+        if status == "FAIL":
+            ok = False
+        diagnostics.append(
+            {
+                "check": f"trust-asset:{asset['id']}",
+                "status": status,
+                "message": f"{asset['classification']} asset at {asset['path']}",
+            }
+        )
+    return {
+        "tascDoctorVersion": TOOLS_VERSION["tasc"],
+        "workspaceRoot": str(resolved.workspace_root),
+        "configPath": str(resolved.config_path) if resolved.config_path else None,
+        "profileBundleId": bundle["bundle_id"],
+        "trustMode": mode,
+        "operation": operation,
+        "result": "PASS" if ok else "WARN",
+        "networkRequired": network_required,
+        "checks": diagnostics,
+        "origins": resolved.origins,
+    }
+
+
+def build_failures(report: dict[str, Any]) -> list[dict[str, Any]]:
+    failures = []
+    failed_ids = set(report.get("failedChecks") or [])
+    for item in report.get("checks", []):
+        if item.get("id") not in failed_ids:
+            continue
+        check_id = item["id"]
+        severity = "error"
+        for prefix, candidate in SEVERITY_BY_CHECK.items():
+            if check_id.startswith(prefix):
+                severity = candidate
+                break
+        failures.append(
+            {
+                "code": f"VERIFY.CHECK.{check_id}",
+                "severity": severity,
+                "path": report.get("bundlePath", report.get("bundleDigest", "unknown")),
+                "ruleId": check_id,
+                "remediationId": check_id,
+                "help": {
+                    "anchor": f"docs/handbook/CHECK_REMEDIATION.md#{check_id.lower()}",
+                    "docsPath": "docs/handbook/CHECK_REMEDIATION.md",
+                },
+                "message": item.get("message", ""),
+                "exitCode": EXIT_CODES["verify_failed"],
+            }
+        )
+    return failures
+
+
+def normalize_report(report: dict[str, Any], resolved: ResolvedConfig) -> dict[str, Any]:
+    failures = build_failures(report)
+    return {
+        "tascFailureSchemaVersion": TOOLS_VERSION["failureSchema"],
+        "result": report.get("result", "UNKNOWN"),
+        "profileBundle": {
+            "id": resolved.profile_bundle["bundle_id"],
+            "version": resolved.profile_bundle["version"],
+        },
+        "contractSurface": {
+            "schemaVersion": resolved.config["schema_version"],
+            "apiVersion": resolved.config["api_version"],
+            "contractVersion": resolved.config["contract_version"],
+        },
+        "trustMode": resolved.config["trust_mode"],
+        "reportSource": {
+            "tascVerifyVersion": report.get("tascVerifyVersion"),
+            "profile": report.get("profile"),
+            "policy": report.get("policy"),
+        },
+        "failures": failures,
+        "summary": {
+            "failedChecks": len(failures),
+            "passedChecks": len(report.get("checks", [])) - len(failures),
+        },
+    }
+
+
+def print_output(payload: dict[str, Any], output_format: str) -> None:
+    if output_format == "json":
+        print(json.dumps(payload, indent=2))
+        return
+    if output_format == "sarif":
+        sarif = {
+            "version": "2.1.0",
+            "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+            "runs": [
+                {
+                    "tool": {
+                        "driver": {
+                            "name": "tasc",
+                            "version": TOOLS_VERSION["tasc"],
+                            "rules": [
+                                {
+                                    "id": failure["ruleId"],
+                                    "name": failure["code"],
+                                    "helpUri": failure["help"]["anchor"],
+                                }
+                                for failure in payload.get("failures", [])
+                            ],
+                        }
+                    },
+                    "results": [
+                        {
+                            "ruleId": failure["ruleId"],
+                            "level": "error" if failure["severity"] == "error" else "warning",
+                            "message": {"text": failure["message"]},
+                            "locations": [
+                                {
+                                    "physicalLocation": {
+                                        "artifactLocation": {"uri": failure["path"]}
+                                    }
+                                }
+                            ],
+                        }
+                        for failure in payload.get("failures", [])
+                    ],
+                }
+            ],
+        }
+        print(json.dumps(sarif, indent=2))
+        return
+    if "checks" in payload:
+        print(f"doctor: {payload['result']}")
+        print(f"profile-bundle: {payload['profileBundleId']}")
+        print(f"trust-mode: {payload['trustMode']}")
+        print(f"network-required: {payload['networkRequired']}")
+        for item in payload["checks"]:
+            print(f"- {item['status']}: {item['check']} - {item['message']}")
+        return
+    print(f"result: {payload['result']}")
+    print(f"profile-bundle: {payload['profileBundle']['id']}")
+    print(f"trust-mode: {payload['trustMode']}")
+    if payload["failures"]:
+        for failure in payload["failures"]:
+            print(f"- {failure['severity']}: {failure['code']} ({failure['ruleId']})")
+            print(f"  message: {failure['message']}")
+            print(f"  remediation: {failure['help']['anchor']}")
+    else:
+        print("- no failures")
+
+
+def run_renderer(renderer: str, payload: dict[str, Any]) -> int:
+    renderer_path = Path(renderer)
+    if not renderer_path.is_absolute():
+        renderer_path = (REPO_ROOT / renderer).resolve()
+    if not renderer_path.exists():
+        print(f"renderer not found: {renderer_path}", file=sys.stderr)
+        return EXIT_CODES["unsupported"]
+    result = subprocess.run(
+        ["python3", str(renderer_path)],
+        input=json.dumps(payload),
+        text=True,
+        capture_output=True,
+        check=False,
+        cwd=str(REPO_ROOT),
+    )
+    if result.stdout:
+        sys.stdout.write(result.stdout)
+    if result.stderr:
+        sys.stderr.write(result.stderr)
+    if result.returncode != 0:
+        print("renderer plugin failed", file=sys.stderr)
+        return EXIT_CODES["unsupported"]
+    return EXIT_CODES["ok"]
+
+
+def read_report(path: Path) -> dict[str, Any]:
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def verify_via_report_input(resolved: ResolvedConfig, report_path: Path) -> tuple[dict[str, Any], Path]:
+    output = resolved.workspace_root / resolved.config["verify"]["output"]
+    output.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(report_path, output)
+    return read_report(output), output
+
+
+def verify_via_bundle(resolved: ResolvedConfig, bundle_path: Path) -> tuple[dict[str, Any], Path, int]:
+    bundle = resolved.profile_bundle
+    output = resolved.workspace_root / resolved.config["verify"]["output"]
+    output.parent.mkdir(parents=True, exist_ok=True)
+    verify_args = [
+        "cargo",
+        "run",
+        "--manifest-path",
+        str(REPO_ROOT / "tools/tasc-verify/Cargo.toml"),
+        "--",
+        "verify",
+        "--bundle",
+        str(bundle_path),
+        "--profile",
+        resolved.config["pack"]["profile"],
+        "--policy",
+        bundle["policy_bundle"]["id"],
+        "--require-ta",
+        bundle["verifier"]["require_ta"],
+        "--require-transparency",
+        ",".join(bundle["verifier"]["require_transparency"]),
+        "--checks-file",
+        str(REPO_ROOT / bundle["verifier"]["checks_file"]),
+        "--trusted-checkpoints",
+        str(REPO_ROOT / bundle["verifier"]["trusted_checkpoints"]),
+        "--badge-registry",
+        str(REPO_ROOT / bundle["verifier"]["badge_registry"]),
+        "--attestation-trust-policy",
+        str(REPO_ROOT / bundle["verifier"]["attestation_trust_policy"]),
+        "--trust-roots",
+        str(REPO_ROOT / bundle["verifier"]["trust_roots"]),
+        "--revocation-snapshot",
+        str(REPO_ROOT / bundle["verifier"]["revocation_snapshot"]),
+        "--freshness-policy",
+        str(REPO_ROOT / bundle["verifier"]["freshness_policy"]),
+        "--transparency-policy",
+        str(REPO_ROOT / bundle["verifier"]["transparency_policy"]),
+        "--remediation-file",
+        str(REPO_ROOT / bundle["verifier"]["remediation_file"]),
+        "--output",
+        str(output),
+    ]
+    if bundle["verifier"].get("legacy_compat"):
+        verify_args.append("--legacy-compat")
+    result = run(verify_args, cwd=resolved.workspace_root, capture=True)
+    if result.stdout:
+        sys.stdout.write(result.stdout)
+    if result.stderr:
+        sys.stderr.write(result.stderr)
+    return read_report(output), output, result.returncode
+
+
+def write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def choose_verify_input(target: Path, resolved: ResolvedConfig) -> tuple[str, Path]:
+    target = target.resolve()
+    if target.is_file():
+        if target.suffix == ".json":
+            report = read_report(target)
+            if "tascVerifyVersion" in report:
+                return "report", target
+        return "bundle", target
+    if target.is_dir():
+        if (target / "tasc.yaml").exists():
+            local_config = load_yaml(target / "tasc.yaml")
+            verify_cfg = local_config.get("verify", {})
+            if "input" in verify_cfg:
+                return verify_cfg.get("input_kind", "report"), (target / verify_cfg["input"]).resolve()
+        report_candidates = sorted(target.glob("*.json"))
+        for candidate in report_candidates:
+            report = read_report(candidate)
+            if "tascVerifyVersion" in report:
+                return "report", candidate
+    default_kind = resolved.config["verify"]["input_kind"]
+    default_path = (resolved.workspace_root / resolved.config["verify"]["input"]).resolve()
+    return default_kind, default_path
+
+
+def cmd_doctor(args: argparse.Namespace) -> int:
+    overrides = {}
+    if args.profile_bundle:
+        overrides["profile_bundle"] = args.profile_bundle
+    if args.trust_mode:
+        overrides["trust_mode"] = args.trust_mode
+    resolved = resolve_config(Path.cwd(), overrides)
+    payload = doctor_payload(resolved, args.operation)
+    print_output(payload, args.format)
+    return EXIT_CODES["ok"] if payload["result"] == "PASS" else EXIT_CODES["doctor_warning"]
+
+
+def cmd_init(args: argparse.Namespace) -> int:
+    example = REPO_ROOT / "examples" / args.example
+    if not example.exists():
+        raise SystemExit(f"unknown example: {args.example}")
+    target = Path(args.name).resolve()
+    if target.exists():
+        raise SystemExit(f"target already exists: {target}")
+    shutil.copytree(example, target)
+    print(f"initialized: {target}")
+    print(f"example: {args.example}")
+    return EXIT_CODES["ok"]
+
+
+def cmd_verify(args: argparse.Namespace) -> int:
+    overrides = {}
+    if args.profile_bundle:
+        overrides["profile_bundle"] = args.profile_bundle
+    if args.trust_mode:
+        overrides["trust_mode"] = args.trust_mode
+    resolved = resolve_config(Path(args.path), overrides)
+    input_kind, input_path = choose_verify_input(Path(args.path), resolved)
+    if input_kind == "report":
+        report, report_path = verify_via_report_input(resolved, input_path)
+        return_code = 0
+    else:
+        report, report_path, return_code = verify_via_bundle(resolved, input_path)
+    record_last_report(report_path)
+    normalized = normalize_report(report, resolved)
+    explain_path = ensure_state_dir(resolved.workspace_root) / LAST_EXPLAIN
+    write_json(explain_path, normalized)
+    print_output(normalized, args.format)
+    return EXIT_CODES["ok"] if return_code == 0 and normalized["result"] == "PASS" else EXIT_CODES["verify_failed"]
+
+
+def resolve_report_arg(value: str | None, workspace_root: Path) -> Path:
+    if value is None or value == "last":
+        candidate = workspace_root / STATE_DIRNAME / LAST_REPORT
+        if candidate.exists():
+            return candidate
+        pointer = resolve_last_report_pointer()
+        if pointer is not None:
+            return pointer
+        return candidate
+    return Path(value).resolve()
+
+
+def cmd_explain(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path.cwd(), {})
+    report_path = resolve_report_arg(args.report, resolved.workspace_root)
+    report = read_report(report_path)
+    normalized = normalize_report(report, resolved)
+    write_json(ensure_state_dir(resolved.workspace_root) / LAST_EXPLAIN, normalized)
+    if args.renderer:
+        return run_renderer(args.renderer, normalized)
+    print_output(normalized, args.format)
+    return EXIT_CODES["ok"] if normalized["result"] == "PASS" else EXIT_CODES["verify_failed"]
+
+
+def cmd_pack(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path(args.path), {})
+    bundle = resolved.profile_bundle
+    if resolved.config["trust_mode"] == "prod-hsm":
+        for asset in bundle.get("trust_assets", []):
+            if asset.get("classification") == "demo-only":
+                print("prod-hsm refuses repo-shipped demo trust assets", file=sys.stderr)
+                return EXIT_CODES["unsupported"]
+    command = [
+        "python3",
+        str(REPO_ROOT / "tools/assurancepack/assurancepack.py"),
+        "--repo-root",
+        str(REPO_ROOT),
+        "--profile",
+        resolved.config["pack"]["profile"],
+        "--output",
+        str(resolved.workspace_root / resolved.config["pack"]["output_json"]),
+        "--archive",
+        str(resolved.workspace_root / resolved.config["pack"]["output_archive"]),
+        "--badge-id",
+        resolved.config["pack"]["badge_id"],
+    ]
+    if resolved.config["trust_mode"] == "dev-local":
+        verifier_cmd = (
+            "cargo run --manifest-path tools/tasc-verify/Cargo.toml -- verify "
+            "--badge-registry policies/badge-registry-dev.json "
+            "--attestation-trust-policy policies/attestation/trust-policy.json "
+            "--transparency-policy policies/transparency/verification-policy.dev-local.yaml "
+            "--remediation-file spec/tasc/remediation.yaml"
+        )
+        command.extend(
+            [
+                "--require-ta",
+                "TA1",
+                "--require-transparency",
+                "",
+                "--freshness-policy",
+                str(REPO_ROOT / "policies/provenance/freshness-policy.dev-local.yaml"),
+                "--verifier-cmd",
+                verifier_cmd,
+                "--signer-mode",
+                "file",
+                "--signing-key",
+                str(REPO_ROOT / "policies/attestation/pki/ta2-signer.key.pem"),
+                "--signing-cert",
+                str(REPO_ROOT / "policies/attestation/pki/ta2-signer.cert.pem"),
+                "--signing-chain",
+                str(REPO_ROOT / "policies/attestation/pki/ta2-chain.pem"),
+            ]
+        )
+    elif resolved.config["trust_mode"] == "staging-signed":
+        command.extend(
+            [
+                "--signer-mode",
+                "pkcs11",
+                "--pkcs11-profile",
+                str(REPO_ROOT / "policies/attestation/pkcs11-profile.yaml"),
+            ]
+        )
+    else:
+        print("prod-hsm packaging requires external HSM configuration and is not bootstrapped by ./tasc yet", file=sys.stderr)
+        return EXIT_CODES["unsupported"]
+    result = run(command, cwd=resolved.workspace_root, capture=True)
+    combined = "\n".join(part for part in [result.stdout, result.stderr] if part)
+    if result.stdout:
+        sys.stdout.write(result.stdout)
+    if result.stderr:
+        sys.stderr.write(result.stderr)
+    if result.returncode != 0:
+        if "revocation snapshot nextUpdateUtc has expired" in combined:
+            print(
+                "pack failed: the current repo-shipped revocation snapshot is expired for dev-local signing. "
+                "Refresh the snapshot or keep using the minimal examples for offline report workflows.",
+                file=sys.stderr,
+            )
+        elif "returned non-zero exit status" in combined:
+            print(
+                "pack failed inside the underlying assurance/verifier toolchain. "
+                "Run `./tasc doctor --operation pack` and inspect the emitted verifier checks.",
+                file=sys.stderr,
+            )
+    return result.returncode
+
+
+def gather_files(root: Path) -> list[str]:
+    files = []
+    for path in sorted(root.rglob("*")):
+        if path.is_file():
+            files.append(str(path.relative_to(root)))
+    return files
+
+
+def cmd_support_bundle(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path(args.path), {})
+    default_out = (resolved.workspace_root / STATE_DIRNAME / "support-bundle").resolve()
+    out_dir = Path(args.output).resolve() if args.output and not args.archive else default_out
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    out_dir.mkdir(parents=True)
+    doctor = doctor_payload(resolved, "support-bundle")
+    write_json(out_dir / "doctor.json", doctor)
+    write_json(out_dir / "resolved-config.json", resolved.config)
+    shutil.copyfile(resolved.profile_bundle_path, out_dir / "profile-bundle.yaml")
+    report_path = resolved.workspace_root / STATE_DIRNAME / LAST_REPORT
+    if report_path.exists():
+        shutil.copyfile(report_path, out_dir / LAST_REPORT)
+    explain_path = resolved.workspace_root / STATE_DIRNAME / LAST_EXPLAIN
+    if explain_path.exists():
+        shutil.copyfile(explain_path, out_dir / LAST_EXPLAIN)
+    manifest = {
+        "tascSupportBundleVersion": TOOLS_VERSION["supportBundleSchema"],
+        "workspaceRoot": str(resolved.workspace_root),
+        "files": gather_files(out_dir),
+    }
+    write_json(out_dir / "manifest.json", manifest)
+    if args.redact:
+        redact_tree(out_dir)
+    if args.archive:
+        archive_path = Path(args.output).resolve() if args.output else out_dir.with_suffix(".tar.gz")
+        archive_path.parent.mkdir(parents=True, exist_ok=True)
+        with tarfile.open(archive_path, "w:gz") as tar:
+            tar.add(out_dir, arcname=out_dir.name)
+        print(str(archive_path))
+    else:
+        print(str(out_dir))
+    return EXIT_CODES["ok"]
+
+
+def redact_value(key: str, value: Any) -> Any:
+    sensitive = {"pin", "signature", "evidenceSignature", "nonce"}
+    if isinstance(value, dict):
+        return {inner_key: redact_value(inner_key, inner_value) for inner_key, inner_value in value.items()}
+    if isinstance(value, list):
+        return [redact_value(key, item) for item in value]
+    if any(token.lower() in key.lower() for token in sensitive):
+        return "<redacted>"
+    return value
+
+
+def redact_tree(root: Path) -> None:
+    for path in root.rglob("*.json"):
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        path.write_text(json.dumps(redact_value(path.stem, payload), indent=2) + "\n", encoding="utf-8")
+
+
+def cmd_redact_support_bundle(args: argparse.Namespace) -> int:
+    source = Path(args.path).resolve()
+    target = source.parent / f"{source.name}-redacted"
+    if target.exists():
+        shutil.rmtree(target)
+    shutil.copytree(source, target)
+    redact_tree(target)
+    print(str(target))
+    return EXIT_CODES["ok"]
+
+
+def cmd_diff(args: argparse.Namespace) -> int:
+    left = json.loads(Path(args.left).read_text(encoding="utf-8"))
+    right = json.loads(Path(args.right).read_text(encoding="utf-8"))
+    changed = sorted(
+        set(left.keys()) | set(right.keys()),
+        key=str,
+    )
+    print("changed-top-level-keys:")
+    for key in changed:
+        if left.get(key) != right.get(key):
+            print(f"- {key}")
+    return EXIT_CODES["ok"]
+
+
+def cmd_downgrade(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path.cwd(), {}, apply_lock=False)
+    target_bundle = PROFILE_BUNDLES_DIR / f"{args.to}.yaml"
+    if not target_bundle.exists():
+        print(f"unknown profile bundle version: {args.to}", file=sys.stderr)
+        return EXIT_CODES["unsupported"]
+    config_path = resolved.workspace_root / "tasc.yaml"
+    config = load_yaml(config_path) if config_path.exists() else builtin_defaults()
+    config["profile_bundle"] = args.to
+    config["trust_mode"] = load_yaml(target_bundle)["trust_mode"]
+    config_path.write_text(dump_yaml(config), encoding="utf-8")
+    print(f"downgraded profile bundle to {args.to}")
+    if args.write_lock:
+        refreshed = resolve_config(Path.cwd(), {}, apply_lock=False)
+        lock = {"lockfile_version": "0.1.0", **{field: refreshed.config[field] for field in LOCK_FIELDS}}
+        lock_path = refreshed.workspace_root / LOCKFILE_NAME
+        lock_path.write_text(dump_yaml(lock), encoding="utf-8")
+        print(f"updated {lock_path}")
+    return EXIT_CODES["ok"]
+
+
+def cmd_lock(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path.cwd(), {})
+    lock = {
+        "lockfile_version": "0.1.0",
+        **{field: resolved.config[field] for field in LOCK_FIELDS},
+    }
+    lock_path = resolved.workspace_root / LOCKFILE_NAME
+    lock_path.write_text(dump_yaml(lock), encoding="utf-8")
+    print(str(lock_path))
+    return EXIT_CODES["ok"]
+
+
+def cmd_check_lock(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path.cwd(), {})
+    if not resolved.lockfile_path:
+        print(f"{LOCKFILE_NAME} is missing", file=sys.stderr)
+        return EXIT_CODES["doctor_warning"]
+    lock = load_yaml(resolved.lockfile_path)
+    unlocked = resolve_config(Path.cwd(), {}, apply_lock=False)
+    mismatches = []
+    for field in LOCK_FIELDS:
+        locked = lock.get(field)
+        current = unlocked.config.get(field)
+        if locked != current:
+            mismatches.append((field, locked, current))
+    if mismatches:
+        print("lockfile drift detected:", file=sys.stderr)
+        for field, locked, current in mismatches:
+            print(f"- {field}: lock={locked!r} config={current!r}", file=sys.stderr)
+        return EXIT_CODES["doctor_warning"]
+    if args.format == "json":
+        print(json.dumps({"result": "PASS", "lockfile": str(resolved.lockfile_path), "fields": LOCK_FIELDS}, indent=2))
+    else:
+        print(f"lockfile check: PASS ({resolved.lockfile_path})")
+    return EXIT_CODES["ok"]
+
+
+def cmd_upgrade_simulate(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path.cwd(), {})
+    target_bundle_path = resolve_bundle_path(args.to)
+    target_bundle = load_yaml(target_bundle_path)
+    current = {
+        "profile_bundle": resolved.config["profile_bundle"],
+        "schema_version": resolved.config["schema_version"],
+        "api_version": resolved.config["api_version"],
+        "contract_version": resolved.config["contract_version"],
+    }
+    target = {
+        "profile_bundle": target_bundle["bundle_id"],
+        "schema_version": target_bundle["compatibility"]["schema_version"],
+        "api_version": target_bundle["compatibility"]["api_version"],
+        "contract_version": target_bundle["compatibility"]["contract_version"],
+    }
+    changes = []
+    for key in ["profile_bundle", "schema_version", "api_version", "contract_version"]:
+        if current[key] != target[key]:
+            changes.append({"field": key, "from": current[key], "to": target[key]})
+    payload = {
+        "simulationVersion": "0.1.0",
+        "result": "NO_CHANGE" if not changes else "CHANGED",
+        "current": current,
+        "target": target,
+        "changes": changes,
+    }
+    if args.format == "json":
+        print(json.dumps(payload, indent=2))
+    else:
+        print(f"upgrade-simulate: {payload['result']}")
+        for entry in changes:
+            print(f"- {entry['field']}: {entry['from']} -> {entry['to']}")
+    return EXIT_CODES["ok"]
+
+
+def cmd_upgrade(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path.cwd(), {}, apply_lock=False)
+    target_bundle_path = resolve_bundle_path(args.to)
+    target_bundle = load_yaml(target_bundle_path)
+    config_path = resolved.workspace_root / "tasc.yaml"
+    config = load_yaml(config_path) if config_path.exists() else {}
+
+    config["profile_bundle"] = target_bundle["bundle_id"]
+    config["trust_mode"] = target_bundle["trust_mode"]
+    compat = target_bundle.get("compatibility", {})
+    if compat.get("schema_version"):
+        config["schema_version"] = compat["schema_version"]
+    if compat.get("api_version"):
+        config["api_version"] = compat["api_version"]
+    if compat.get("contract_version"):
+        config["contract_version"] = compat["contract_version"]
+    if args.dry_run:
+        print("upgrade dry-run:")
+        print(dump_yaml(config).rstrip())
+        return EXIT_CODES["ok"]
+    config_path.write_text(dump_yaml(config), encoding="utf-8")
+    print(f"upgraded profile bundle to {target_bundle['bundle_id']}")
+
+    if args.write_lock:
+        refreshed = resolve_config(Path.cwd(), {}, apply_lock=False)
+        lock = {"lockfile_version": "0.1.0", **{field: refreshed.config[field] for field in LOCK_FIELDS}}
+        lock_path = refreshed.workspace_root / LOCKFILE_NAME
+        lock_path.write_text(dump_yaml(lock), encoding="utf-8")
+        print(f"updated {lock_path}")
+    return EXIT_CODES["ok"]
+
+
+def cmd_check_example(args: argparse.Namespace) -> int:
+    resolved = resolve_config(Path(args.path), {})
+    example_path = Path(args.path).resolve()
+    kind, input_path = choose_verify_input(example_path, resolved)
+    if kind == "report":
+        report, _ = verify_via_report_input(resolved, input_path)
+    else:
+        report, _, rc = verify_via_bundle(resolved, input_path)
+        if rc != 0:
+            return EXIT_CODES["verify_failed"]
+    expected_path = example_path / "expected-report.json"
+    if not expected_path.exists():
+        print(f"expected report not found: {expected_path}", file=sys.stderr)
+        return EXIT_CODES["usage_error"]
+    expected = read_report(expected_path)
+    if report != expected:
+        print("example check failed: verifier report differs from expected-report.json", file=sys.stderr)
+        diff_keys = sorted(set(report.keys()) | set(expected.keys()))
+        for key in diff_keys:
+            if report.get(key) != expected.get(key):
+                print(f"- differs: {key}", file=sys.stderr)
+        return EXIT_CODES["verify_failed"]
+    print(f"example check: PASS ({example_path.name})")
+    return EXIT_CODES["ok"]
+
+
+def evaluate_lock_sync(
+    workspace: Path, overrides: dict[str, Any] | None = None
+) -> tuple[bool, list[dict[str, Any]], Path | None]:
+    resolved = resolve_config(workspace, overrides or {})
+    if not resolved.lockfile_path:
+        return False, [{"field": "lockfile", "lock": None, "config": "missing"}], None
+    lock = load_yaml(resolved.lockfile_path)
+    unlocked = resolve_config(workspace, overrides or {}, apply_lock=False)
+    mismatches: list[dict[str, Any]] = []
+    for field in LOCK_FIELDS:
+        locked = lock.get(field)
+        current = unlocked.config.get(field)
+        if locked != current:
+            mismatches.append({"field": field, "lock": locked, "config": current})
+    return len(mismatches) == 0, mismatches, resolved.lockfile_path
+
+
+def evaluate_example(path: str, overrides: dict[str, Any] | None = None) -> tuple[bool, list[str]]:
+    resolved = resolve_config(Path(path), overrides or {})
+    example_path = Path(path).resolve()
+    kind, input_path = choose_verify_input(example_path, resolved)
+    if kind == "report":
+        report, _ = verify_via_report_input(resolved, input_path)
+    else:
+        report, _, rc = verify_via_bundle(resolved, input_path)
+        if rc != 0:
+            return False, ["verifier returned non-zero status"]
+    expected_path = example_path / "expected-report.json"
+    if not expected_path.exists():
+        return False, [f"missing expected report: {expected_path}"]
+    expected = read_report(expected_path)
+    if report != expected:
+        diff_keys = sorted(set(report.keys()) | set(expected.keys()))
+        diffs = [key for key in diff_keys if report.get(key) != expected.get(key)]
+        return False, [f"differs: {key}" for key in diffs]
+    return True, []
+
+
+def cmd_ci_preflight(args: argparse.Namespace) -> int:
+    failures = 0
+    overrides: dict[str, Any] = {}
+    if args.profile_bundle:
+        overrides["profile_bundle"] = args.profile_bundle
+    if args.trust_mode:
+        overrides["trust_mode"] = args.trust_mode
+    resolved = resolve_config(Path.cwd(), overrides)
+    summary: dict[str, Any] = {"steps": [], "examples": [], "result": "PASS"}
+
+    doctor = doctor_payload(resolved, "verify")
+    doctor_ok = doctor["result"] == "PASS"
+    summary["steps"].append({"name": "doctor", "result": "PASS" if doctor_ok else "WARN", "details": doctor})
+    if args.format != "json":
+        print("ci-preflight: doctor")
+        print_output(doctor, "human")
+    if args.strict and not doctor_ok:
+        failures += 1
+
+    lock_ok, lock_mismatches, lock_path = evaluate_lock_sync(Path.cwd(), overrides)
+    summary["steps"].append({"name": "check-lock", "result": "PASS" if lock_ok else "FAIL"})
+    if args.format != "json":
+        if lock_ok:
+            print(f"lockfile check: PASS ({lock_path})")
+        else:
+            print("lockfile drift detected:", file=sys.stderr)
+            for mismatch in lock_mismatches:
+                print(
+                    f"- {mismatch['field']}: lock={mismatch['lock']!r} config={mismatch['config']!r}",
+                    file=sys.stderr,
+                )
+    if not lock_ok:
+        failures += 1
+
+    for path in args.examples:
+        ex_ok, ex_diffs = evaluate_example(path, overrides)
+        summary["examples"].append({"path": path, "result": "PASS" if ex_ok else "FAIL", "details": ex_diffs})
+        if args.format != "json":
+            if ex_ok:
+                print(f"example check: PASS ({Path(path).name})")
+            else:
+                print(f"example check failed: {Path(path).name}", file=sys.stderr)
+                for detail in ex_diffs:
+                    print(f"- {detail}", file=sys.stderr)
+        if not ex_ok:
+            failures += 1
+
+    if failures:
+        summary["result"] = "FAIL"
+    if args.format == "json":
+        print(json.dumps(summary, indent=2))
+    if args.output:
+        output_path = Path(args.output).resolve()
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+        if args.format != "json":
+            print(f"wrote summary: {output_path}")
+
+    if failures:
+        print(f"ci-preflight: FAIL ({failures} failing step(s))", file=sys.stderr)
+        return EXIT_CODES["doctor_warning"]
+    if args.format != "json":
+        print("ci-preflight: PASS")
+    return EXIT_CODES["ok"]
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="tasc", description="Adoption-focused TASC workspace wrapper")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    doctor = sub.add_parser("doctor", help="Validate toolchain, config, trust mode, and network requirements")
+    doctor.add_argument("--operation", default="verify", choices=["doctor", "verify", "pack", "support-bundle"])
+    doctor.add_argument("--profile-bundle")
+    doctor.add_argument("--trust-mode")
+    doctor.add_argument("--format", default="human", choices=["human", "json"])
+    doctor.set_defaults(func=cmd_doctor)
+
+    init = sub.add_parser("init", help="Copy one of the minimal examples into a new workspace")
+    init.add_argument("name")
+    init.add_argument("--example", default="minimal-local", choices=["minimal-local", "minimal-signed", "minimal-replay"])
+    init.set_defaults(func=cmd_init)
+
+    verify = sub.add_parser("verify", help="Verify a bundle or normalize an existing verifier report")
+    verify.add_argument("path")
+    verify.add_argument("--profile-bundle")
+    verify.add_argument("--trust-mode")
+    verify.add_argument("--format", default="human", choices=["human", "json", "sarif"])
+    verify.set_defaults(func=cmd_verify)
+
+    explain = sub.add_parser("explain", help="Turn the last verifier report into a stable failure contract")
+    explain.add_argument("report", nargs="?")
+    explain.add_argument("--format", default="human", choices=["human", "json", "sarif"])
+    explain.add_argument("--renderer")
+    explain.set_defaults(func=cmd_explain)
+
+    pack = sub.add_parser("pack", help="Wrap assurancepack behind trust-mode defaults")
+    pack.add_argument("path")
+    pack.set_defaults(func=cmd_pack)
+
+    support = sub.add_parser("support-bundle", help="Collect diagnostics, config, and reports")
+    support.add_argument("path", nargs="?", default=".")
+    support.add_argument("--output", help="Override support bundle output path")
+    support.add_argument("--archive", action="store_true")
+    support.add_argument("--redact", action="store_true")
+    support.set_defaults(func=cmd_support_bundle)
+
+    redact = sub.add_parser("redact-support-bundle", help="Create a metadata-only copy of a support bundle")
+    redact.add_argument("path")
+    redact.set_defaults(func=cmd_redact_support_bundle)
+
+    diff_cmd = sub.add_parser("diff", help="Compare two JSON artifacts at a high level")
+    diff_cmd.add_argument("left")
+    diff_cmd.add_argument("right")
+    diff_cmd.set_defaults(func=cmd_diff)
+
+    check_example = sub.add_parser("check-example", help="Run verify flow and compare against expected-report.json")
+    check_example.add_argument("path")
+    check_example.set_defaults(func=cmd_check_example)
+
+    ci_preflight = sub.add_parser("ci-preflight", help="Run doctor + lock check + golden example checks")
+    ci_preflight.add_argument("--profile-bundle")
+    ci_preflight.add_argument("--trust-mode")
+    ci_preflight.add_argument(
+        "--examples",
+        nargs="+",
+        default=["examples/minimal-local", "examples/minimal-signed", "examples/minimal-replay"],
+    )
+    ci_preflight.add_argument("--format", default="human", choices=["human", "json"])
+    ci_preflight.add_argument("--strict", action="store_true", help="Fail when doctor returns WARN")
+    ci_preflight.add_argument("--output", help="Write preflight summary JSON")
+    ci_preflight.set_defaults(func=cmd_ci_preflight)
+
+    downgrade = sub.add_parser("downgrade", help="Pin the workspace to a lower profile bundle version")
+    downgrade.add_argument("--to", required=True)
+    downgrade.add_argument("--write-lock", action="store_true")
+    downgrade.set_defaults(func=cmd_downgrade)
+
+    lock = sub.add_parser("lock", help="Write tasc.lock.yaml from resolved workspace config")
+    lock.set_defaults(func=cmd_lock)
+
+    check_lock = sub.add_parser("check-lock", help="Fail if tasc.lock.yaml is missing or out of sync with tasc.yaml")
+    check_lock.add_argument("--format", default="human", choices=["human", "json"])
+    check_lock.set_defaults(func=cmd_check_lock)
+
+    simulate = sub.add_parser("upgrade-simulate", help="Preview bundle/surface changes before upgrade")
+    simulate.add_argument("--to", required=True)
+    simulate.add_argument("--format", default="human", choices=["human", "json"])
+    simulate.set_defaults(func=cmd_upgrade_simulate)
+
+    upgrade = sub.add_parser("upgrade", help="Apply a profile-bundle upgrade to tasc.yaml")
+    upgrade.add_argument("--to", required=True)
+    upgrade.add_argument("--dry-run", action="store_true")
+    upgrade.add_argument("--write-lock", action="store_true")
+    upgrade.set_defaults(func=cmd_upgrade)
+
+    return parser
+
+
+def main() -> int:
+    parser = build_parser()
+    args = parser.parse_args()
+    return args.func(args)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
